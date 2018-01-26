@@ -8,15 +8,13 @@
          location permissions for the 'MyLocation' functionality. 
     -->
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="com.google.android.providers.gsf.permisson.READ_GSERVICES"/>
 
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -52,12 +50,25 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" >  <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-            <category android:name="android.intent.category.LAUNCHER"/>
-        </intent-filter></activity>
-        <activity android:name=".SignupActivity"  />
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".SignupActivity"/>
+        <activity
+            android:name=".EdgeActivity"
+            android:label="@string/title_activity_edge"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
