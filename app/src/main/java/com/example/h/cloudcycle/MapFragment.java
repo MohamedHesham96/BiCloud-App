@@ -106,14 +106,17 @@ public class MapFragment extends Fragment implements  OnMapReadyCallback,
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             bulidGoogleApiClient();
             mMap.setMyLocationEnabled(true);
-        }
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);}
     }
 
 
     protected synchronized void bulidGoogleApiClient() {
-        client = new GoogleApiClient.Builder(getContext()).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
+        client = new GoogleApiClient.Builder(getContext())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
         client.connect();
-
     }
 
     @Override
@@ -127,7 +130,7 @@ public class MapFragment extends Fragment implements  OnMapReadyCallback,
             currentLocationmMarker.remove();
 
         }
-        Log.d("lat = ",""+latitude);
+       // Log.d("lat = ",""+latitude);
         LatLng latLng = new LatLng(location.getLatitude() , location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
