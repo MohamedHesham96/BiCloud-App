@@ -1,5 +1,6 @@
 package com.example.h.cloudcycle;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedOutputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,57 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login() {
 
-
-        new PostClass().execute();
-
-
-  /*     try {
-            URL url = new URL("http://exampleurl.com/");
-            HttpURLConnection client = null;
-            client = (HttpURLConnection) url.openConnection();
-            client.setRequestMethod("POST");
-            client.setRequestProperty("Key","Value");
-            client.setDoOutput(true);
-            OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
-            writeStream(outputPost);
-            outputPost.flush();
-            outputPost.close();
-
-        } catch (Exception e) {
-
-        }*/
-
-/*
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost("https://mousaelenanyfciscu.000webhostapp.com/app/webservice/user/login");
-
-        List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
-        nameValuePair.add(new BasicNameValuePair("email", ""));
-        nameValuePair.add(new BasicNameValuePair("password", "moussa123"));
-
-        //Encoding POST data
-        try {
-            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
-        } catch (UnsupportedEncodingException e) {
-            // log exception
-            e.printStackTrace();
-        }
-
-        //making POST request.
-        try {
-            HttpResponse response = httpClient.execute(httpPost);
-            // write response to log
-            Toast.makeText(this, "Http Post Response: " + response.toString(), Toast.LENGTH_SHORT).show();
-
-        } catch (ClientProtocolException e) {
-            // Log exception
-            e.printStackTrace();
-        } catch (IOException e) {
-            // Log exception
-            e.printStackTrace();
-        }
-*/
-       /* if (!validate()) {
+        if (!validate()) {
             onLoginFailed();
             return;
         }
@@ -133,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                         // onLoginFailed();
                         progressDialog.dismiss();
                     }
-                }, 3000);*/
+                }, 3000);
     }
 
     @Override
