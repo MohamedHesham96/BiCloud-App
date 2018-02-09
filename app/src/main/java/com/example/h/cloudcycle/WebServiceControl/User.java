@@ -11,8 +11,11 @@ public class User {
     @SerializedName("id")
     int id;
 
+    @SerializedName("type")
+    String type;
+
     @SerializedName("balance")
-    float balance;
+    String balance;
 
     @SerializedName("name")
     String name;
@@ -24,13 +27,29 @@ public class User {
     String token;
 
     @SerializedName("img")
-    String image;
+    String img;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", balance=" + balance +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", token='" + token + '\'' +
+                ", image='" + img + '\'' +
+                '}';
+    }
+
+    public String getType() {
+        return type;
+    }
 
     public int getId() {
         return id;
     }
 
-    public float getBalance() {
+    public String getBalance() {
         return balance;
     }
 
@@ -47,6 +66,6 @@ public class User {
     }
 
     public String getImage() {
-        return image;
+        return img;
     }
 }

@@ -2,6 +2,7 @@ package com.example.h.cloudcycle;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,13 +11,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.h.cloudcycle.WebServiceControl.ApiClient;
+import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
+import com.example.h.cloudcycle.WebServiceControl.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    private ApiInterface apiInterface;
+    private User user;
 
     @Bind(R.id.input_email)
     EditText _emailText;
@@ -33,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        checkSharedPreferences();
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -47,9 +58,24 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Start the Signup activity
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
+    }
+
+    public void checkSharedPreferences() {
+
+        SharedPreferences sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
+
+        String emailSharedPreferences = sp1.getString("email", null);
+        String passwordSharedPreferences = sp1.getString("password", null);
+        if (sp1.contains("email")) {
+            if (!emailSharedPreferences.equals("") && !passwordSharedPreferences.equals("")) {
+
+                onLoginSuccess();
+            }
+        }
     }
 
     public void login() {
@@ -67,32 +93,50 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own authentication logic here.
+        final String email = _emailText.getText().toString();
+        final String password = _passwordText.getText().toString();
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
-    }
+        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<User> call = apiInterface.getUserInfo(email, password);
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
 
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
+                user = response.body();
+
+                if (response.isSuccessful()) {
+                    onLoginSuccess();
+
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
+                                    SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
+                                    SharedPreferences.Editor Ed = sp.edit();
+                                    Ed.putString("email", email);
+                                    Ed.putString("password", password);
+                                    Ed.putString("id", String.valueOf(user.getId()));
+                                    Ed.putString("name", user.getName());
+
+                                    Ed.commit();
+
+                                    progressDialog.dismiss();
+                                }
+                            }, 1000);
+
+                } else {
+                    progressDialog.dismiss();
+                    _emailText.setError("Error in Email or Password");
+                    onLoginFailed();
+                }
             }
-        }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -102,21 +146,28 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess() {
+
         _loginButton.setEnabled(true);
+        Intent intent = new Intent(getApplicationContext(), EdgeActivity.class);
+       /* intent.putExtra("email", user.getEmail());
+        intent.putExtra("name", user.getName());
+        intent.putExtra("balance", user.getBalance());
+        intent.putExtra("id", user.getId());
+        intent.putExtra("image", user.getImage());
+        intent.putExtra("token", user.getToken());*/
 
-        Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-        finish();
         startActivityForResult(intent, REQUEST_SIGNUP);
-
+        finish();
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
 
+        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
         _loginButton.setEnabled(true);
     }
 
     public boolean validate() {
+
         boolean valid = true;
 
         String email = _emailText.getText().toString();
@@ -129,13 +180,12 @@ public class LoginActivity extends AppCompatActivity {
             _emailText.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+        if (password.isEmpty() || password.length() < 8 || password.length() > 32) {
+            _passwordText.setError("between 8 and 32 alphanumeric characters");
             valid = false;
         } else {
             _passwordText.setError(null);
         }
-
         return valid;
     }
 }

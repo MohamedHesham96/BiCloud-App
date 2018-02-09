@@ -88,15 +88,7 @@ public class MapFragment extends Fragment implements  OnMapReadyCallback,
         }
     }
 
-    /**
-     * Manipulates the map once available.
-     * getContext( callback is triggered when the map is ready to be used.
-     * getContext( is where we can add markers or lines, add listeners or move the camera. In getContext( case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. getContext( method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -105,8 +97,10 @@ public class MapFragment extends Fragment implements  OnMapReadyCallback,
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             bulidGoogleApiClient();
+            Log.d("Heroooo", "hpppppppppppppppp");
             mMap.setMyLocationEnabled(true);
-            mMap.getUiSettings().setMyLocationButtonEnabled(true);}
+            //  mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        }
     }
 
 
