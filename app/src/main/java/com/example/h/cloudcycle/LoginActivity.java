@@ -59,9 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                // Start the Signup activity
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
@@ -121,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                             new Runnable() {
                                 public void run() {
 
+                                    onLoginSuccess();
 
                                     SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
                                     SharedPreferences.Editor Ed = sp.edit();
@@ -129,7 +128,6 @@ public class LoginActivity extends AppCompatActivity {
                                     Ed.putString("id", String.valueOf(user.getId()));
                                     Ed.putString("name", user.getName());
                                     Ed.commit();
-                                    onLoginSuccess();
 
 
                                     progressDialog.dismiss();
@@ -171,8 +169,9 @@ public class LoginActivity extends AppCompatActivity {
 
         _loginButton.setEnabled(true);
         Intent intent = new Intent(getApplicationContext(), EdgeActivity.class);
-        startActivityForResult(intent, REQUEST_SIGNUP);
         finish();
+        startActivityForResult(intent, REQUEST_SIGNUP);
+
     }
 
     public void onLoginFailed() {
