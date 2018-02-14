@@ -27,6 +27,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_list">ListActivity</string>
     <string name="style_json">public static final int style_json=0x7f0c0045;</string>
+    <string name="bike_id_2212">Bike ID: #2212</string>
+    <string name="price_2">Price: 2$</string>
+    <string name="distance_4_0_km">Distance: 4.0 KM</string>
+    <string name="date_30_12_2018">Date: 30/12/2018</string>
+    <string name="todo">TODO</string>
 
 
 </resources>

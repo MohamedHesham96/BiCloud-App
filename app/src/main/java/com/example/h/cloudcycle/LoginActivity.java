@@ -37,13 +37,16 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.link_signup)
     TextView _signupLink;
 
+    String email;
+    String password;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        checkSharedPreferences();
+        //    checkSharedPreferences();
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -70,10 +73,14 @@ public class LoginActivity extends AppCompatActivity {
 
         String emailSharedPreferences = sp1.getString("email", null);
         String passwordSharedPreferences = sp1.getString("password", null);
-        if (sp1.contains("email")) {
-            if (!emailSharedPreferences.equals("") && !passwordSharedPreferences.equals("")) {
 
-                onLoginSuccess();
+        if (sp1 != null) {
+
+            if (sp1.contains("email")) {
+                if (!emailSharedPreferences.equals("") && !passwordSharedPreferences.equals("")) {
+
+                    onLoginSuccess();
+                }
             }
         }
     }
@@ -88,38 +95,42 @@ public class LoginActivity extends AppCompatActivity {
         _loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.Theme_AppCompat_DayNight_DarkActionBar);
+                R.style.Theme_AppCompat_DayNight_Dialog);
+
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
 
-        final String email = _emailText.getText().toString();
-        final String password = _passwordText.getText().toString();
+        email = _emailText.getText().toString();
+        password = _passwordText.getText().toString();
 
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<User> call = apiInterface.getUserInfo(email, password);
 
         call.enqueue(new Callback<User>() {
+
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
 
                 user = response.body();
-
                 if (response.isSuccessful()) {
-                    onLoginSuccess();
+                    Toast.makeText(LoginActivity.this, user.toString(), Toast.LENGTH_SHORT).show();
 
                     new android.os.Handler().postDelayed(
                             new Runnable() {
                                 public void run() {
+
+
                                     SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
                                     SharedPreferences.Editor Ed = sp.edit();
                                     Ed.putString("email", email);
                                     Ed.putString("password", password);
                                     Ed.putString("id", String.valueOf(user.getId()));
                                     Ed.putString("name", user.getName());
-
                                     Ed.commit();
+                                    onLoginSuccess();
+
 
                                     progressDialog.dismiss();
                                 }
@@ -139,23 +150,27 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
     public void onBackPressed() {
         // disable going back to the MainActivity
         moveTaskToBack(true);
     }
 
+    public void setSharedPreferences() {
+
+        SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
+        SharedPreferences.Editor Ed = sp.edit();
+        Ed.putString("email", email);
+        Ed.putString("password", password);
+        Ed.putString("id", String.valueOf(user.getId()));
+        Ed.putString("name", user.getName());
+        Ed.commit();
+    }
     public void onLoginSuccess() {
 
         _loginButton.setEnabled(true);
         Intent intent = new Intent(getApplicationContext(), EdgeActivity.class);
-       /* intent.putExtra("email", user.getEmail());
-        intent.putExtra("name", user.getName());
-        intent.putExtra("balance", user.getBalance());
-        intent.putExtra("id", user.getId());
-        intent.putExtra("image", user.getImage());
-        intent.putExtra("token", user.getToken());*/
-
         startActivityForResult(intent, REQUEST_SIGNUP);
         finish();
     }
@@ -180,8 +195,8 @@ public class LoginActivity extends AppCompatActivity {
             _emailText.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 8 || password.length() > 32) {
-            _passwordText.setError("between 8 and 32 alphanumeric characters");
+        if (password.isEmpty() || password.length() < 6 || password.length() > 32) {
+            _passwordText.setError("between 6 and 32 alphanumeric characters");
             valid = false;
         } else {
             _passwordText.setError(null);

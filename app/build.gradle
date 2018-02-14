@@ -3,8 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     useLibrary 'org.apache.http.legacy'
-
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.example.h.cloudcycle"
         minSdkVersion 21
         targetSdkVersion 23

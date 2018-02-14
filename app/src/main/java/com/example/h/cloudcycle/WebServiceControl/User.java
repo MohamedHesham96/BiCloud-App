@@ -2,9 +2,6 @@ package com.example.h.cloudcycle.WebServiceControl;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by H on 09/02/2018.
- */
 
 public class User {
 

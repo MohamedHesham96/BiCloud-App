@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EdgeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,7 +26,7 @@ public class EdgeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Get User Data... ID, Email, Username.....
+        //Get User Data... ID, Email, Username
         getSharedPreferences();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -47,29 +48,33 @@ public class EdgeActivity extends AppCompatActivity
 
         SharedPreferences sp = this.getSharedPreferences("Login", MODE_PRIVATE);
 
-        String emailSP = sp.getString("email", null);
-        String passwordSP = sp.getString("password", null);
-        String nameSP = sp.getString("name", null);
-
         // still there strings here... like (id.. balance....)
 
-        if (!sp.equals(null)) {
+        if (sp != null) {
 
-            if (!emailSP.equals("") && !passwordSP.equals("")) {
+            String emailSP = sp.getString("email", null);
+            String passwordSP = sp.getString("password", null);
+            String nameSP = sp.getString("name", null);
+            String idSP = sp.getString("id", null);
 
-                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            if (sp.contains("email")) {
+                if (!emailSP.equals("") && !passwordSP.equals("")) {
 
-                View hView = navigationView.getHeaderView(0);
-                View sView = navigationView.getHeaderView(1);
+                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                    View hView = navigationView.getHeaderView(0);
+                    //  View sView = navigationView.getHeaderView(1);
 
-                TextView nav_user = (TextView) hView.findViewById(R.id.userEmail);
-                TextView name_user = (TextView) hView.findViewById(R.id.userName);
+                    TextView nav_user = (TextView) hView.findViewById(R.id.userEmail);
+                    TextView name_user = (TextView) hView.findViewById(R.id.userName);
 
-                nav_user.setText(emailSP);
-                name_user.setText(nameSP);
+                    nav_user.setText(emailSP);
+                    name_user.setText(nameSP);
+                }
             }
         }
+
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
