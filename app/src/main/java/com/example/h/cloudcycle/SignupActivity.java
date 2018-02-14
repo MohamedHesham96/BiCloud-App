@@ -40,17 +40,17 @@ import retrofit2.http.Multipart;
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
 
-    @Bind(R.id.input_name2)
+    @Bind(R.id.input_name)
     EditText _nameText;
-    @Bind(R.id.input_email2)
+    @Bind(R.id.input_email)
     EditText _emailText;
-    @Bind(R.id.input_password2)
+    @Bind(R.id.input_password)
     EditText _passwordText;
-    @Bind(R.id.btn_signup2)
+    @Bind(R.id.btn_signup)
     Button _signupButton;
-    @Bind(R.id.link_login2)
+    @Bind(R.id.link_login)
     TextView _loginLink;
-    @Bind(R.id.userImage2)
+    @Bind(R.id.userImage)
     ImageView userImage;
 
     MultipartBody.Part theImage;
@@ -69,7 +69,7 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
 
 
@@ -90,9 +90,8 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void signup() {
-        Log.d(TAG, "Signup");
-
         if (!validate()) {
+
             onSignupFailed();
             return;
         }

@@ -40,7 +40,7 @@
                       android:layout_height="wrap_content"
                       android:inputType="textPersonName"
                       android:text="mazen"
-                      android:hint="Name" />
+                      android:hint="Name"/>
         </android.support.design.widget.TextInputLayout>
 
         <!--  Email Label -->
@@ -54,7 +54,7 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:inputType="textEmailAddress"
-                      android:hint="Email" />
+                      android:hint="Email"/>
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->
