@@ -1,15 +1,11 @@
 package com.example.h.cloudcycle;
 
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,11 +27,9 @@ import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Multipart;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -53,18 +47,18 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.userImage)
     ImageView userImage;
 
-    MultipartBody.Part theImage;
     int IMG_REQUEST = 555;
-    private ApiInterface apiInterface;
+    private ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-    private Bitmap bitmap;
     String name;
     String email;
     String password;
-    SignupResponse signupResponse;
-    RequestBody filePart;
-    Uri imageURI;
     private String imagePath;
+    MultipartBody.Part theImage = null;
+
+    SignupResponse signupResponse;
+    Uri imageURI;
+    Call<SignupResponse> call;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,8 +92,8 @@ public class SignupActivity extends AppCompatActivity {
 
         //   _signupButton.setEnabled(false);
 
-    /*    final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
-                R.style.Theme_AppCompat_DayNight);
+    /*  final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
+        R.style.Theme_AppCompat_DayNight);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();*/
@@ -109,14 +103,19 @@ public class SignupActivity extends AppCompatActivity {
         email = _emailText.getText().toString();
         password = _passwordText.getText().toString();
 
-        File file = new File(imagePath);
+        if (imagePath != null) {
+            File file = new File(imagePath);
 
-        RequestBody imagePart = RequestBody.create(MediaType.parse(getContentResolver().getType(imageURI)), file);
+            RequestBody imagePart = RequestBody.create(MediaType.parse(getContentResolver().getType(imageURI)), file);
 
-        MultipartBody.Part image = MultipartBody.Part.createFormData("img", file.getName(), imagePart);
+            theImage = MultipartBody.Part.createFormData("img", file.getName(), imagePart);
 
-        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<SignupResponse> call = apiInterface.createNewUser(name, email, password, image);
+            call = apiInterface.createNewUser(name, email, password, theImage);
+
+        } else {
+
+            call = apiInterface.createNewUser(name, email, password);
+        }
 
         call.enqueue(new Callback<SignupResponse>() {
 
@@ -145,8 +144,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SignupResponse> call, Throwable t) {
-                Log.d("Response Token Errir: ", t.getCause().toString());
-
+                Log.d("Response:", t.getMessage());
             }
         });
 
@@ -204,7 +202,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Sign-Up Failed", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
