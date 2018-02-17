@@ -127,8 +127,10 @@ public class LoginActivity extends AppCompatActivity {
                                     Ed.putString("password", password);
                                     Ed.putString("id", String.valueOf(user.getId()));
                                     Ed.putString("name", user.getName());
+                                    Ed.putString("balance", user.getBalance());
+                                    Ed.putString("image", user.getImage());
                                     Ed.commit();
-
+                                    Toast.makeText(LoginActivity.this, user.getImage(), Toast.LENGTH_SHORT).show();
 
                                     progressDialog.dismiss();
                                 }

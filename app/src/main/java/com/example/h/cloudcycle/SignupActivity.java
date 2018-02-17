@@ -3,7 +3,6 @@ package com.example.h.cloudcycle;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -79,6 +78,8 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
                 finish();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -166,7 +167,7 @@ public class SignupActivity extends AppCompatActivity {
         if (requestCode == IMG_REQUEST && resultCode == RESULT_OK && data != null) {
 
             imageURI = data.getData();
-            imagePath = getRealPathFromURI_API19(this, imageURI);
+            imagePath = getRealPathFromURI(this, imageURI);
 
             userImage.setImageURI(imageURI);
             //  Toast.makeText(this, "Image Path: "  + imagePath, Toast.LENGTH_SHORT).show();
@@ -175,8 +176,7 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
-    //   @SuppressLint("NewApi")
-    public static String getRealPathFromURI_API19(Context context, Uri uri) {
+    public static String getRealPathFromURI(Context context, Uri uri) {
         String filePath = "";
 
         String[] column = {MediaStore.Images.Media.DATA};

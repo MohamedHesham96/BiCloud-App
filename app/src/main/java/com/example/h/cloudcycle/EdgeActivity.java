@@ -2,6 +2,9 @@ package com.example.h.cloudcycle;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -10,14 +13,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class EdgeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.io.InputStream;
+import java.net.URL;
+
+public class EdgeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private NavigationView navigationView;
+    String IMAGES_PATH = "https://mousaelenanyfciscu.000webhostapp.com/public/images/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +36,8 @@ public class EdgeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Get User Data... ID, Email, Username
+
+        //Get User Data... Image, ID, Email, Username
         getSharedPreferences();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -41,10 +52,47 @@ public class EdgeActivity extends AppCompatActivity
         MapFragment mapFragment = new MapFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.mainLayout, mapFragment).commit();
+
+    }
+
+    private class DownLoadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView imageView;
+
+        public DownLoadImageTask(ImageView imageView) {
+            this.imageView = imageView;
+        }
+
+        /*
+            doInBackground(Params... params)
+                Override this method to perform a computation on a background thread.
+         */
+        protected Bitmap doInBackground(String... urls) {
+            String urlOfImage = urls[0];
+            Bitmap logo = null;
+            try {
+                InputStream is = new URL(urlOfImage).openStream();
+                /*
+                    decodeStream(InputStream is)
+                        Decode an input stream into a bitmap.
+                 */
+                logo = BitmapFactory.decodeStream(is);
+            } catch (Exception e) { // Catch the download exception
+                e.printStackTrace();
+                Log.d("Error: Profile", "Prooooooooooooooofile Iamge");
+            }
+            return logo;
+        }
+
+        /*
+            onPostExecute(Result result)
+                Runs on the UI thread after doInBackground(Params...).
+         */
+        protected void onPostExecute(Bitmap result) {
+            imageView.setImageBitmap(result);
+        }
     }
 
     public void getSharedPreferences() {
-
 
         SharedPreferences sp = this.getSharedPreferences("Login", MODE_PRIVATE);
 
@@ -62,17 +110,36 @@ public class EdgeActivity extends AppCompatActivity
 
                     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                     View hView = navigationView.getHeaderView(0);
-                    //  View sView = navigationView.getHeaderView(1);
 
                     TextView nav_user = (TextView) hView.findViewById(R.id.userEmail);
                     TextView name_user = (TextView) hView.findViewById(R.id.userName);
+                    ImageView profileImage = (ImageView) hView.findViewById(R.id.profileImage);
 
+                    String imageName = sp.getString("image", null);
+
+                    String fullPath = IMAGES_PATH + imageName;
+
+                    Toast.makeText(this, fullPath, Toast.LENGTH_SHORT).show();
+
+                    new DownLoadImageTask(profileImage).execute(fullPath);
                     nav_user.setText(emailSP);
                     name_user.setText(nameSP);
                 }
             }
         }
+    }
 
+    public Bitmap getBitmapFromURL(String src) {
+
+        try {
+            InputStream in = new URL(src).openStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(in);
+            return myBitmap;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -100,6 +167,19 @@ public class EdgeActivity extends AppCompatActivity
         if (id == R.id.history) {
 
             startActivity(new Intent(this, HistoryActivity.class));
+
+        } else if (id == R.id.logout) {
+
+            startActivity(new Intent(this, LoginActivity.class));
+            SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
+            SharedPreferences.Editor Ed = sp.edit();
+            Ed.putString("email", "");
+            Ed.putString("image", "");
+            Ed.putString("password", "");
+            Ed.putString("id", "");
+            Ed.putString("name", "");
+            Ed.putString("balance", "");
+            Ed.commit();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -110,13 +190,13 @@ public class EdgeActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        TextView userNameTV = (TextView) findViewById(R.id.userName);
-        TextView userEmailTV = (TextView) findViewById(R.id.userEmail);
+/*
+        ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
 
+        Toast.makeText(this, getSharedPreferences("Login", MODE_PRIVATE).getString("image", null), Toast.LENGTH_SHORT).show();
         if (requestCode == 0) {
 
-            userNameTV.setText(getIntent().getStringExtra("name"));
-            userEmailTV.setText(getIntent().getStringExtra("email"));
-        }
+
+        }*/
     }
 }

@@ -17,4 +17,13 @@
 
     </group>
 
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Log-Out"/>
+
+    </group>
+
 </menu>
