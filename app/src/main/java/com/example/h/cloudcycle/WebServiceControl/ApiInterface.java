@@ -4,6 +4,7 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -32,4 +33,8 @@ public interface ApiInterface {
     Call<SignupResponse> createNewUser(@Query("name") String userName,
                                        @Query("email") String userEmail,
                                        @Query("password") String password);
+
+    @GET("lockedbikes")
+    Call<List<Bike>> getLockedBikes();
+
 }

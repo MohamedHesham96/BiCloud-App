@@ -15,6 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.h.cloudcycle.WebServiceControl.ApiBikes;
+import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
+import com.example.h.cloudcycle.WebServiceControl.Bike;
+import com.example.h.cloudcycle.WebServiceControl.History;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -29,6 +33,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -36,6 +46,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
+
+    private ApiInterface apiInterface;
+    private List<Bike> bikes;
 
     GoogleMap map;
     private GoogleMap mMap;
@@ -90,6 +103,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         mMap = googleMap;
         /*googleMap.setMapStyle(new MapStyleOptions(getResources()
                 .getString(R.string.style_json)));*/
+
+        getLockedBikes();
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             bulidGoogleApiClient();
@@ -159,6 +174,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         } else
             return true;
+    }
+
+    public List<Bike> getLockedBikes() {
+
+        apiInterface = ApiBikes.getApiClient().create(ApiInterface.class);
+        Call<List<Bike>> call = apiInterface.getLockedBikes();
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+                bikes = (List<Bike>) response.body();
+                Toast.makeText(getContext(), bikes.get(0).getId() + " " + bikes.get(0).getLatitude(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return bikes;
     }
 
     @Override
