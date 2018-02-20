@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 import com.example.h.cloudcycle.WebServiceControl.ApiBikes;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
 import com.example.h.cloudcycle.WebServiceControl.Bike;
-import com.example.h.cloudcycle.WebServiceControl.History;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -48,7 +46,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         LocationListener {
 
     private ApiInterface apiInterface;
-    private List<Bike> bikes;
+    List<Bike> bikes;
 
     GoogleMap map;
     private GoogleMap mMap;
@@ -74,10 +72,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
         SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map1);
         supportMapFragment.getMapAsync(this);
+
     }
 
     @Override
@@ -101,16 +98,40 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        /*googleMap.setMapStyle(new MapStyleOptions(getResources()
-                .getString(R.string.style_json)));*/
-
-        getLockedBikes();
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             bulidGoogleApiClient();
-            Log.d("Heroooo", "hpppppppppppppppp");
             mMap.setMyLocationEnabled(true);
-            //  mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+            apiInterface = ApiBikes.getApiClient().create(ApiInterface.class);
+            Call<List<Bike>> call = apiInterface.getLockedBikes();
+
+            call.enqueue(new Callback<List<Bike>>() {
+                @Override
+                public void onResponse(Call<List<Bike>> call, Response<List<Bike>> response) {
+                    bikes = response.body();
+
+                    for (Bike b : bikes) {
+
+                        LatLng latLng = new LatLng(b.getLatitude(), b.getLongitude());
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        markerOptions.position(latLng);
+                        markerOptions.title("Id: " + b.getId() + " Name: " + b.getName());
+                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.bicycle_icon));
+                        currentLocationmMarker = mMap.addMarker(markerOptions);
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<List<Bike>> call, Throwable t) {
+
+                }
+            });
+
+//            Toast.makeText(getContext(), bikes.get(0).getName() + " " + bikes.get(1).getLongitude(), Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -187,6 +208,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
                 bikes = (List<Bike>) response.body();
                 Toast.makeText(getContext(), bikes.get(0).getId() + " " + bikes.get(0).getLatitude(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), bikes.get(0).getName() + " " + bikes.get(1).getLongitude(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
