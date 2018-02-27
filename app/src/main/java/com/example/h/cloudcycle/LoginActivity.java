@@ -113,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 user = response.body();
                 if (response.isSuccessful()) {
-                    Toast.makeText(LoginActivity.this, user.toString(), Toast.LENGTH_SHORT).show();
 
                     new android.os.Handler().postDelayed(
                             new Runnable() {
@@ -130,7 +129,6 @@ public class LoginActivity extends AppCompatActivity {
                                     Ed.putString("balance", user.getBalance());
                                     Ed.putString("image", user.getImage());
                                     Ed.commit();
-                                    Toast.makeText(LoginActivity.this, user.getImage(), Toast.LENGTH_SHORT).show();
 
                                     progressDialog.dismiss();
                                 }
