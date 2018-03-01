@@ -1,13 +1,14 @@
+//noinspection GradleCompatible
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 26
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         multiDexEnabled true
         applicationId "com.example.h.cloudcycle"
         minSdkVersion 21
-        targetSdkVersion 23
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -30,27 +31,25 @@ android {
 }
 
 dependencies {
-    //noinspection GradleCompatible,GradleCompatible
-    implementation 'com.android.support:support-v4:23.4.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    //noinspection GradleCompatible
+    implementation 'com.android.support:appcompat-v7:26.1.0'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    //noinspection GradleCompatible,GradleCompatible
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    //noinspection GradleCompatible,GradleCompatible
-    compile 'com.android.support:design:25.0.1'
-    //noinspection GradleCompatible,GradleCompatible
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
+
     compile 'com.google.android.gms:play-services-maps:11.8.0'
     compile 'com.google.android.gms:play-services-location:11.8.0'
-    compile 'com.jakewharton:butterknife:8.0.1'
-    //noinspection DuplicatePlatformClasses
+
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
 
-    compile 'com.craftman.cardform:cardform:0.0.2'
-
+    compile 'com.jakewharton:butterknife:8.8.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
 }
