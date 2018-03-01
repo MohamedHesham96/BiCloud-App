@@ -180,7 +180,13 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
             Ed.putString("name", "");
             Ed.putString("balance", "");
             Ed.commit();
+
+        } else if (id == R.id.payment) {
+
+            startActivity(new Intent(this, PaymentActivity.class));
+
         }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

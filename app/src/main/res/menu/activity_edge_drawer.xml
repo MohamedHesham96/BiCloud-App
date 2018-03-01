@@ -11,7 +11,7 @@
             android:title="History"/>
 
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/payment"
             android:icon="@drawable/ic_menu_manage"
             android:title="Payment"/>
 
