@@ -21,7 +21,7 @@ import com.example.h.cloudcycle.WebServiceControl.SignupResponse;
 
 import java.io.File;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -33,17 +33,17 @@ import retrofit2.Response;
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
 
-    @Bind(R.id.input_name)
+    @BindView(R.id.input_name)
     EditText _nameText;
-    @Bind(R.id.input_email)
+    @BindView(R.id.input_email)
     EditText _emailText;
-    @Bind(R.id.input_password)
+    @BindView(R.id.input_password)
     EditText _passwordText;
-    @Bind(R.id.btn_signup)
+    @BindView(R.id.btn_signup)
     Button _signupButton;
-    @Bind(R.id.link_login)
+    @BindView(R.id.link_login)
     TextView _loginLink;
-    @Bind(R.id.userImage)
+    @BindView(R.id.userImage)
     ImageView userImage;
 
     int IMG_REQUEST = 555;
