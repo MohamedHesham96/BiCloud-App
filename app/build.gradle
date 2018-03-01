@@ -19,6 +19,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+
+        }
+
     }
 }
 
@@ -41,7 +48,6 @@ dependencies {
     //noinspection DuplicatePlatformClasses
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
 }
