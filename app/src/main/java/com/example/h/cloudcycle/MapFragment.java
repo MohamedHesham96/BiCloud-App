@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.h.cloudcycle.WebServiceControl.ApiBikes;
@@ -48,14 +49,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private ApiInterface apiInterface;
     List<Bike> bikes;
 
-    GoogleMap map;
     private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastlocation;
     private Marker currentLocationmMarker;
     public static final int REQUEST_LOCATION_CODE = 99;
-    int PROXIMITY_RADIUS = 10000;
     double latitude, longitude;
 
     public MapFragment() {
@@ -85,7 +84,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         if (client == null) {
-                            bulidGoogleApiClient();
+                            buildGoogleApiClient();
                         }
                         mMap.setMyLocationEnabled(true);
                     }
@@ -98,9 +97,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            bulidGoogleApiClient();
+            buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
@@ -113,12 +113,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                     bikes = response.body();
 
                     for (Bike b : bikes) {
-
                         LatLng latLng = new LatLng(b.getLatitude(), b.getLongitude());
                         MarkerOptions markerOptions = new MarkerOptions();
                         markerOptions.position(latLng);
+                        Toast.makeText(getContext(), b.getName(), Toast.LENGTH_SHORT).show();
                         markerOptions.title("Id: " + b.getId() + " Name: " + b.getName());
-                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.bicycle_icon));
+                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.bike_icon_64));
                         currentLocationmMarker = mMap.addMarker(markerOptions);
                     }
 
@@ -135,7 +135,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         }
     }
 
-    protected synchronized void bulidGoogleApiClient() {
+    protected synchronized void buildGoogleApiClient() {
         client = new GoogleApiClient.Builder(getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
