@@ -1,8 +1,10 @@
 package com.example.h.cloudcycle;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -30,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity extends Activity {
     private static final String TAG = "SignupActivity";
 
     @BindView(R.id.input_name)
@@ -167,9 +169,11 @@ public class SignupActivity extends AppCompatActivity {
         if (requestCode == IMG_REQUEST && resultCode == RESULT_OK && data != null) {
 
             imageURI = data.getData();
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            userImage.setImageBitmap(bitmap);
+
             imagePath = getRealPathFromURI(this, imageURI);
 
-            userImage.setImageURI(imageURI);
             //  Toast.makeText(this, "Image Path: "  + imagePath, Toast.LENGTH_SHORT).show();
 
             // Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();

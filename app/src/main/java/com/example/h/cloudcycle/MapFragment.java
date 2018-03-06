@@ -99,36 +99,38 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
+
+        apiInterface = ApiBikes.getApiClient().create(ApiInterface.class);
+        Call<List<Bike>> call = apiInterface.getLockedBikes();
+
+        call.enqueue(new Callback<List<Bike>>() {
+            @Override
+            public void onResponse(Call<List<Bike>> call, Response<List<Bike>> response) {
+                bikes = response.body();
+
+                for (Bike b : bikes) {
+                    LatLng latLng = new LatLng(b.getLatitude(), b.getLongitude());
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(latLng);
+                    Toast.makeText(getContext(), b.getName(), Toast.LENGTH_SHORT).show();
+                    markerOptions.title("Id: " + b.getId() + " Name: " + b.getName());
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.bike_icon_64));
+                    currentLocationmMarker = mMap.addMarker(markerOptions);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Bike>> call, Throwable t) {
+
+            }
+        });
+
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-            apiInterface = ApiBikes.getApiClient().create(ApiInterface.class);
-            Call<List<Bike>> call = apiInterface.getLockedBikes();
-
-            call.enqueue(new Callback<List<Bike>>() {
-                @Override
-                public void onResponse(Call<List<Bike>> call, Response<List<Bike>> response) {
-                    bikes = response.body();
-
-                    for (Bike b : bikes) {
-                        LatLng latLng = new LatLng(b.getLatitude(), b.getLongitude());
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(latLng);
-                        Toast.makeText(getContext(), b.getName(), Toast.LENGTH_SHORT).show();
-                        markerOptions.title("Id: " + b.getId() + " Name: " + b.getName());
-                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.bike_icon_64));
-                        currentLocationmMarker = mMap.addMarker(markerOptions);
-                    }
-
-                }
-
-                @Override
-                public void onFailure(Call<List<Bike>> call, Throwable t) {
-
-                }
-            });
 
 //            Toast.makeText(getContext(), bikes.get(0).getName() + " " + bikes.get(1).getLongitude(), Toast.LENGTH_SHORT).show();
 

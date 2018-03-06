@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#353646"
+    android:background="@drawable/background"
     android:fitsSystemWindows="true"
     tools:context="com.example.h.cloudcycle.LoginActivity">
 
@@ -17,14 +17,12 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="175dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="15dp"
+            android:layout_height="200dp"
             android:paddingBottom="30dp"
+            android:layout_marginLeft="10dp"
             android:paddingLeft="10dp"
-            android:paddingTop="10dp"
+            android:paddingTop="20dp"
             android:src="@drawable/app_icon" />
-
         <!--  Email Label -->
 
 
@@ -33,7 +31,7 @@
             android:drawablePadding="8dp"
             android:textSize="16dp"
             android:paddingLeft="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="60dp"
             android:hint="Email"
             android:id="@+id/input_email"
             android:layout_gravity="center"
@@ -75,11 +73,11 @@
             android:id="@+id/forget_password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="14dp"
             android:gravity="center"
             android:textColor="#ffffff"
             android:text="Forget Password?"
-            android:textSize="16sp" />
+            android:textSize="16dip" />
 
         <TextView
             android:id="@+id/link_signup"
@@ -88,7 +86,7 @@
             android:gravity="center"
             android:textColor="#ffffff"
             android:text="No account yet? Create one"
-            android:textSize="16sp" />
+            android:textSize="16dip" />
 
 
     </LinearLayout>
