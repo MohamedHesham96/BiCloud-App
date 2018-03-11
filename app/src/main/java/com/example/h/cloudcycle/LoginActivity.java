@@ -34,6 +34,8 @@ public class LoginActivity extends Activity {
     EditText _passwordText;
     @BindView(R.id.btn_login)
     Button _loginButton;
+    @BindView(R.id.forget_password)
+    Button _forgotPassword;
     @BindView(R.id.link_signup)
     TextView _signupLink;
 
@@ -45,7 +47,6 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
         //    checkSharedPreferences();
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -63,6 +64,16 @@ public class LoginActivity extends Activity {
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
+
+        _forgotPassword.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ForgotPasswrodActivity.class);
+                startActivityForResult(intent, REQUEST_SIGNUP);
+            }
+        });
+
     }
 
     public void checkSharedPreferences() {

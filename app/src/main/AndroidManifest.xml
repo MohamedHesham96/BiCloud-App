@@ -29,9 +29,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".BicycleLocation">
-        </activity>
-
+        <activity android:name=".BicycleLocation" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,19 +37,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".SignupActivity" />
-
         <activity
             android:name=".EdgeActivity"
             android:label="@string/title_activity_edge"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".HistoryActivity" />
-
         <activity android:name=".MainActivity" />
-
         <activity android:name=".PaymentActivity" />
+        <activity android:name=".ForgotPasswrodActivity" />
+        <activity android:name=".EnterCode"></activity>
     </application>
 
 </manifest>

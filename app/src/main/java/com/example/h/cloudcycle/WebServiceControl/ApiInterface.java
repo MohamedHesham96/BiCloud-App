@@ -37,4 +37,8 @@ public interface ApiInterface {
     @GET("lockedbikes")
     Call<List<Bike>> getLockedBikes();
 
+
+    @POST("/forget/password")
+    Call<ForgotPasswordResponse> forgetPassword(@Query("email") String email);
+
 }
