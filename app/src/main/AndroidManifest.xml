@@ -45,8 +45,9 @@
         <activity android:name=".HistoryActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".PaymentActivity" />
-        <activity android:name=".ForgotPasswrodActivity" />
-        <activity android:name=".EnterCode"></activity>
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".EnterCode" />
+        <activity android:name=".EnterNewPassword"></activity>
     </application>
 
 </manifest>

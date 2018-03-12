@@ -35,7 +35,7 @@ public class LoginActivity extends Activity {
     @BindView(R.id.btn_login)
     Button _loginButton;
     @BindView(R.id.forget_password)
-    Button _forgotPassword;
+    TextView _forgotPassword;
     @BindView(R.id.link_signup)
     TextView _signupLink;
 
@@ -69,7 +69,7 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ForgotPasswrodActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });

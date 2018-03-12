@@ -12,22 +12,22 @@
         android:textSize="16dp"
         android:paddingLeft="10dp"
         android:layout_marginTop="60dp"
-        android:hint="Email"
-        android:id="@+id/email"
+        android:id="@+id/email_ET"
         android:layout_gravity="center"
         android:layout_height="50dp"
         android:layout_width="@dimen/width_login"
         android:background="@drawable/rounded"
         android:inputType="textEmailAddress"
-        android:text="moussa@yahoo.com" />
+        android:text="mrmedooo71@gmail.com" />
 
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_login"
+        android:id="@+id/submit_email"
         android:layout_gravity="center"
         android:layout_width="@dimen/width_login"
         android:layout_height="50dp"
         android:layout_marginBottom="24dp"
+        android:onClick="submitEmail"
         android:background="@drawable/rounded2"
         android:textColor="#ffffff"
         android:padding="12dp"
