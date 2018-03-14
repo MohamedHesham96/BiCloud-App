@@ -32,6 +32,7 @@
     <string name="distance_4_0_km">Distance: 4.0 KM</string>
     <string name="date_30_12_2018">Date: 30/12/2018</string>
     <string name="todo">TODO</string>
+    <string name="code_message">Please enter the six values ​​sent to your email to make sure you are the owner of the email</string>
 
 
 </resources>

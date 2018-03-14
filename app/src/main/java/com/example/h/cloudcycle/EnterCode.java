@@ -20,6 +20,7 @@ public class EnterCode extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_code);
 
+        setTitle("Enter Your Code");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -30,6 +31,7 @@ public class EnterCode extends AppCompatActivity {
     }
 
     public void submitCode(View view) {
+
 
         if (intnetCode.equals(codeET.getText().toString())) {
 

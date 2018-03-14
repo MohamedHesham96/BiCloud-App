@@ -6,14 +6,24 @@
     android:orientation="vertical"
     tools:context="com.example.h.cloudcycle.EnterCode">
 
+    <TextView
+        android:layout_marginTop="40dp"
+        android:layout_width="250dp"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/code_message" />
 
     <EditText
         android:drawablePadding="8dp"
         android:textSize="16dp"
         android:paddingLeft="10dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
         android:id="@+id/code_code"
         android:layout_gravity="center"
+        android:gravity="center"
         android:layout_height="50dp"
         android:layout_width="@dimen/width_login"
         android:background="@drawable/rounded"

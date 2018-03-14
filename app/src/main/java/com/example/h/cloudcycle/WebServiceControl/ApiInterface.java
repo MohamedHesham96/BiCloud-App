@@ -16,29 +16,32 @@ import retrofit2.http.Query;
 
 public interface ApiInterface {
 
-    @POST("login")
+    @POST("user/login")
     Call<User> getUserInfo(@Query("email") String email, @Query("password") String password);
 
-    @POST("history")
+    @POST("user/history")
     Call<List<History>> getUserHistory(@Query("id") int id);
 
     @Multipart
-    @POST("signup")
+    @POST("user/signup")
     Call<SignupResponse> createNewUser(@Query("name") String userName,
                                        @Query("email") String userEmail,
                                        @Query("password") String password,
                                        @Part MultipartBody.Part image);
 
-    @POST("signup")
+    @POST("user/signup")
     Call<SignupResponse> createNewUser(@Query("name") String userName,
                                        @Query("email") String userEmail,
                                        @Query("password") String password);
 
-    @GET("lockedbikes")
+    @GET("bike/lockedbikes")
     Call<List<Bike>> getLockedBikes();
 
 
-    @POST("password")
+    @POST("forget/password")
     Call<ForgotPasswordResponse> forgetPassword(@Query("email") String email);
+
+    @POST("reset/password")
+    Call<ForgotPasswordResponse> resetPassword(@Query("email") String email, @Query("password") String password);
 
 }

@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
-import com.example.h.cloudcycle.WebServiceControl.ApiPassword;
 import com.example.h.cloudcycle.WebServiceControl.ForgotPasswordResponse;
 
 import butterknife.BindView;
@@ -19,7 +19,6 @@ import retrofit2.Response;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-    @BindView(R.id.email_ET)
     EditText email_ET;
 
     ForgotPasswordResponse fpResponse;
@@ -32,14 +31,15 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        email_ET = findViewById(R.id.email_ET);
     }
 
     public void submitEmail(View view) {
 
 
-        ApiInterface apiInterface = ApiPassword.getApiClient().create(ApiInterface.class);
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-        Call<ForgotPasswordResponse> call = apiInterface.forgetPassword("mrmedooo71@gmail.com");
+        Call<ForgotPasswordResponse> call = apiInterface.forgetPassword(email_ET.getText().toString());
 
         call.enqueue(new Callback<ForgotPasswordResponse>() {
             @Override
@@ -51,6 +51,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     Toast.makeText(ForgotPasswordActivity.this, fpResponse.getCode(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), EnterCode.class);
                     intent.putExtra("code", fpResponse.getCode());
+                    intent.putExtra("email", email_ET.getText().toString());
                     startActivity(intent);
                 } else {
 

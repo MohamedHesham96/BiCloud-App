@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    public static final String BASE_URL = "https://mousaelenanyfciscu.000webhostapp.com/app/webservice/user/";
+    public static final String BASE_URL = "https://mousaelenanyfciscu.000webhostapp.com/app/webservice/";
     public static Retrofit retrofit = null;
 
     public static Retrofit getApiClient() {

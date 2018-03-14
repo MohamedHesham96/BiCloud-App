@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +40,8 @@ public class SignupActivity extends Activity {
     EditText _emailText;
     @BindView(R.id.input_password)
     EditText _passwordText;
+    @BindView(R.id.input_reEnterPassword)
+    EditText _repeatedPasswordText;
     @BindView(R.id.btn_signup)
     Button _signupButton;
     @BindView(R.id.link_login)
@@ -54,6 +55,7 @@ public class SignupActivity extends Activity {
     String name;
     String email;
     String password;
+    String repeatedPassword;
     private String imagePath;
     MultipartBody.Part theImage = null;
 
@@ -105,6 +107,7 @@ public class SignupActivity extends Activity {
         name = _nameText.getText().toString();
         email = _emailText.getText().toString();
         password = _passwordText.getText().toString();
+        repeatedPassword = _repeatedPasswordText.getText().toString();
 
         if (imagePath != null) {
             File file = new File(imagePath);
@@ -169,8 +172,8 @@ public class SignupActivity extends Activity {
         if (requestCode == IMG_REQUEST && resultCode == RESULT_OK && data != null) {
 
             imageURI = data.getData();
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            userImage.setImageBitmap(bitmap);
+            Toast.makeText(this, imageURI.toString(), Toast.LENGTH_SHORT).show();
+            userImage.setImageURI(imageURI);
 
             imagePath = getRealPathFromURI(this, imageURI);
 
@@ -216,27 +219,46 @@ public class SignupActivity extends Activity {
 
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        password = _passwordText.getText().toString();
+
+        repeatedPassword = _passwordText.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
+
             _nameText.setError("at least 3 characters");
             valid = false;
+
         } else {
+
             _nameText.setError(null);
+
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+
             _emailText.setError("enter a valid email address");
             valid = false;
+
         } else {
+
             _emailText.setError(null);
+
         }
 
         if (password.isEmpty() || password.length() < 6 || password.length() > 32) {
+
             _passwordText.setError("between 6 and 32 alphanumeric characters");
             valid = false;
+
+        } else if (!password.equals(repeatedPassword)) {
+
+            _passwordText.setError("Password Dose Not Match");
+            _repeatedPasswordText.setError("Password Dose Not Match");
+            valid = false;
+
         } else {
             _passwordText.setError(null);
+            _repeatedPasswordText.setError(null);
         }
 
         return valid;

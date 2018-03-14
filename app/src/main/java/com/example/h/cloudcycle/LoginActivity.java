@@ -176,6 +176,7 @@ public class LoginActivity extends Activity {
         Ed.putString("name", user.getName());
         Ed.commit();
     }
+
     public void onLoginSuccess() {
 
         _loginButton.setEnabled(true);

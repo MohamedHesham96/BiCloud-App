@@ -2,20 +2,15 @@ package com.example.h.cloudcycle;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
 import com.example.h.cloudcycle.WebServiceControl.History;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,14 +19,11 @@ import retrofit2.Response;
 
 public class HistoryActivity extends AppCompatActivity {
 
-    ArrayList<String> priceList;
-    ArrayList<String> dateList;
-    ArrayList<String> bikeIdList;
-    ArrayList<String> distanceList;
 
     private ApiInterface apiInterface;
     private List<History> historysList = null;
     private int id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,12 +41,16 @@ public class HistoryActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) {
 
                 historysList = (List<History>) response.body();
-                Log.d("Respons: ", "\nDeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeate: " + historysList.get(0).getDate()
-                        + "Price: " + historysList.get(0).getPrice()
-                        + "Distance: " + historysList.get(0).getDistance()
-                        + "BikeID: " + historysList.get(0).getBike_id());
-                ListView listView = (ListView) findViewById(R.id.historyList);
-                listView.setAdapter(new CustomListAdapter(getApplicationContext(), historysList));
+                if (!historysList.isEmpty()) {
+
+                    ListView listView = findViewById(R.id.historyList);
+                    listView.setAdapter(new CustomListAdapter(getApplicationContext(), historysList));
+
+                } else {
+
+                    Toast.makeText(HistoryActivity.this, "No History", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
@@ -66,7 +62,6 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     public void getSharedPreferences() {
-
 
         SharedPreferences sp = this.getSharedPreferences("Login", MODE_PRIVATE);
 
@@ -85,7 +80,6 @@ public class HistoryActivity extends AppCompatActivity {
                 }
             }
         }
-
     }
 
     @Override

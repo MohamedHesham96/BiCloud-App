@@ -47,7 +47,18 @@
         <activity android:name=".PaymentActivity" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".EnterCode" />
-        <activity android:name=".EnterNewPassword"></activity>
+        <activity android:name=".EnterNewPassword" />
+
+        <activity android:name=".ProfileActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
     </application>
 
 </manifest>

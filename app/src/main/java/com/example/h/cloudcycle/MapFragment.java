@@ -12,10 +12,9 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.h.cloudcycle.WebServiceControl.ApiBikes;
+import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
 import com.example.h.cloudcycle.WebServiceControl.Bike;
 import com.google.android.gms.common.ConnectionResult;
@@ -100,7 +99,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
 
-        apiInterface = ApiBikes.getApiClient().create(ApiInterface.class);
+        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<List<Bike>> call = apiInterface.getLockedBikes();
 
         call.enqueue(new Callback<List<Bike>>() {
@@ -201,7 +200,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     public List<Bike> getLockedBikes() {
 
-        apiInterface = ApiBikes.getApiClient().create(ApiInterface.class);
+        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<List<Bike>> call = apiInterface.getLockedBikes();
 
         call.enqueue(new Callback() {

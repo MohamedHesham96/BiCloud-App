@@ -8,13 +8,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import butterknife.BindView;
+import com.example.h.cloudcycle.WebServiceControl.ApiClient;
+import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
+import com.example.h.cloudcycle.WebServiceControl.ForgotPasswordResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EnterNewPassword extends AppCompatActivity {
 
     Button submitNewPassword;
     EditText passwordText;
     EditText repeatedPasswordText;
+    private ForgotPasswordResponse fpResponse;
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +33,7 @@ public class EnterNewPassword extends AppCompatActivity {
         passwordText = findViewById(R.id.password);
         repeatedPasswordText = findViewById(R.id.repeat_password);
 
-
+        email = getIntent().getStringExtra("email");
     }
 
     @Override
@@ -34,7 +42,7 @@ public class EnterNewPassword extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
-    public void signup(View view) {
+    public void submitPassword(View view) {
 
         if (!validate()) {
 
@@ -47,10 +55,7 @@ public class EnterNewPassword extends AppCompatActivity {
 
     public void onSignupSuccess() {
         submitNewPassword.setEnabled(true);
-        setResult(RESULT_OK, null);
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        finish();
-        startActivity(intent);
+        sendPassword();
     }
 
     public void onSignupFailed() {
@@ -85,5 +90,43 @@ public class EnterNewPassword extends AppCompatActivity {
 
         return valid;
     }
+
+
+    public void sendPassword() {
+
+
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+
+        Call<ForgotPasswordResponse> call = apiInterface.resetPassword("mrmedooo71@gmail.com", passwordText.getText().toString());
+
+        call.enqueue(new Callback<ForgotPasswordResponse>() {
+            @Override
+            public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
+
+
+                if (response.isSuccessful()) {
+
+                    Toast.makeText(EnterNewPassword.this, String.valueOf(response.body().isSuccess()), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    finish();
+                    startActivity(intent);
+
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "Error !!", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ForgotPasswordResponse> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
 
 }
