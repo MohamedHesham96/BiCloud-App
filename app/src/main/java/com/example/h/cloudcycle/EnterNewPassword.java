@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
-import com.example.h.cloudcycle.WebServiceControl.ForgotPasswordResponse;
+import com.example.h.cloudcycle.WebServiceControl.GeneralResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,7 +21,7 @@ public class EnterNewPassword extends AppCompatActivity {
     Button submitNewPassword;
     EditText passwordText;
     EditText repeatedPasswordText;
-    private ForgotPasswordResponse fpResponse;
+    private GeneralResponse fpResponse;
     String email;
 
     @Override
@@ -97,11 +97,11 @@ public class EnterNewPassword extends AppCompatActivity {
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-        Call<ForgotPasswordResponse> call = apiInterface.resetPassword("mrmedooo71@gmail.com", passwordText.getText().toString());
+        Call<GeneralResponse> call = apiInterface.resetPassword("mrmedooo71@gmail.com", passwordText.getText().toString());
 
-        call.enqueue(new Callback<ForgotPasswordResponse>() {
+        call.enqueue(new Callback<GeneralResponse>() {
             @Override
-            public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
 
 
                 if (response.isSuccessful()) {
@@ -120,7 +120,7 @@ public class EnterNewPassword extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ForgotPasswordResponse> call, Throwable t) {
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
 
             }
         });

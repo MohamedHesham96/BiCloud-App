@@ -104,6 +104,7 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
             String nameSP = sp.getString("name", null);
             String idSP = sp.getString("id", null);
 
+            Toast.makeText(this, "USer ID:" + idSP, Toast.LENGTH_SHORT).show();
             if (sp.contains("email")) {
                 if (!emailSP.equals("") && !passwordSP.equals("")) {
 

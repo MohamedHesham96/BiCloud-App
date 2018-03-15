@@ -3,51 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ffffff"
+    android:background="#cfcfcf"
     android:fitsSystemWindows="true"
     tools:context="com.example.h.cloudcycle.ProfileActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff">
+        android:background="#cfcfcf">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="230dp"
-            android:background="@drawable/back_profile"
+            android:background="@drawable/proback"
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:id="@+id/user_photo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="55dp"
                 android:src="@drawable/pic" />
 
         </LinearLayout>
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="125dp"
-            android:src="@drawable/edit_profile_pic" />
-
 
         <LinearLayout
             android:layout_width="355dp"
             android:layout_height="135dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="180dp"
+            android:layout_marginTop="250dp"
             android:background="@drawable/profile_rounded"
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingTop="15dp">
 
             <TextView
+                android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ahmed Hassan"
@@ -61,6 +53,7 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/user_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -80,7 +73,7 @@
             android:layout_width="355dp"
             android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="325dp"
+            android:layout_marginTop="395dp"
             android:background="@drawable/profile_rounded"
             android:orientation="horizontal"
             android:paddingLeft="20dp"
@@ -93,6 +86,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/user_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -109,9 +103,11 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/change_password"
                 android:layout_width="80dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="30dp"
                 android:background="@drawable/rounded_all"
                 android:text="Change"
@@ -119,12 +115,11 @@
 
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="355dp"
             android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="420dp"
+            android:layout_marginTop="485dp"
             android:background="@drawable/profile_rounded"
             android:orientation="horizontal"
             android:paddingLeft="20dp"
@@ -153,9 +148,11 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/delete_account"
                 android:layout_width="80dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="30dp"
                 android:background="@drawable/rounded_all_red"
                 android:text="Delete"
@@ -163,13 +160,39 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/select_photo"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:onClick="selectImage"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="140dp"
+            android:src="@drawable/edit_profile_pic" />
 
-        <android.support.design.widget.FloatingActionButton
+        <Button
+            android:onClick="uploadPhoto"
+            android:id="@+id/upload_photo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:foreground="@drawable/edit_profile_pic"
-            android:layout_gravity="bottom|right"
-            android:layout_marginRight="25dp" />
+            android:layout_height="35dp"
+            android:text="Upload"
+            android:textColor="#ffffff"
+            android:visibility="invisible"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="185dp"
+            android:background="@drawable/rounded_all_green" />
+
+        <Button
+            android:id="@+id/update_name_email"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="280dp"
+            android:background="@drawable/rounded_all"
+            android:text="Update"
+            android:onClick="updateNameAndEmail"
+            android:textSize="12sp" />
 
     </FrameLayout>
 

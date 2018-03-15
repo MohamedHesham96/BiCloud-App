@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
-import com.example.h.cloudcycle.WebServiceControl.ForgotPasswordResponse;
+import com.example.h.cloudcycle.WebServiceControl.GeneralResponse;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -21,7 +21,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     EditText email_ET;
 
-    ForgotPasswordResponse fpResponse;
+    GeneralResponse fpResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +39,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-        Call<ForgotPasswordResponse> call = apiInterface.forgetPassword(email_ET.getText().toString());
+        Call<GeneralResponse> call = apiInterface.forgetPassword(email_ET.getText().toString());
 
-        call.enqueue(new Callback<ForgotPasswordResponse>() {
+        call.enqueue(new Callback<GeneralResponse>() {
             @Override
-            public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
 
                 if (response.isSuccessful()) {
 
@@ -61,7 +61,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ForgotPasswordResponse> call, Throwable t) {
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
 
             }
         });

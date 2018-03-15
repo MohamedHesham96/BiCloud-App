@@ -48,7 +48,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/rounded1"
-            android:drawableLeft="@drawable/lock"
+            android:drawableLeft="@drawable/password_icon"
             android:drawablePadding="8dp"
             android:hint="Password"
             android:inputType="textPassword"

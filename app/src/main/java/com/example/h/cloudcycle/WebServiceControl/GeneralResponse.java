@@ -4,7 +4,7 @@ package com.example.h.cloudcycle.WebServiceControl;
  * Created by H on 12/03/2018.
  */
 
-public class ForgotPasswordResponse {
+public class GeneralResponse {
 
     String code;
     boolean success;

@@ -58,9 +58,9 @@ public class SignupActivity extends Activity {
     String repeatedPassword;
     private String imagePath;
     MultipartBody.Part theImage = null;
+    Uri imageURI;
 
     SignupResponse signupResponse;
-    Uri imageURI;
     Call<SignupResponse> call;
 
     @Override
