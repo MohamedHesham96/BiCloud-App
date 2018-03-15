@@ -55,9 +55,6 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_name_and_email);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         ButterKnife.bind(this);
 
         userName_ET.setText(getIntent().getStringExtra("userName"));
@@ -70,27 +67,32 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
 
     public void submitChanges(View view) {
 
+
         userId = this.getSharedPreferences("Login", MODE_PRIVATE).getString("id", null);
 
         Toast.makeText(this, userId, Toast.LENGTH_SHORT).show();
         nameValue = userName_ET.getText().toString();
         emailValue = userEmail_ET.getText().toString();
 
+
+        boolean isNameValid = Pattern.matches("^[a-zA-Z_ ]*$", nameValue);
+        boolean isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(emailValue).matches();
+
+
         if (nameValue.isEmpty() || nameValue.length() < 3) {
 
             userName_ET.setError("at least 3 characters");
 
-        } else if (!Pattern.matches("^[a-zA-Z_ ]*$", nameValue)) {
+        } else if (!isNameValid) {
 
             userName_ET.setError("enter a valid email address");
 
         } else {
 
             userName_ET.setError(null);
-
         }
 
-        if (emailValue.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(emailValue).matches()) {
+        if (emailValue.isEmpty() || !isEmailValid) {
 
             userEmail_ET.setError("enter a valid email address");
             return;
@@ -104,18 +106,17 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
 
             nameUpdate(userId, nameValue);
             emailUpdate(userId, emailValue);
-            doneSubmit_BT.setVisibility(View.VISIBLE);
 
 
-        } else if (!oldUserName.equals(nameValue) && userName_ET.isEnabled()) {
+        } else if (!oldUserName.equals(nameValue) && userName_ET.isEnabled() && isNameValid) {
 
             nameUpdate(userId, nameValue);
-            doneSubmit_BT.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
 
-        } else if (!oldUserEmail.equals(emailValue) && userEmail_ET.isEnabled()) {
+        } else if (!oldUserEmail.equals(emailValue) && userEmail_ET.isEnabled() && isEmailValid) {
 
             emailUpdate(userId, emailValue);
-            doneSubmit_BT.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
 
         } else {
 
@@ -142,6 +143,7 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
 
                         nameCheck_IV.setImageResource(R.drawable.checked_icon);
                         userName_ET.setEnabled(false);
+                        doneSubmit_BT.setVisibility(View.VISIBLE);
                     }
 
                     Toast.makeText(UpdateNameAndEmailActivity.this, "Name: " + String.valueOf(generalResponse.isSuccess()), Toast.LENGTH_SHORT).show();
@@ -174,6 +176,7 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
 
                         emailCheck_IV.setImageResource(R.drawable.checked_icon);
                         userEmail_ET.setEnabled(false);
+                        doneSubmit_BT.setVisibility(View.VISIBLE);
                     }
 
                     Toast.makeText(UpdateNameAndEmailActivity.this, "email: " + String.valueOf(generalResponse.isSuccess()), Toast.LENGTH_SHORT).show();

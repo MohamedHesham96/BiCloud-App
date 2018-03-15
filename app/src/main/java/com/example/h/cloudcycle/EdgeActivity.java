@@ -26,8 +26,8 @@ import java.net.URL;
 
 public class EdgeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private NavigationView navigationView;
     String IMAGES_PATH = "https://mousaelenanyfciscu.000webhostapp.com/public/images/";
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,50 +45,13 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         MapFragment mapFragment = new MapFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.mainLayout, mapFragment).commit();
 
-    }
-
-    private class DownLoadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView imageView;
-
-        public DownLoadImageTask(ImageView imageView) {
-            this.imageView = imageView;
-        }
-
-        /*
-            doInBackground(Params... params)
-                Override this method to perform a computation on a background thread.
-         */
-        protected Bitmap doInBackground(String... urls) {
-            String urlOfImage = urls[0];
-            Bitmap logo = null;
-            try {
-                InputStream is = new URL(urlOfImage).openStream();
-                /*
-                    decodeStream(InputStream is)
-                        Decode an input stream into a bitmap.
-                 */
-                logo = BitmapFactory.decodeStream(is);
-            } catch (Exception e) { // Catch the download exception
-                e.printStackTrace();
-                Log.d("Error: Profile", "Prooooooooooooooofile Iamge");
-            }
-            return logo;
-        }
-
-        /*
-            onPostExecute(Result result)
-                Runs on the UI thread after doInBackground(Params...).
-         */
-        protected void onPostExecute(Bitmap result) {
-            imageView.setImageBitmap(result);
-        }
     }
 
     public void getSharedPreferences() {
@@ -108,12 +71,12 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
             if (sp.contains("email")) {
                 if (!emailSP.equals("") && !passwordSP.equals("")) {
 
-                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                    NavigationView navigationView = findViewById(R.id.nav_view);
                     View hView = navigationView.getHeaderView(0);
 
-                    TextView nav_user = (TextView) hView.findViewById(R.id.userEmail);
-                    TextView name_user = (TextView) hView.findViewById(R.id.userName);
-                    ImageView profileImage = (ImageView) hView.findViewById(R.id.profileImage);
+                    TextView nav_user = hView.findViewById(R.id.userEmail);
+                    TextView name_user = hView.findViewById(R.id.userName);
+                    ImageView profileImage = hView.findViewById(R.id.profileImage);
 
                     String imageName = sp.getString("image", null);
 
@@ -207,5 +170,36 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
 
 
         }*/
+    }
+
+    private class DownLoadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView imageView;
+
+        public DownLoadImageTask(ImageView imageView) {
+            this.imageView = imageView;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urlOfImage = urls[0];
+            Bitmap logo = null;
+            try {
+
+                InputStream is = new URL(urlOfImage).openStream();
+                logo = BitmapFactory.decodeStream(is);
+
+            } catch (Exception e) { // Catch the download exception
+                e.printStackTrace();
+                Log.d("Error: Profile", "Prooooooooooooooofile Iamge");
+            }
+            return logo;
+        }
+
+        /*
+            onPostExecute(Result result)
+                Runs on the UI thread after doInBackground(Params...).
+         */
+        protected void onPostExecute(Bitmap result) {
+            imageView.setImageBitmap(result);
+        }
     }
 }

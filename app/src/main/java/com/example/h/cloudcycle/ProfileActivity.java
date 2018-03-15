@@ -4,14 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +24,8 @@ import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
 import com.example.h.cloudcycle.WebServiceControl.GeneralResponse;
 
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,10 +67,28 @@ public class ProfileActivity extends AppCompatActivity {
     String nameSP;
     String emailSP;
     String passwordSP;
+    String IMAGES_PATH = "https://mousaelenanyfciscu.000webhostapp.com/public/images/";
 
     String imagePath;
     MultipartBody.Part theImage = null;
     Uri imageURI;
+
+    public static String getRealPathFromURI(Context context, Uri uri) {
+        String filePath = "";
+
+        String[] column = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                column, null, null, null);
+
+        int columnIndex = cursor.getColumnIndex(column[0]);
+
+        if (cursor.moveToFirst()) {
+            filePath = cursor.getString(columnIndex);
+        }
+        cursor.close();
+        return filePath;
+    }
 
     @Override
     protected void onRestart() {
@@ -90,6 +113,16 @@ public class ProfileActivity extends AppCompatActivity {
 
         SharedPreferences sp = this.getSharedPreferences("Login", MODE_PRIVATE);
 
+        String imageName = sp.getString("image", null);
+
+        String fullPath = IMAGES_PATH + imageName;
+
+        Toast.makeText(this, fullPath, Toast.LENGTH_SHORT).show();
+
+        new DownLoadImageTask(userPhoto_IV).execute(fullPath);
+
+        Toast.makeText(this, idSP, Toast.LENGTH_SHORT).show();
+
         idSP = sp.getString("id", null);
         nameSP = sp.getString("name", null);
         emailSP = sp.getString("email", null);
@@ -98,10 +131,6 @@ public class ProfileActivity extends AppCompatActivity {
         userName_TV.setText(nameSP);
         userEmail_TV.setText(emailSP);
         userPassword_TV.setText(passwordSP);
-
-        Toast.makeText(this, idSP, Toast.LENGTH_SHORT).show();
-
-
     }
 
     public void checkSharedPreferences() {
@@ -160,6 +189,9 @@ public class ProfileActivity extends AppCompatActivity {
     public void uploadPhoto(View view) {
 
         if (imagePath != null) {
+
+            uploadPhoto_BT.setEnabled(false);
+
             File file = new File(imagePath);
 
             RequestBody imagePart = RequestBody.create(MediaType.parse(getContentResolver().getType(imageURI)), file);
@@ -177,8 +209,9 @@ public class ProfileActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
 
                         GeneralResponse gr = response.body();
-
                         Toast.makeText(ProfileActivity.this, "Photo: " + String.valueOf(gr.isSuccess()), Toast.LENGTH_SHORT).show();
+                        uploadPhoto_BT.setVisibility(View.INVISIBLE);
+
                     } else {
 
                         Toast.makeText(ProfileActivity.this, "Photo: " + "Error !!", Toast.LENGTH_SHORT).show();
@@ -197,23 +230,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    public static String getRealPathFromURI(Context context, Uri uri) {
-        String filePath = "";
-
-        String[] column = {MediaStore.Images.Media.DATA};
-
-        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                column, null, null, null);
-
-        int columnIndex = cursor.getColumnIndex(column[0]);
-
-        if (cursor.moveToFirst()) {
-            filePath = cursor.getString(columnIndex);
-        }
-        cursor.close();
-        return filePath;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -225,4 +241,32 @@ public class ProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    private class DownLoadImageTask extends AsyncTask<String, Void, Bitmap> {
+
+        CircleImageView imageView;
+
+        public DownLoadImageTask(CircleImageView imageView) {
+            this.imageView = imageView;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urlOfImage = urls[0];
+            Bitmap logo = null;
+            try {
+                InputStream is = new URL(urlOfImage).openStream();
+                logo = BitmapFactory.decodeStream(is);
+            } catch (Exception e) { // Catch the download exception
+                e.printStackTrace();
+                Log.d("Error: Profile", "Prooooooooooooooofile Iamge");
+            }
+            return logo;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            imageView.setImageBitmap(result);
+        }
+
+    }
 }
+

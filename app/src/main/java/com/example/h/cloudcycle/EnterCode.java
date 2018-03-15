@@ -7,13 +7,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import butterknife.BindView;
-
 public class EnterCode extends AppCompatActivity {
 
     EditText codeET;
 
-    String intnetCode;
+    String intentCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,19 +22,22 @@ public class EnterCode extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        intnetCode = getIntent().getStringExtra("code");
+        intentCode = getIntent().getStringExtra("code");
 
         codeET = findViewById(R.id.code_code);
 
     }
 
     public void submitCode(View view) {
+        String email = getIntent().getStringExtra("email");
 
 
-        if (intnetCode.equals(codeET.getText().toString())) {
+        if (intentCode.equals(codeET.getText().toString())) {
 
             Intent intent = new Intent(getApplicationContext(), EnterNewPassword.class);
+            intent.putExtra("email", email);
             startActivity(intent);
+
         } else {
 
             codeET.setError("Enter Correct Code");

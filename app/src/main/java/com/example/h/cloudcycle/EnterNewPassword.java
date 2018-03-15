@@ -21,8 +21,8 @@ public class EnterNewPassword extends AppCompatActivity {
     Button submitNewPassword;
     EditText passwordText;
     EditText repeatedPasswordText;
-    private GeneralResponse fpResponse;
     String email;
+    private GeneralResponse fpResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,8 @@ public class EnterNewPassword extends AppCompatActivity {
         repeatedPasswordText = findViewById(R.id.repeat_password);
 
         email = getIntent().getStringExtra("email");
+
+        Toast.makeText(this, "Here is: " + email, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -91,13 +93,13 @@ public class EnterNewPassword extends AppCompatActivity {
         return valid;
     }
 
-
     public void sendPassword() {
 
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-        Call<GeneralResponse> call = apiInterface.resetPassword("mrmedooo71@gmail.com", passwordText.getText().toString());
+        Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
+        Call<GeneralResponse> call = apiInterface.resetPassword(email, passwordText.getText().toString());
 
         call.enqueue(new Callback<GeneralResponse>() {
             @Override
@@ -110,7 +112,6 @@ public class EnterNewPassword extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     finish();
                     startActivity(intent);
-
 
                 } else {
 

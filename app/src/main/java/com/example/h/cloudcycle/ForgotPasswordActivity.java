@@ -19,6 +19,7 @@ import retrofit2.Response;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
+    @BindView(R.id.email_ET)
     EditText email_ET;
 
     GeneralResponse fpResponse;
@@ -36,6 +37,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     public void submitEmail(View view) {
 
+        Toast.makeText(this, "The Email: " + email_ET.getText().toString(), Toast.LENGTH_SHORT).show();
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
@@ -49,10 +51,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
                     fpResponse = response.body();
                     Toast.makeText(ForgotPasswordActivity.this, fpResponse.getCode(), Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent(getApplicationContext(), EnterCode.class);
+
                     intent.putExtra("code", fpResponse.getCode());
                     intent.putExtra("email", email_ET.getText().toString());
+
                     startActivity(intent);
+
                 } else {
 
                     Toast.makeText(ForgotPasswordActivity.this, "sdsadsad", Toast.LENGTH_SHORT).show();

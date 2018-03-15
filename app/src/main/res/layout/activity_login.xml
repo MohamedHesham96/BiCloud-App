@@ -36,6 +36,7 @@
             android:drawableLeft="@drawable/email_icon"
             android:drawablePadding="8dp"
             android:hint="Email"
+            android:text="mazen@gmail.com"
             android:inputType="textEmailAddress"
             android:paddingLeft="10dp"
             android:textSize="16dp" />
@@ -51,6 +52,7 @@
             android:drawableLeft="@drawable/password_icon"
             android:drawablePadding="8dp"
             android:hint="Password"
+            android:text="123456"
             android:inputType="textPassword"
             android:paddingLeft="10dp"
             android:textSize="16dp" />
