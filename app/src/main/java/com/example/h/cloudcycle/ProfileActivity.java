@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
 import com.example.h.cloudcycle.WebServiceControl.GeneralResponse;
+import com.example.h.cloudcycle.WebServiceControl.RealPathUtil;
 
 import java.io.File;
 import java.io.InputStream;
@@ -179,10 +180,11 @@ public class ProfileActivity extends AppCompatActivity {
 
             userPhoto_IV.setImageURI(imageURI);
 
-            imagePath = getRealPathFromURI(this, imageURI);
+            imagePath = RealPathUtil.getRealPathFromURI_API19(this, data.getData());
+
+            Toast.makeText(this, "imagePath: " + imagePath, Toast.LENGTH_SHORT).show();
 
             uploadPhoto_BT.setVisibility(View.VISIBLE);
-
         }
     }
 

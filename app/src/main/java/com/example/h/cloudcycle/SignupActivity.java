@@ -18,9 +18,13 @@ import android.widget.Toast;
 
 import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
+import com.example.h.cloudcycle.WebServiceControl.RealPathUtil;
 import com.example.h.cloudcycle.WebServiceControl.SignupResponse;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -172,14 +176,15 @@ public class SignupActivity extends Activity {
         if (requestCode == IMG_REQUEST && resultCode == RESULT_OK && data != null) {
 
             imageURI = data.getData();
-            Toast.makeText(this, imageURI.toString(), Toast.LENGTH_SHORT).show();
             userImage.setImageURI(imageURI);
 
-            imagePath = getRealPathFromURI(this, imageURI);
+            //    imagePath = getRealPathFromURI(this, imageURI);
 
-            //  Toast.makeText(this, "Image Path: "  + imagePath, Toast.LENGTH_SHORT).show();
+            imagePath = RealPathUtil.getRealPathFromURI_API19(this, data.getData());
 
-            // Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Image Path: " + imagePath, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Image URI: " + imageURI.toString(), Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -199,6 +204,7 @@ public class SignupActivity extends Activity {
         cursor.close();
         return filePath;
     }
+
 
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);

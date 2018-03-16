@@ -32,7 +32,7 @@
             android:onClick="selectImage"
             android:padding="6dp"
             android:background="@drawable/circle"
-            android:src="@drawable/pic" />
+            android:src="@drawable/empty_user_photo" />
 
         <!-- Name Label -->
         <EditText

@@ -1,6 +1,5 @@
 package com.example.h.cloudcycle;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -177,8 +176,14 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
                         emailCheck_IV.setImageResource(R.drawable.checked_icon);
                         userEmail_ET.setEnabled(false);
                         doneSubmit_BT.setVisibility(View.VISIBLE);
-                    }
 
+                    } else {
+
+                        if (!generalResponse.isSuccess()) {
+
+                            userEmail_ET.setError("Duplicate  Email !");
+                        }
+                    }
                     Toast.makeText(UpdateNameAndEmailActivity.this, "email: " + String.valueOf(generalResponse.isSuccess()), Toast.LENGTH_SHORT).show();
                 }
             }

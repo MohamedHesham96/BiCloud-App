@@ -21,13 +21,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.h.cloudcycle.WebServiceControl.ApiClient;
+import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
+import com.example.h.cloudcycle.WebServiceControl.User;
+
 import java.io.InputStream;
 import java.net.URL;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EdgeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     String IMAGES_PATH = "https://mousaelenanyfciscu.000webhostapp.com/public/images/";
     private NavigationView navigationView;
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        getSharedPreferences();
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +53,7 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("");
+
 
         //Get User Data... Image, ID, Email, Username
         getSharedPreferences();
@@ -56,11 +74,60 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
 
     public void getSharedPreferences() {
 
+        final NavigationView navigationView = findViewById(R.id.nav_view);
+        final View hView = navigationView.getHeaderView(0);
+
+        final TextView nav_user = hView.findViewById(R.id.userEmail);
+        final TextView name_user = hView.findViewById(R.id.userName);
+        final ImageView profileImage = hView.findViewById(R.id.profileImage);
+
         SharedPreferences sp = this.getSharedPreferences("Login", MODE_PRIVATE);
+
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<User> call = apiInterface.getUserInfo(sp.getString("email", null), sp.getString("password", null));
+
+        call.enqueue(new Callback<User>() {
+
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                User user = response.body();
+
+                if (response.isSuccessful()) {
+
+                    SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
+                    SharedPreferences.Editor Ed = sp.edit();
+
+                    Ed.putString("id", String.valueOf(user.getId()));
+                    Ed.putString("name", user.getName());
+                    Ed.putString("email", user.getEmail());
+                    Ed.putString("image", user.getImage());
+                    Ed.putString("type", user.getType());
+                    Ed.putString("balance", user.getBalance());
+
+                    String fullPath = IMAGES_PATH + user.getImage();
+
+                    Toast.makeText(EdgeActivity.this, "fullpath: " + fullPath, Toast.LENGTH_SHORT).show();
+
+                    new DownLoadImageTask(profileImage).execute(fullPath);
+                    nav_user.setText(user.getEmail());
+                    name_user.setText(user.getName());
+
+                    Toast.makeText(EdgeActivity.this, user.getImage(), Toast.LENGTH_SHORT).show();
+                    Ed.commit();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+
 
         // still there strings here... like (id.. balance....)
 
-        if (sp != null) {
+        /*if (sp != null) {
 
             String emailSP = sp.getString("email", null);
             String passwordSP = sp.getString("password", null);
@@ -82,14 +149,16 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
 
                     String fullPath = IMAGES_PATH + imageName;
 
-                    Toast.makeText(this, fullPath, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "fullpath: " + fullPath, Toast.LENGTH_SHORT).show();
 
                     new DownLoadImageTask(profileImage).execute(fullPath);
                     nav_user.setText(emailSP);
                     name_user.setText(nameSP);
                 }
+
+
             }
-        }
+        }*/
     }
 
     public Bitmap getBitmapFromURL(String src) {
