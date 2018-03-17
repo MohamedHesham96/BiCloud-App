@@ -1,11 +1,11 @@
 package com.example.h.cloudcycle;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -33,10 +33,6 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
     @BindView(R.id.name_check)
     ImageView nameCheck_IV;
 
-
-    @BindView(R.id.done_submit)
-    Button doneSubmit_BT;
-
     @BindView(R.id.email_check)
     ImageView emailCheck_IV;
 
@@ -49,12 +45,16 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
     String nameValue;
     String emailValue;
 
+    SharedPreferences sp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_name_and_email);
 
         ButterKnife.bind(this);
+
+        sp = getSharedPreferences("Login", MODE_PRIVATE);
 
         userName_ET.setText(getIntent().getStringExtra("userName"));
         userEmail_ET.setText(getIntent().getStringExtra("userEmail"));
@@ -67,12 +67,12 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
     public void submitChanges(View view) {
 
 
-        userId = this.getSharedPreferences("Login", MODE_PRIVATE).getString("id", null);
+        userId = sp.getString("id", null);
 
         Toast.makeText(this, userId, Toast.LENGTH_SHORT).show();
+
         nameValue = userName_ET.getText().toString();
         emailValue = userEmail_ET.getText().toString();
-
 
         boolean isNameValid = Pattern.matches("^[a-zA-Z_ ]*$", nameValue);
         boolean isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(emailValue).matches();
@@ -101,20 +101,52 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
             userEmail_ET.setError(null);
         }
 
-        if (!oldUserName.equals(nameValue) && !oldUserEmail.equals(emailValue) && userEmail_ET.isEnabled() && userName_ET.isEnabled()) {
+        if (!oldUserName.equals(nameValue) && !oldUserEmail.equals(emailValue)) {
+
+            oldUserName = userName_ET.getText().toString();
+            oldUserEmail = userEmail_ET.getText().toString();
+
+            final ProgressDialog progressDialog = new ProgressDialog(UpdateNameAndEmailActivity.this,
+                    R.style.Theme_AppCompat_DayNight_Dialog);
+
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Authenticating...");
+            progressDialog.show();
+
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+
+                            nameUpdate(userId, nameValue);
+                            emailUpdate(userId, emailValue);
+                        }
+                    }, 5000);
+
+            progressDialog.dismiss();
+
+            Toast.makeText(this, "name SP: " + sp.getString("name", null), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Email SP: " + sp.getString("email", null), Toast.LENGTH_SHORT).show();
+
+            String email = sp.getString("email", null);
+            String name = sp.getString("name", null);
+
+            if (email.equals(oldUserEmail) && name.equals(oldUserName)) {
+
+                this.finish();
+
+            }
+
+
+        } else if (!oldUserName.equals(nameValue) && isNameValid) {
 
             nameUpdate(userId, nameValue);
-            emailUpdate(userId, emailValue);
-
-
-        } else if (!oldUserName.equals(nameValue) && userName_ET.isEnabled() && isNameValid) {
-
-            nameUpdate(userId, nameValue);
+            oldUserName = userName_ET.getText().toString();
             Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
 
-        } else if (!oldUserEmail.equals(emailValue) && userEmail_ET.isEnabled() && isEmailValid) {
+        } else if (!oldUserEmail.equals(emailValue) && isEmailValid) {
 
             emailUpdate(userId, emailValue);
+            oldUserEmail = userEmail_ET.getText().toString();
             Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
 
         } else {
@@ -122,7 +154,9 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
             Toast.makeText(this, "No Changes", Toast.LENGTH_SHORT).show();
         }
 
+
     }
+
 
     public void nameUpdate(String userId, String userName) {
 
@@ -139,13 +173,14 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
                     GeneralResponse generalResponse = response.body();
 
                     if (generalResponse.isSuccess()) {
-
                         nameCheck_IV.setImageResource(R.drawable.checked_icon);
-                        userName_ET.setEnabled(false);
-                        doneSubmit_BT.setVisibility(View.VISIBLE);
+                        SharedPreferences.Editor Ed = sp.edit();
+                        Ed.putString("name", oldUserName);
+                        Toast.makeText(UpdateNameAndEmailActivity.this, "Name Response: " + oldUserName, Toast.LENGTH_SHORT).show();
+                        Ed.commit();
+
                     }
 
-                    Toast.makeText(UpdateNameAndEmailActivity.this, "Name: " + String.valueOf(generalResponse.isSuccess()), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -174,17 +209,21 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
                     if (generalResponse.isSuccess()) {
 
                         emailCheck_IV.setImageResource(R.drawable.checked_icon);
-                        userEmail_ET.setEnabled(false);
-                        doneSubmit_BT.setVisibility(View.VISIBLE);
+                        SharedPreferences.Editor Ed = sp.edit();
+                        Ed.putString("email", oldUserEmail);
+                        Toast.makeText(UpdateNameAndEmailActivity.this, "Email Response: " + oldUserEmail, Toast.LENGTH_SHORT).show();
+
+                        Ed.commit();
 
                     } else {
 
                         if (!generalResponse.isSuccess()) {
 
                             userEmail_ET.setError("Duplicate  Email !");
+
                         }
                     }
-                    Toast.makeText(UpdateNameAndEmailActivity.this, "email: " + String.valueOf(generalResponse.isSuccess()), Toast.LENGTH_SHORT).show();
+
                 }
             }
 
@@ -194,19 +233,6 @@ public class UpdateNameAndEmailActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-
-    public void doneClick(View view) {
-
-        SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
-        SharedPreferences.Editor Ed = sp.edit();
-        Ed.putString("name", nameValue);
-        Ed.putString("email", emailValue);
-        Ed.commit();
-
-
-        this.finish();
     }
 
     @Override

@@ -65,23 +65,8 @@
                 android:text="Submit Changes"
                 android:textColor="#ffffff" />
 
-            <!-- Signup Button -->
-            <android.support.v7.widget.AppCompatButton
-                android:layout_marginTop="200dp"
-                android:id="@+id/done_submit"
-                android:layout_width="@dimen/width_login"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:background="@drawable/rounded_all_green"
-                android:onClick="doneClick"
-                android:padding="12dp"
-                android:visibility="invisible"
-                android:paddingLeft="10dp"
-                android:text="Done"
-                android:textColor="#ffffff" />
 
         </LinearLayout>
-
 
         <ImageView
             android:layout_marginTop="105dp"

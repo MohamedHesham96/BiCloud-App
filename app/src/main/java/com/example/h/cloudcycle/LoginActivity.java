@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +25,9 @@ public class LoginActivity extends Activity {
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    private ApiInterface apiInterface;
+    private User user;
+
     @BindView(R.id.input_email)
     EditText _emailText;
     @BindView(R.id.input_password)
@@ -36,20 +38,16 @@ public class LoginActivity extends Activity {
     TextView _forgotPassword;
     @BindView(R.id.link_signup)
     TextView _signupLink;
+
     String email;
     String password;
-    private ApiInterface apiInterface;
-    private User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
-
         //    checkSharedPreferences();
-
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -127,30 +125,34 @@ public class LoginActivity extends Activity {
                 user = response.body();
                 if (response.isSuccessful()) {
 
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
 
-                    onLoginSuccess();
+                                    onLoginSuccess();
 
-                    SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
-                    SharedPreferences.Editor Ed = sp.edit();
+                                    SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
+                                    SharedPreferences.Editor Ed = sp.edit();
 
-                    Ed.putString("id", String.valueOf(user.getId()));
-                    Ed.putString("name", user.getName());
-                    Ed.putString("email", email);
-                    Ed.putString("password", password);
-                    Ed.putString("image", user.getImage());
-                    Ed.putString("balance", user.getBalance());
+                                    Ed.putString("id", String.valueOf(user.getId()));
+                                    Ed.putString("name", user.getName());
+                                    Ed.putString("email", email);
+                                    Ed.putString("password", password);
+                                    Ed.putString("image", user.getImage());
+                                    Ed.putString("type", user.getType());
+                                    Ed.putString("balance", user.getBalance());
 
-                    Ed.commit();
+                                    Ed.commit();
+
+                                    progressDialog.dismiss();
+                                }
+                            }, 1000);
 
                 } else {
-
                     progressDialog.dismiss();
                     _emailText.setError("Error in Email or Password");
                     onLoginFailed();
                 }
-
-                progressDialog.dismiss();
-
             }
 
             @Override
@@ -159,6 +161,7 @@ public class LoginActivity extends Activity {
             }
         });
     }
+
 
     @Override
     public void onBackPressed() {

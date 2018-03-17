@@ -7,7 +7,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
 
@@ -59,5 +58,4 @@ public interface ApiInterface {
 
     @POST("reset/password")
     Call<GeneralResponse> resetPassword(@Query("email") String email, @Query("password") String password);
-
 }

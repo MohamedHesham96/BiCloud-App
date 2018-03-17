@@ -51,6 +51,7 @@ public class SignupActivity extends Activity {
     @BindView(R.id.link_login)
     TextView _loginLink;
     @BindView(R.id.userImage)
+
     ImageView userImage;
 
     int IMG_REQUEST = 555;
@@ -72,7 +73,6 @@ public class SignupActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
-
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
