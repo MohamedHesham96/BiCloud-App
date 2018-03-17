@@ -51,7 +51,7 @@
 
                     <EditText
                         android:id="@+id/user_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="295dp"
                         android:layout_height="wrap_content"
                         android:text="Ahmed Hassan"
                         android:textColor="#000000"
@@ -74,7 +74,7 @@
                     <EditText
 
                         android:id="@+id/user_email"
-                        android:layout_width="wrap_content"
+                        android:layout_width="295dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-5dp"
                         android:text="mohamed.hesham.fci@gmail.com"
@@ -93,8 +93,9 @@
             </LinearLayout>
 
             <LinearLayout
+
                 android:layout_width="wrap_content"
-                android:layout_height="114dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
 
@@ -102,8 +103,8 @@
                     android:id="@+id/edit_layout_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp">
 
                     <Button
                         android:id="@+id/update_name"
@@ -133,8 +134,8 @@
                     android:id="@+id/edit_layout_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp">
 
                     <Button
 
@@ -165,7 +166,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="370dp"
+            android:layout_width="390dp"
             android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="395dp"
@@ -203,7 +204,7 @@
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="65dp"
+                android:layout_marginLeft="97dp"
                 android:background="@drawable/rounded_all"
                 android:text="Change"
                 android:textSize="12sp" />
@@ -211,7 +212,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="370dp"
+            android:layout_width="390dp"
             android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="485dp"
@@ -248,7 +249,7 @@
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="65dp"
+                android:layout_marginLeft="97dp"
                 android:background="@drawable/rounded_all_red"
                 android:text="Delete"
                 android:textSize="12sp" />
