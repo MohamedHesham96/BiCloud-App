@@ -494,16 +494,6 @@ public class ProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void updateNameAndEmail(View view) {
-
-        Intent intent = new Intent();
-        intent.putExtra("userName", userEmail_ET.getText().toString());
-        intent.putExtra("userEmail", userEmail_ET.getText().toString());
-
-        intent.setClass(this, UpdateNameAndEmailActivity.class);
-        startActivity(intent);
-    }
-
     private class DownLoadImageTask extends AsyncTask<String, Void, Bitmap> {
 
         CircleImageView imageView;
