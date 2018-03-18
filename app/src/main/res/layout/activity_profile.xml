@@ -1,64 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#cfcfcf"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:padding="8dp"
     tools:context="com.example.h.cloudcycle.ProfileActivity">
 
     <LinearLayout
+        android:id="@+id/first_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="175dp"
+        android:background="@drawable/proback"
         android:orientation="vertical">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_photo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/empty_user_photo" />
 
-        <FrameLayout
+        <ImageView
+            android:id="@+id/select_photo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="-20dp"
+            android:onClick="selectImage"
+            android:src="@drawable/edit_profile_pic" />
+
+        <Button
+            android:id="@+id/upload_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rounded_all_green"
+            android:onClick="uploadPhoto"
+            android:text="Change"
+            android:textColor="#ffffff"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_below="@+id/first_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#cfcfcf">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:background="@drawable/proback"
-                android:orientation="vertical">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/user_photo"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="55dp"
-                    android:src="@drawable/empty_user_photo" />
-
-            </LinearLayout>
-
-
-            <ImageView
-                android:id="@+id/select_photo"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="140dp"
-                android:onClick="selectImage"
-                android:src="@drawable/edit_profile_pic" />
-
-            <Button
-                android:id="@+id/upload_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="185dp"
-                android:background="@drawable/rounded_all_green"
-                android:onClick="uploadPhoto"
-                android:text="Upload"
-                android:textColor="#ffffff"
-                android:visibility="invisible" />
-
-
-        </FrameLayout>
+            android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,9 +64,9 @@
             android:padding="10dp">
 
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -80,6 +74,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name"
+                        android:textSize="15sp" />
+
 
                     <EditText
                         android:id="@+id/user_name"
@@ -90,19 +92,18 @@
                         android:textColor="#000000"
                         android:textSize="18sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="-5dp"
-                        android:text="Name"
-                        android:textSize="15sp" />
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email"
+                        android:textSize="15sp" />
 
                     <EditText
                         android:id="@+id/user_email"
@@ -114,12 +115,6 @@
                         android:textColor="#000000"
                         android:textSize="16sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="-5dp"
-                        android:text="Email"
-                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -137,17 +132,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/update_name"
-                        android:layout_width="65dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/rounded_all"
-                        android:onClick="updateUserName"
-                        android:text="Edit"
-                        android:textSize="12sp" />
 
                     <Button
                         android:id="@+id/cancel_update_name"
@@ -160,6 +146,16 @@
                         android:textSize="12sp"
                         android:visibility="invisible" />
 
+                    <Button
+                        android:id="@+id/update_name"
+                        android:layout_width="65dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/rounded_all"
+                        android:onClick="updateUserName"
+                        android:text="Edit"
+                        android:textSize="12sp" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -167,8 +163,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
+                    android:layout_marginTop="40dp"
+                    android:orientation="horizontal">
+
+
+                    <Button
+                        android:id="@+id/cancel_update_email"
+                        android:layout_width="65dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/rounded_all_yello"
+                        android:onClick="cancelAnUpdate"
+                        android:text="cancel"
+                        android:textSize="12sp"
+                        android:visibility="invisible" />
 
                     <Button
 
@@ -181,16 +189,6 @@
                         android:text="Edit"
                         android:textSize="12sp" />
 
-                    <Button
-                        android:id="@+id/cancel_update_email"
-                        android:layout_width="65dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/rounded_all_yello"
-                        android:onClick="cancelAnUpdate"
-                        android:text="cancel"
-                        android:textSize="12sp"
-                        android:visibility="invisible" />
 
                 </LinearLayout>
 
@@ -208,10 +206,10 @@
             android:padding="10dp">
 
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -255,10 +253,10 @@
             android:textSize="12dp">
 
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -289,7 +287,6 @@
 
         </LinearLayout>
 
-
     </LinearLayout>
-
-</ScrollView>
+    </ScrollView>
+</RelativeLayout>
