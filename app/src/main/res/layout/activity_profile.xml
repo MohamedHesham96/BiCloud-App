@@ -14,8 +14,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_photo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:src="@drawable/empty_user_photo" />
@@ -26,7 +26,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="-20dp"
+            android:layout_marginTop="-25dp"
             android:onClick="selectImage"
             android:src="@drawable/edit_profile_pic" />
 
@@ -44,10 +44,10 @@
     </LinearLayout>
 
     <ScrollView
-        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/first_layout"
+        android:layout_centerInParent="true"
         android:padding="8dp">
 
         <LinearLayout
@@ -76,19 +76,16 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Name"
                             android:textSize="15sp" />
 
-
                         <EditText
                             android:id="@+id/user_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLines="1"
                             android:text="Ahmed Hassan"
                             android:textColor="#000000"
                             android:textSize="18sp" />
@@ -104,14 +101,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Email"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
 
                         <EditText
 
                             android:id="@+id/user_email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLines="1"
                             android:text="mohamed.hesham.fci@gmail.com"
                             android:textColor="#000000"
                             android:textSize="16sp" />
@@ -147,13 +143,12 @@
                             android:text="Edit"
                             android:textSize="12sp" />
 
-
                         <Button
-                            android:layout_marginTop="5dp"
                             android:id="@+id/cancel_update_name"
                             android:layout_width="65dp"
                             android:layout_height="25dp"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginTop="5dp"
                             android:background="@drawable/rounded_all_yello"
                             android:onClick="cancelAnUpdate"
                             android:text="cancel"
@@ -182,11 +177,11 @@
                             android:textSize="12sp" />
 
                         <Button
-                            android:layout_marginTop="5dp"
                             android:id="@+id/cancel_update_email"
                             android:layout_width="65dp"
                             android:layout_height="25dp"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginTop="5dp"
                             android:background="@drawable/rounded_all_yello"
                             android:onClick="cancelAnUpdate"
                             android:text="cancel"
