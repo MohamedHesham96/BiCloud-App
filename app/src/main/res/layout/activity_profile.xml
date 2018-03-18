@@ -34,232 +34,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="250dp"
-                android:background="@drawable/profile_rounded"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/name_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-
-                        <EditText
-                            android:id="@+id/user_name"
-                            android:layout_width="290dp"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text="Ahmed Hassan"
-                            android:textColor="#000000"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="-5dp"
-                            android:text="Name"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <EditText
-                            android:id="@+id/user_email"
-                            android:layout_width="290dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="-5dp"
-                            android:maxLines="1"
-                            android:text="mohamed.hesham.fci@gmail.com"
-                            android:textColor="#000000"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="-5dp"
-                            android:text="Email"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:id="@+id/edit_layout_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/update_name"
-                            android:layout_width="65dp"
-                            android:layout_height="25dp"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/rounded_all"
-                            android:onClick="updateUserName"
-                            android:text="Edit"
-                            android:textSize="12sp" />
-
-                        <Button
-                            android:id="@+id/cancel_update_name"
-                            android:layout_width="65dp"
-                            android:layout_height="25dp"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/rounded_all_yello"
-                            android:onClick="cancelAnUpdate"
-                            android:text="cancel"
-                            android:textSize="12sp"
-                            android:visibility="invisible" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/edit_layout_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical">
-
-                        <Button
-
-                            android:id="@+id/update_email"
-                            android:layout_width="65dp"
-                            android:layout_height="25dp"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/rounded_all"
-                            android:onClick="updateEmailUpdate"
-                            android:text="Edit"
-                            android:textSize="12sp" />
-
-                        <Button
-                            android:id="@+id/cancel_update_email"
-                            android:layout_width="65dp"
-                            android:layout_height="25dp"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/rounded_all_yello"
-                            android:onClick="cancelAnUpdate"
-                            android:text="cancel"
-                            android:textSize="12sp"
-                            android:visibility="invisible" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="395dp"
-                android:background="@drawable/profile_rounded"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <LinearLayout
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/user_password"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:text="**************"
-                        android:textColor="#000000"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="password"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/change_password"
-                    android:layout_width="65dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="97dp"
-                    android:background="@drawable/rounded_all"
-                    android:text="Change"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="485dp"
-                android:background="@drawable/profile_rounded"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:textSize="12dp">
-
-                <LinearLayout
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Delete This Account"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="delete"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/delete_account"
-                    android:layout_width="65dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="97dp"
-                    android:background="@drawable/rounded_all_red"
-                    android:text="Delete"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
 
             <ImageView
                 android:id="@+id/select_photo"
@@ -285,6 +59,236 @@
 
 
         </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/profile_rounded"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/name_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="Ahmed Hassan"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:text="Name"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/user_email"
+                        android:layout_width="290dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:maxLines="1"
+                        android:text="mohamed.hesham.fci@gmail.com"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:text="Email"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:id="@+id/edit_layout_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/update_name"
+                        android:layout_width="65dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/rounded_all"
+                        android:onClick="updateUserName"
+                        android:text="Edit"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:id="@+id/cancel_update_name"
+                        android:layout_width="65dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/rounded_all_yello"
+                        android:onClick="cancelAnUpdate"
+                        android:text="cancel"
+                        android:textSize="12sp"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/edit_layout_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <Button
+
+                        android:id="@+id/update_email"
+                        android:layout_width="65dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/rounded_all"
+                        android:onClick="updateEmailUpdate"
+                        android:text="Edit"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:id="@+id/cancel_update_email"
+                        android:layout_width="65dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/rounded_all_yello"
+                        android:onClick="cancelAnUpdate"
+                        android:text="cancel"
+                        android:textSize="12sp"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/profile_rounded"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/user_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:text="**************"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="password"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/change_password"
+                android:layout_width="65dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="97dp"
+                android:background="@drawable/rounded_all"
+                android:text="Change"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/profile_rounded"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:textSize="12dp">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delete This Account"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="delete"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/delete_account"
+                android:layout_width="65dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="97dp"
+                android:background="@drawable/rounded_all_red"
+                android:text="Delete"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
