@@ -55,6 +55,9 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.update_email)
     Button updateEmail_BT;
 
+    @BindView(R.id.change_password)
+    Button updatePassword_BT;
+
     @BindView(R.id.cancel_update_email)
     Button cancelUpdateEmail_BT;
 
@@ -79,7 +82,6 @@ public class ProfileActivity extends AppCompatActivity {
     String idSP;
     String nameSP;
     String emailSP;
-    String passwordSP;
     String IMAGES_PATH = "https://mousaelenanyfciscu.000webhostapp.com/public/images/";
 
     String imagePath;
@@ -109,12 +111,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume() {
+        super.onResume();
 
         checkSharedPreferences();
-
-        Toast.makeText(this, "hello i'm restart state !!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -150,11 +150,9 @@ public class ProfileActivity extends AppCompatActivity {
         idSP = sp.getString("id", null);
         nameSP = sp.getString("name", null);
         emailSP = sp.getString("email", null);
-        passwordSP = sp.getString("password", null);
 
         userName_ET.setText(nameSP);
         userEmail_ET.setText(emailSP);
-        userPassword_TV.setText(passwordSP);
     }
 
     public void setupOnTextChangeEvents() {
@@ -208,43 +206,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    public void userNameUpdate(String userId, final String userName) {
-
-        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<GeneralResponse> call = apiInterface.updateUserName(userId, userName);
-
-        call.enqueue(new Callback<GeneralResponse>() {
-
-            @Override
-            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
-
-                if (response.isSuccessful()) {
-
-                    GeneralResponse generalResponse = response.body();
-
-                    if (generalResponse.isSuccess()) {
-                        userName_ET.setEnabled(false);
-                        updateName_BT.setText("Edit");
-                        updateNameClockedFlag = false;
-                        cancelUpdateName_BT.setVisibility(View.INVISIBLE);
-
-                        SharedPreferences.Editor Ed = sp.edit();
-                        Ed.putString("name", userName);
-                        Ed.commit();
-                        Toast.makeText(ProfileActivity.this, userName, Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GeneralResponse> call, Throwable t) {
-
-            }
-        });
-
-    }
 
     public void updateUserName(View view) {
 
@@ -294,7 +255,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    public void updateEmailUpdate(View view) {
+    public void updateUserEmail(View view) {
 
         updateEmailClockedFlag = true;
 
@@ -303,7 +264,7 @@ public class ProfileActivity extends AppCompatActivity {
             cancelUpdateEmail_BT.setVisibility(View.VISIBLE);
         }
 
-        String userEmailValue = userEmail_ET.getText().toString();
+        String userEmailValue = userEmail_ET.getText().toString().trim();
 
         boolean isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(userEmailValue).matches();
 
@@ -318,20 +279,63 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
 
-        Toast.makeText(this, "TRy: " + tryToUpdateUserEmail, Toast.LENGTH_SHORT).show();
-
         if (!userEmailValue.equals(sp.getString("email", null)))
             userEmailUpdate(idSP, userEmailValue);
+
         else {
 
             Toast.makeText(this, "Enter New Email", Toast.LENGTH_SHORT).show();
         }
     }
 
+    public void userNameUpdate(String userId, final String userName) {
+
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<GeneralResponse> call = apiInterface.updateUserName(userId, emailSP, userName);
+
+        call.enqueue(new Callback<GeneralResponse>() {
+
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    GeneralResponse generalResponse = response.body();
+
+                    if (generalResponse.isSuccess()) {
+                        userName_ET.setEnabled(false);
+                        updateName_BT.setText("Edit");
+                        updateNameClockedFlag = false;
+                        cancelUpdateName_BT.setVisibility(View.INVISIBLE);
+
+                        SharedPreferences.Editor Ed = sp.edit();
+                        Ed.putString("name", userName);
+                        Ed.commit();
+
+                        Toast.makeText(ProfileActivity.this, userName, Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    Toast.makeText(ProfileActivity.this, "Username: " + userName, Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+
+            }
+        });
+
+    }
+
     public void userEmailUpdate(String userId, final String userEmail) {
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<GeneralResponse> call = apiInterface.updateUserEmail(userId, userEmail);
+        Call<GeneralResponse> call = apiInterface.updateUserEmail(userId, emailSP, userEmail);
+
+        Toast.makeText(this, "emailSP: " + emailSP, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "UserEmail Input: " + userEmail, Toast.LENGTH_SHORT).show();
 
         call.enqueue(new Callback<GeneralResponse>() {
 
@@ -339,22 +343,26 @@ public class ProfileActivity extends AppCompatActivity {
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
 
                 updateEmailClockedFlag = true;
-                tryToUpdateUserEmail = true;
 
                 if (response.isSuccessful()) {
 
                     GeneralResponse generalResponse = response.body();
 
+
                     if (generalResponse.isSuccess()) {
+
                         userEmail_ET.setEnabled(false);
                         updateEmail_BT.setText("Edit");
+                        updateEmailClockedFlag = false;
+
                         cancelUpdateEmail_BT.setVisibility(View.INVISIBLE);
 
                         SharedPreferences.Editor Ed = sp.edit();
                         Ed.putString("email", userEmail);
                         Ed.commit();
 
-                        Toast.makeText(ProfileActivity.this, userEmail, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileActivity.this, "State: " + String.valueOf(response.isSuccessful()), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileActivity.this, "New Email: " + sp.getString("email", null), Toast.LENGTH_SHORT).show();
 
                     } else {
 
@@ -380,11 +388,9 @@ public class ProfileActivity extends AppCompatActivity {
         idSP = sp.getString("id", null);
         nameSP = sp.getString("name", null);
         emailSP = sp.getString("email", null);
-        passwordSP = sp.getString("password", null);
 
         userName_ET.setText(nameSP);
         userEmail_ET.setText(emailSP);
-        userPassword_TV.setText(passwordSP);
 
     }
 
@@ -461,6 +467,11 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void updatePassword(View view) {
+
+        startActivity(new Intent(this, UpdatePassword.class));
     }
 
     @Override

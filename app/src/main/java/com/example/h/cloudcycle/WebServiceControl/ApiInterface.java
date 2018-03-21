@@ -36,13 +36,15 @@ public interface ApiInterface {
 
     // Update User Data
     @POST("user/update/name")
-    Call<GeneralResponse> updateUserName(@Query("id") String id, @Query("name") String name);
+    Call<GeneralResponse> updateUserName(@Query("id") String id, @Query("email") String email, @Query("name") String name);
 
     @POST("user/update/email")
-    Call<GeneralResponse> updateUserEmail(@Query("id") String id, @Query("email") String email);
+    Call<GeneralResponse> updateUserEmail(@Query("id") String id, @Query("email") String email,
+                                          @Query("remail") String reEmail);
 
     @POST("user/update/password")
-    Call<GeneralResponse> updateUserPassword(@Query("id") String id, @Query("password") String password,
+    Call<GeneralResponse> updateUserPassword(@Query("id") String id, @Query("email") String email,
+                                             @Query("password") String password,
                                              @Query("repassword") String rePassword);
 
     @Multipart

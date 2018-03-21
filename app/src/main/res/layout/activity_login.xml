@@ -46,7 +46,6 @@
                 android:textSize="16sp" />
 
             <!--  Password Label -->
-
             <EditText
                 android:id="@+id/input_password"
                 android:layout_width="@dimen/width_login"
@@ -92,8 +91,8 @@
                 android:textColor="#ffffff"
                 android:textSize="16sp" />
 
-
         </LinearLayout>
+
     </ScrollView>
 
 </LinearLayout>

@@ -171,7 +171,7 @@ public class LoginActivity extends Activity {
 
                 } else {
                     progressDialog.dismiss();
-                    _emailText.setError("Error in Email or Password");
+                    _emailText.setError("Email or Password is incorrect !");
                     onLoginFailed();
                 }
             }

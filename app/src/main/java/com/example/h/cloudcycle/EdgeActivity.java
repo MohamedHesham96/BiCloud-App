@@ -240,6 +240,11 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
         }*/
     }
 
+    public void goToProfile(View view) {
+
+        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
     private class DownLoadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView imageView;
 

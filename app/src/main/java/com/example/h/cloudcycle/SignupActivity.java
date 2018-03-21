@@ -1,10 +1,10 @@
 package com.example.h.cloudcycle;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,10 +21,8 @@ import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
 import com.example.h.cloudcycle.WebServiceControl.RealPathUtil;
 import com.example.h.cloudcycle.WebServiceControl.SignupResponse;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,18 +53,33 @@ public class SignupActivity extends Activity {
     ImageView userImage;
 
     int IMG_REQUEST = 555;
-    private ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-
     String name;
     String email;
     String password;
     String repeatedPassword;
-    private String imagePath;
     MultipartBody.Part theImage = null;
     Uri imageURI;
-
     SignupResponse signupResponse;
     Call<SignupResponse> call;
+    private ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+    private String imagePath;
+
+    public static String getRealPathFromURI(Context context, Uri uri) {
+        String filePath = "";
+
+        String[] column = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                column, null, null, null);
+
+        int columnIndex = cursor.getColumnIndex(column[0]);
+
+        if (cursor.moveToFirst()) {
+            filePath = cursor.getString(columnIndex);
+        }
+        cursor.close();
+        return filePath;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,25 +106,25 @@ public class SignupActivity extends Activity {
     }
 
     public void signup() {
-        if (!validate()) {
+        if (validate() == false) {
 
             onSignupFailed();
             return;
         }
 
-        //   _signupButton.setEnabled(false);
+        // _signupButton.setEnabled(false);
 
-    /*  final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
-        R.style.Theme_AppCompat_DayNight);
+        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
+                R.style.Theme_AppCompat_DayNight_Dialog);
+
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
-        progressDialog.show();*/
-        //signupRequest();
+        progressDialog.show();
 
-        name = _nameText.getText().toString();
-        email = _emailText.getText().toString();
-        password = _passwordText.getText().toString();
-        repeatedPassword = _repeatedPasswordText.getText().toString();
+        name = _nameText.getText().toString().trim();
+        email = _emailText.getText().toString().trim();
+        password = _passwordText.getText().toString().trim();
+        repeatedPassword = _repeatedPasswordText.getText().toString().trim();
 
         if (imagePath != null) {
             File file = new File(imagePath);
@@ -132,24 +145,34 @@ public class SignupActivity extends Activity {
             @Override
             public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
 
+
                 signupResponse = response.body();
 
-                Toast.makeText(SignupActivity.this, signupResponse.getSuccess().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, signupResponse.getSuccess().toString().trim(), Toast.LENGTH_SHORT).show();
 
                 if (response.isSuccessful()) {
 
-                    if (signupResponse.getSuccess()[0].equals("true"))
-                        onSignupSuccess();
-                    else if (signupResponse.getEmail() != null)
-                        _emailText.setError("Repeated Email...");
-                    else if (signupResponse.getEmail() != null)
-                        _emailText.setError("between 6 and 32 alphanumeric characters");
-                    else if (signupResponse.getImg() != null)
-                        _emailText.setError("Image Error...");
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
+
+                                    if (signupResponse.getSuccess()[0].equals("true"))
+                                        onSignupSuccess();
+                                    else if (signupResponse.getEmail() != null)
+                                        _emailText.setError("Repeated Email...");
+                                    else if (signupResponse.getEmail() != null)
+                                        _emailText.setError("between 6 and 32 alphanumeric characters");
+                                    else if (signupResponse.getImg() != null)
+                                        _emailText.setError("Image Error...");
+
+                                    progressDialog.dismiss();
+                                }
+                            }, 1000);
+
                 }
                 //   Log.d("Response Token: ", signupResponse.getToken());
 
-                Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), response.body().toString().trim(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -183,28 +206,10 @@ public class SignupActivity extends Activity {
             imagePath = RealPathUtil.getRealPathFromURI_API19(this, data.getData());
 
             Toast.makeText(this, "Image Path: " + imagePath, Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "Image URI: " + imageURI.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Image URI: " + imageURI.toString().trim(), Toast.LENGTH_SHORT).show();
 
         }
     }
-
-    public static String getRealPathFromURI(Context context, Uri uri) {
-        String filePath = "";
-
-        String[] column = {MediaStore.Images.Media.DATA};
-
-        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                column, null, null, null);
-
-        int columnIndex = cursor.getColumnIndex(column[0]);
-
-        if (cursor.moveToFirst()) {
-            filePath = cursor.getString(columnIndex);
-        }
-        cursor.close();
-        return filePath;
-    }
-
 
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
@@ -221,17 +226,24 @@ public class SignupActivity extends Activity {
     }
 
     public boolean validate() {
+
         boolean valid = true;
 
-        String name = _nameText.getText().toString();
-        String email = _emailText.getText().toString();
-        password = _passwordText.getText().toString();
+        String name = _nameText.getText().toString().trim();
+        String email = _emailText.getText().toString().trim();
+        password = _passwordText.getText().toString().trim();
+        repeatedPassword = _repeatedPasswordText.getText().toString().trim();
 
-        repeatedPassword = _passwordText.getText().toString();
+        boolean isNameValid = Pattern.matches("^[a-zA-Z_ ]*$", name);
 
-        if (name.isEmpty() || name.length() < 3) {
+        if (name.isEmpty() || name.length() < 5) {
 
-            _nameText.setError("at least 3 characters");
+            _nameText.setError("at least 5 characters");
+            valid = false;
+
+        } else if (!isNameValid) {
+
+            _nameText.setError("Enter valid name contains letters only");
             valid = false;
 
         } else {
