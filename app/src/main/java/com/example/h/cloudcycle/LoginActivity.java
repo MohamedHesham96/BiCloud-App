@@ -177,6 +177,7 @@ public class LoginActivity extends Activity {
                             }, 1000);
 
                 } else {
+
                     progressDialog.dismiss();
                     _emailText.setError("Email or Password is incorrect !");
                     onLoginFailed();
@@ -186,7 +187,11 @@ public class LoginActivity extends Activity {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
 
+                progressDialog.dismiss();
+                _loginButton.setEnabled(true);
+                Toast.makeText(LoginActivity.this, "Check Your Connection !", Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 

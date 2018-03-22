@@ -1,6 +1,5 @@
 package com.example.h.cloudcycle;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,18 +24,22 @@ public class UpdatePassword extends AppCompatActivity {
     @BindView(R.id.submit_new_password)
     Button submitNewPassword;
 
-
-    EditText oldPasswordText;
+    @BindView(R.id.oldPassword)
+    EditText oldPassword_ET;
 
     @BindView(R.id.password)
-    EditText passwordText;
+    EditText password_ET;
 
     @BindView(R.id.repeat_password)
-    EditText repeatedPasswordText;
+    EditText repeatedPassword_ET;
 
     SharedPreferences sp;
-    String email;
-    private GeneralResponse fpResponse;
+    String emailSP;
+    String idSP;
+    String oldPassword;
+    String newPassword;
+    String repeatedPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +48,12 @@ public class UpdatePassword extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        submitNewPassword = findViewById(R.id.submit_new_password);
-        passwordText = findViewById(R.id.password);
-        repeatedPasswordText = findViewById(R.id.repeat_password);
+        sp = getSharedPreferences("Login", MODE_PRIVATE);
 
-        email = sp.getString("email", null);
+        idSP = sp.getString("id", null);
+        emailSP = sp.getString("email", null);
+
+        Toast.makeText(this, "Email: " + emailSP, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -66,66 +70,39 @@ public class UpdatePassword extends AppCompatActivity {
             return;
         }
 
-        onSignupSuccess();
+        onSubmitSuccess();
     }
 
-    public void onSignupSuccess() {
-        submitNewPassword.setEnabled(true);
-        sendPassword();
-    }
-
-    public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Sign-Up Failed", Toast.LENGTH_LONG).show();
+    public void onSubmitSuccess() {
 
         submitNewPassword.setEnabled(true);
-    }
 
-    public boolean validate() {
-        boolean valid = true;
-
-        String password = passwordText.getText().toString().trim();
-        String repeatdPassword = repeatedPasswordText.getText().toString().trim();
-
-
-        if (password.isEmpty() || passwordText.length() < 6 || passwordText.length() > 32) {
-
-            passwordText.setError("between 6 and 32 alphanumeric characters");
-            valid = false;
-
-        } else if (!password.equals(repeatdPassword)) {
-
-            passwordText.setError("Password Dose Not Match");
-            repeatedPasswordText.setError("Password Dose Not Match");
-            valid = false;
-
-        } else {
-
-            passwordText.setError(null);
-
-        }
-
-        return valid;
-    }
-
-    public void sendPassword() {
-
+        oldPassword = oldPassword_ET.getText().toString().trim();
+        newPassword = password_ET.getText().toString().trim();
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-        Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
-        Call<GeneralResponse> call = apiInterface.resetPassword(email, passwordText.getText().toString().trim());
+        Toast.makeText(this, emailSP, Toast.LENGTH_SHORT).show();
+        Call<GeneralResponse> call = apiInterface.updateUserPassword(idSP, emailSP, oldPassword, newPassword);
 
         call.enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
 
+                GeneralResponse generalResponse = response.body();
 
                 if (response.isSuccessful()) {
 
-                    Toast.makeText(UpdatePassword.this, String.valueOf(response.body().isSuccess()), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    finish();
-                    startActivity(intent);
+                    if (generalResponse.isSuccess()) {
+
+                        Toast.makeText(UpdatePassword.this, String.valueOf(generalResponse.isSuccess()), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UpdatePassword.this, "Password updated Successfully", Toast.LENGTH_LONG).show();
+                        finish();
+
+                    } else {
+
+                        oldPassword_ET.setError("Your Current Password is incorrect");
+                    }
 
                 } else {
 
@@ -139,9 +116,51 @@ public class UpdatePassword extends AppCompatActivity {
 
             }
         });
-
-
     }
 
+    public void onSignupFailed() {
+
+        Toast.makeText(getBaseContext(), "Submit Failed", Toast.LENGTH_LONG).show();
+        submitNewPassword.setEnabled(true);
+    }
+
+    public boolean validate() {
+
+        boolean valid = true;
+
+        String oldPassword = oldPassword_ET.getText().toString().trim();
+        String password = password_ET.getText().toString().trim();
+        String repeatdPassword = repeatedPassword_ET.getText().toString().trim();
+
+
+        if (oldPassword.isEmpty() || oldPassword.length() < 6 || oldPassword.length() > 32) {
+
+            oldPassword_ET.setError("Enter Your Current Password");
+            valid = false;
+
+        } else {
+
+            oldPassword_ET.setError(null);
+
+        }
+
+        if (password.isEmpty() || password_ET.length() < 6 || password_ET.length() > 32) {
+
+            password_ET.setError("between 6 and 32 alphanumeric characters");
+            valid = false;
+
+        } else if (!password.equals(repeatdPassword)) {
+
+            password_ET.setError("Password Dose Not Match");
+            repeatedPassword_ET.setError("Password Dose Not Match");
+            valid = false;
+
+        } else {
+
+            password_ET.setError(null);
+        }
+
+        return valid;
+    }
 
 }
