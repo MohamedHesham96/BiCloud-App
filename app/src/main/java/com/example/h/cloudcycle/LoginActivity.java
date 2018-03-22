@@ -1,5 +1,6 @@
 package com.example.h.cloudcycle;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.h.cloudcycle.Utility.HelperClass;
 import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
 import com.example.h.cloudcycle.WebServiceControl.User;
@@ -117,7 +119,12 @@ public class LoginActivity extends Activity {
 
     public void login() {
 
-        if (!validate()) {
+
+        if (!HelperClass.isNetworkAvailable(this)) {
+            Toast.makeText(this, "No Internet Connection !", Toast.LENGTH_SHORT).show();
+            HelperClass.askPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, 2);
+            return;
+        } else if (!validate()) {
             onLoginFailed();
             return;
         }
@@ -132,8 +139,8 @@ public class LoginActivity extends Activity {
         progressDialog.show();
 
 
-        email = _emailText.getText().toString();
-        password = _passwordText.getText().toString();
+        email = _emailText.getText().toString().trim();
+        password = _passwordText.getText().toString().trim();
 
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<User> call = apiInterface.getUserInfo(email, password);
@@ -183,7 +190,6 @@ public class LoginActivity extends Activity {
         });
     }
 
-
     @Override
     public void onBackPressed() {
         // disable going back to the MainActivity
@@ -220,8 +226,8 @@ public class LoginActivity extends Activity {
 
         boolean valid = true;
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        String email = _emailText.getText().toString().trim();
+        String password = _passwordText.getText().toString().trim();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             _emailText.setError("enter a valid email address");
@@ -237,5 +243,9 @@ public class LoginActivity extends Activity {
             _passwordText.setError(null);
         }
         return valid;
+
+
     }
+
 }
+

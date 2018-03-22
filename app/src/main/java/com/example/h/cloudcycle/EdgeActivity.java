@@ -1,5 +1,6 @@
 package com.example.h.cloudcycle;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.h.cloudcycle.Utility.HelperClass;
 import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
 import com.example.h.cloudcycle.WebServiceControl.User;
@@ -53,6 +55,7 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         setTitle("");
 
+        HelperClass.askPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, 2);
 
         //Get User Data... Image, ID, Email, Username
         getSharedPreferences();

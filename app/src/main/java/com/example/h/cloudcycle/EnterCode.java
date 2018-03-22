@@ -19,7 +19,7 @@ public class EnterCode extends AppCompatActivity {
         setContentView(R.layout.activity_enter_code);
 
         setTitle("Enter Your Code");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         intentCode = getIntent().getStringExtra("code");
@@ -32,7 +32,7 @@ public class EnterCode extends AppCompatActivity {
         String email = getIntent().getStringExtra("email");
 
 
-        if (intentCode.equals(codeET.getText().toString())) {
+        if (intentCode.equals(codeET.getText().toString().trim())) {
 
             Intent intent = new Intent(getApplicationContext(), EnterNewPassword.class);
             intent.putExtra("email", email);

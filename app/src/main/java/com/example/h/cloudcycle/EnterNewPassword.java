@@ -69,8 +69,8 @@ public class EnterNewPassword extends AppCompatActivity {
     public boolean validate() {
         boolean valid = true;
 
-        String password = passwordText.getText().toString();
-        String repeatdPassword = repeatedPasswordText.getText().toString();
+        String password = passwordText.getText().toString().trim();
+        String repeatdPassword = repeatedPasswordText.getText().toString().trim();
 
 
         if (password.isEmpty() || passwordText.length() < 6 || passwordText.length() > 32) {
@@ -95,16 +95,14 @@ public class EnterNewPassword extends AppCompatActivity {
 
     public void sendPassword() {
 
-
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
-        Call<GeneralResponse> call = apiInterface.resetPassword(email, passwordText.getText().toString());
+        Call<GeneralResponse> call = apiInterface.resetPassword(email, passwordText.getText().toString().trim());
 
         call.enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
-
 
                 if (response.isSuccessful()) {
 
@@ -116,7 +114,6 @@ public class EnterNewPassword extends AppCompatActivity {
                 } else {
 
                     Toast.makeText(getApplicationContext(), "Error !!", Toast.LENGTH_SHORT).show();
-
                 }
             }
 
@@ -125,9 +122,10 @@ public class EnterNewPassword extends AppCompatActivity {
 
             }
         });
-
-
     }
-
-
 }
+
+
+
+
+

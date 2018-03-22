@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,10 +69,10 @@ public class ProfileActivity extends AppCompatActivity {
     Button uploadPhoto_BT;
 
     @BindView(R.id.user_name)
-    TextView userName_ET;
+    EditText userName_ET;
 
     @BindView(R.id.user_email)
-    TextView userEmail_ET;
+    EditText userEmail_ET;
 
     @BindView(R.id.user_password)
     TextView userPassword_TV;
@@ -132,8 +133,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         sp = getSharedPreferences("Login", MODE_PRIVATE);
 
-        userName_ET.setEnabled(false);
         userEmail_ET.setEnabled(false);
+        userName_ET.setEnabled(false);
+
+        userEmail_ET.clearFocus();
+        userName_ET.clearFocus();
 
         SharedPreferences sp = this.getSharedPreferences("Login", MODE_PRIVATE);
 
@@ -206,8 +210,12 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-
     public void updateUserName(View view) {
+
+        nameSP = sp.getString("name", null);
+        emailSP = sp.getString("email", null);
+
+        String userNameValue = userName_ET.getText().toString().trim();
 
         updateNameClockedFlag = true;
 
@@ -218,7 +226,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         } else {
 
-            String userNameValue = userName_ET.getText().toString();
 
             boolean isNameValid = Pattern.matches("^[a-zA-Z_ ]*$", userNameValue);
 
@@ -242,6 +249,8 @@ public class ProfileActivity extends AppCompatActivity {
                 userName_ET.setError(null);
             }
 
+            Toast.makeText(this, "NameSP: " + sp.getString("name", null), Toast.LENGTH_SHORT).show();
+
             if (!userNameValue.equals(sp.getString("name", null)))
                 userNameUpdate(idSP, userNameValue);
 
@@ -257,6 +266,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void updateUserEmail(View view) {
 
+        emailSP = sp.getString("email", null);
+        String userEmailValue = userEmail_ET.getText().toString().trim();
+
         updateEmailClockedFlag = true;
 
         if (!userEmail_ET.isEnabled()) {
@@ -264,7 +276,6 @@ public class ProfileActivity extends AppCompatActivity {
             cancelUpdateEmail_BT.setVisibility(View.VISIBLE);
         }
 
-        String userEmailValue = userEmail_ET.getText().toString().trim();
 
         boolean isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(userEmailValue).matches();
 
@@ -277,7 +288,6 @@ public class ProfileActivity extends AppCompatActivity {
 
             userEmail_ET.setError(null);
         }
-
 
         if (!userEmailValue.equals(sp.getString("email", null)))
             userEmailUpdate(idSP, userEmailValue);
@@ -295,12 +305,14 @@ public class ProfileActivity extends AppCompatActivity {
 
         call.enqueue(new Callback<GeneralResponse>() {
 
+            GeneralResponse generalResponse;
+
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
 
                 if (response.isSuccessful()) {
 
-                    GeneralResponse generalResponse = response.body();
+                    generalResponse = response.body();
 
                     if (generalResponse.isSuccess()) {
                         userName_ET.setEnabled(false);
@@ -312,11 +324,15 @@ public class ProfileActivity extends AppCompatActivity {
                         Ed.putString("name", userName);
                         Ed.commit();
 
-                        Toast.makeText(ProfileActivity.this, userName, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileActivity.this, "New Username:" + userName, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileActivity.this, "State: " + String.valueOf(generalResponse.isSuccess()), Toast.LENGTH_SHORT).show();
+
+                    } else {
+
+                        Toast.makeText(ProfileActivity.this, "State: " + String.valueOf(generalResponse.isSuccess()), Toast.LENGTH_SHORT).show();
 
                     }
 
-                    Toast.makeText(ProfileActivity.this, "Username: " + userName, Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -334,20 +350,21 @@ public class ProfileActivity extends AppCompatActivity {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<GeneralResponse> call = apiInterface.updateUserEmail(userId, emailSP, userEmail);
 
-        Toast.makeText(this, "emailSP: " + emailSP, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "UserEmail Input: " + userEmail, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "emailSP: " + emailSP, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "UserEmail Input: " + userEmail, Toast.LENGTH_SHORT).show();
 
         call.enqueue(new Callback<GeneralResponse>() {
 
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
 
+                GeneralResponse generalResponse;
+
                 updateEmailClockedFlag = true;
 
                 if (response.isSuccessful()) {
 
-                    GeneralResponse generalResponse = response.body();
-
+                    generalResponse = response.body();
 
                     if (generalResponse.isSuccess()) {
 
@@ -362,11 +379,12 @@ public class ProfileActivity extends AppCompatActivity {
                         Ed.commit();
 
                         Toast.makeText(ProfileActivity.this, "State: " + String.valueOf(response.isSuccessful()), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(ProfileActivity.this, "New Email: " + sp.getString("email", null), Toast.LENGTH_SHORT).show();
+                        //        Toast.makeText(ProfileActivity.this, "New Email: " + sp.getString("email", null), Toast.LENGTH_SHORT).show();
 
                     } else {
 
                         userEmail_ET.setError("Duplicate  Email !");
+                        Toast.makeText(ProfileActivity.this, "State: " + String.valueOf(response.isSuccessful()), Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -482,7 +500,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             imageURI = data.getData();
 
-            Toast.makeText(this, imageURI.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, imageURI.toString().trim(), Toast.LENGTH_SHORT).show();
 
             userPhoto_IV.setImageURI(imageURI);
 

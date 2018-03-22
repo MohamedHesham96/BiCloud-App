@@ -13,15 +13,27 @@ import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
 import com.example.h.cloudcycle.WebServiceControl.GeneralResponse;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UpdatePassword extends AppCompatActivity {
 
+
+    @BindView(R.id.submit_new_password)
     Button submitNewPassword;
+
+
+    EditText oldPasswordText;
+
+    @BindView(R.id.password)
     EditText passwordText;
+
+    @BindView(R.id.repeat_password)
     EditText repeatedPasswordText;
+
     SharedPreferences sp;
     String email;
     private GeneralResponse fpResponse;
@@ -30,6 +42,8 @@ public class UpdatePassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_password);
+
+        ButterKnife.bind(this);
 
         submitNewPassword = findViewById(R.id.submit_new_password);
         passwordText = findViewById(R.id.password);
@@ -69,8 +83,8 @@ public class UpdatePassword extends AppCompatActivity {
     public boolean validate() {
         boolean valid = true;
 
-        String password = passwordText.getText().toString();
-        String repeatdPassword = repeatedPasswordText.getText().toString();
+        String password = passwordText.getText().toString().trim();
+        String repeatdPassword = repeatedPasswordText.getText().toString().trim();
 
 
         if (password.isEmpty() || passwordText.length() < 6 || passwordText.length() > 32) {
@@ -99,7 +113,7 @@ public class UpdatePassword extends AppCompatActivity {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
-        Call<GeneralResponse> call = apiInterface.resetPassword(email, passwordText.getText().toString());
+        Call<GeneralResponse> call = apiInterface.resetPassword(email, passwordText.getText().toString().trim());
 
         call.enqueue(new Callback<GeneralResponse>() {
             @Override

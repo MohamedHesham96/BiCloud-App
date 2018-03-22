@@ -48,6 +48,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private ApiInterface apiInterface;
     List<Bike> bikes;
 
+
     private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;

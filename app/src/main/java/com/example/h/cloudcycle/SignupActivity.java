@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.h.cloudcycle.Utility.HelperClass;
 import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
 import com.example.h.cloudcycle.WebServiceControl.RealPathUtil;
@@ -65,6 +68,7 @@ public class SignupActivity extends Activity {
     private String imagePath;
 
     public static String getRealPathFromURI(Context context, Uri uri) {
+
         String filePath = "";
 
         String[] column = {MediaStore.Images.Media.DATA};
@@ -106,7 +110,12 @@ public class SignupActivity extends Activity {
     }
 
     public void signup() {
-        if (validate() == false) {
+
+        if (!HelperClass.isNetworkAvailable(this)) {
+            Toast.makeText(this, "No Internet Connection !", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!validate()) {
 
             onSignupFailed();
             return;
@@ -148,7 +157,7 @@ public class SignupActivity extends Activity {
 
                 signupResponse = response.body();
 
-                Toast.makeText(SignupActivity.this, signupResponse.getSuccess().toString().trim(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, signupResponse.getSuccess().toString(), Toast.LENGTH_SHORT).show();
 
                 if (response.isSuccessful()) {
 
@@ -169,10 +178,10 @@ public class SignupActivity extends Activity {
                                 }
                             }, 1000);
 
+                    Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
                 }
                 //   Log.d("Response Token: ", signupResponse.getToken());
 
-                Toast.makeText(getApplicationContext(), response.body().toString().trim(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

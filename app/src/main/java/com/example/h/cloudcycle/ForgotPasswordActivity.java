@@ -29,7 +29,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_passwrod);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         email_ET = findViewById(R.id.email_ET);
@@ -37,11 +37,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     public void submitEmail(View view) {
 
-        Toast.makeText(this, "The Email: " + email_ET.getText().toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "The Email: " + email_ET.getText().toString().trim(), Toast.LENGTH_SHORT).show();
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-        Call<GeneralResponse> call = apiInterface.forgetPassword(email_ET.getText().toString());
+        Call<GeneralResponse> call = apiInterface.forgetPassword(email_ET.getText().toString().trim());
 
         call.enqueue(new Callback<GeneralResponse>() {
             @Override
@@ -55,7 +55,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), EnterCode.class);
 
                     intent.putExtra("code", fpResponse.getCode());
-                    intent.putExtra("email", email_ET.getText().toString());
+                    intent.putExtra("email", email_ET.getText().toString().trim());
 
                     startActivity(intent);
 

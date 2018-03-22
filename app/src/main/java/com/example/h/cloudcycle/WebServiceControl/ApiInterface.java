@@ -40,7 +40,7 @@ public interface ApiInterface {
 
     @POST("user/update/email")
     Call<GeneralResponse> updateUserEmail(@Query("id") String id, @Query("email") String email,
-                                          @Query("remail") String reEmail);
+                                          @Query("remail") String remail);
 
     @POST("user/update/password")
     Call<GeneralResponse> updateUserPassword(@Query("id") String id, @Query("email") String email,
