@@ -188,15 +188,8 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.logout) {
 
             startActivity(new Intent(this, LoginActivity.class));
-            SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
-            SharedPreferences.Editor Ed = sp.edit();
-            Ed.putString("email", "");
-            Ed.putString("image", "");
-            Ed.putString("password", "");
-            Ed.putString("id", "");
-            Ed.putString("name", "");
-            Ed.putString("balance", "");
-            Ed.commit();
+            getSharedPreferences("Login", MODE_PRIVATE).edit().clear().commit();
+
 
         } else if (id == R.id.payment) {
 

@@ -47,6 +47,11 @@ public interface ApiInterface {
                                              @Query("password") String password,
                                              @Query("repassword") String rePassword);
 
+    // Update User Data
+    @POST("user/delete/account")
+    Call<GeneralResponse> deleteAccount(@Query("id") String id, @Query("password") String password);
+
+
     @Multipart
     @POST("user/update/photo")
     Call<GeneralResponse> updateUserPhoto(@Query("id") String id, @Query("email") String email, @Part MultipartBody.Part image);

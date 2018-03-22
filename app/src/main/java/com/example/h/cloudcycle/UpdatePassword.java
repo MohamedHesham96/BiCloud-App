@@ -56,12 +56,6 @@ public class UpdatePassword extends AppCompatActivity {
         Toast.makeText(this, "Email: " + emailSP, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onBackPressed() {
-        // disable going back to the MainActivity
-        moveTaskToBack(true);
-    }
-
     public void submitPassword(View view) {
 
         if (!validate()) {

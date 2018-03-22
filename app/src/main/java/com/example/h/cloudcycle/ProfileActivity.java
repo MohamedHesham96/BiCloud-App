@@ -1,7 +1,6 @@
 package com.example.h.cloudcycle;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -519,6 +518,7 @@ public class ProfileActivity extends AppCompatActivity {
     public void updatePassword(View view) {
 
         startActivity(new Intent(this, UpdatePassword.class));
+
     }
 
     @Override
@@ -559,13 +559,16 @@ public class ProfileActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
         alertDialogBuilderUserInput.setView(mView);
 
-        final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.password);
+        final EditText userPassword = mView.findViewById(R.id.password);
 
         alertDialogBuilderUserInput
                 .setCancelable(false)
-                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogBox, int id) {
-                        // ToDo get user input here
+
+                        Toast.makeText(ProfileActivity.this, "User Password: " + userPassword.getText().toString(), Toast.LENGTH_LONG).show();
+
+                        deleteAccountProccess(userPassword.getText().toString());
                     }
                 })
 
@@ -581,6 +584,49 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    public void deleteAccountProccess(String password) {
+
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<GeneralResponse> call = apiInterface.deleteAccount(idSP, password);
+
+        call.enqueue(new Callback<GeneralResponse>() {
+
+            GeneralResponse generalResponse;
+
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    generalResponse = response.body();
+
+                    if (generalResponse.isSuccess()) {
+
+                        Toast.makeText(ProfileActivity.this, "State: " + String.valueOf(generalResponse.isSuccess()), Toast.LENGTH_SHORT).show();
+
+                        startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+
+                        getSharedPreferences("Login", MODE_PRIVATE).edit().clear().commit();
+
+                        Toast.makeText(ProfileActivity.this, "Account Deleted Successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                        Toast.makeText(ProfileActivity.this, "State: " + String.valueOf(generalResponse.isSuccess()), Toast.LENGTH_SHORT).show();
+
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+
+            }
+        });
+
+
+    }
 
     private class DownLoadImageTask extends AsyncTask<String, Void, Bitmap> {
 
@@ -608,7 +654,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
     }
-
 
 }
 

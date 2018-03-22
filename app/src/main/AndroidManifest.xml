@@ -48,13 +48,7 @@
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".EnterCode" />
         <activity android:name=".EnterNewPassword" />
-        <activity android:name=".ProfileActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".UpdatePassword" />
 
     </application>
