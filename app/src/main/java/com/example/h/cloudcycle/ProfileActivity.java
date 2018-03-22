@@ -1,19 +1,20 @@
 package com.example.h.cloudcycle;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
 import com.example.h.cloudcycle.WebServiceControl.GeneralResponse;
 import com.example.h.cloudcycle.WebServiceControl.RealPathUtil;
+import com.example.h.cloudcycle.WebServiceControl.User;
 
 import java.io.File;
 import java.io.InputStream;
@@ -92,24 +94,6 @@ public class ProfileActivity extends AppCompatActivity {
     SharedPreferences sp;
     boolean updateNameClockedFlag = false;
     boolean updateEmailClockedFlag = false;
-    boolean tryToUpdateUserEmail = false;
-
-    public static String getRealPathFromURI(Context context, Uri uri) {
-        String filePath = "";
-
-        String[] column = {MediaStore.Images.Media.DATA};
-
-        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                column, null, null, null);
-
-        int columnIndex = cursor.getColumnIndex(column[0]);
-
-        if (cursor.moveToFirst()) {
-            filePath = cursor.getString(columnIndex);
-        }
-        cursor.close();
-        return filePath;
-    }
 
     @Override
     protected void onResume() {
@@ -139,15 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
         userEmail_ET.clearFocus();
         userName_ET.clearFocus();
 
-        SharedPreferences sp = this.getSharedPreferences("Login", MODE_PRIVATE);
-
-        String imageName = sp.getString("image", null);
-
-        String fullPath = IMAGES_PATH + imageName;
-
-        Toast.makeText(this, fullPath, Toast.LENGTH_SHORT).show();
-
-        new DownLoadImageTask(userPhoto_IV).execute(fullPath);
+        loadUserImage();
 
         Toast.makeText(this, idSP, Toast.LENGTH_SHORT).show();
 
@@ -157,6 +133,57 @@ public class ProfileActivity extends AppCompatActivity {
 
         userName_ET.setText(nameSP);
         userEmail_ET.setText(emailSP);
+    }
+
+    public void loadUserImage() {
+
+        SharedPreferences sp = this.getSharedPreferences("Login", MODE_PRIVATE);
+
+        String email = sp.getString("email", null);
+        String password = sp.getString("password", null);
+
+        Toast.makeText(this, "email: " + email, Toast.LENGTH_SHORT).show();
+
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<User> call = apiInterface.getUserInfo(email, password);
+
+        call.enqueue(new Callback<User>() {
+
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                SharedPreferences sp = null;
+
+                User user = response.body();
+
+                if (response.isSuccessful()) {
+
+                    sp = getSharedPreferences("Login", MODE_PRIVATE);
+                    String image = sp.getString("image", null);
+
+                    if (user.getImage() != null) {
+
+                        if (!user.getImage().equals(image)) {
+
+                            String fullPath = IMAGES_PATH + user.getImage();
+
+                            Toast.makeText(ProfileActivity.this, "fullpath: " + fullPath, Toast.LENGTH_SHORT).show();
+
+                            new ProfileActivity.DownLoadImageTask(userPhoto_IV).execute(fullPath);
+
+                            Toast.makeText(ProfileActivity.this, user.getImage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+
     }
 
     public void setupOnTextChangeEvents() {
@@ -445,6 +472,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void uploadPhoto(View view) {
 
+        emailSP = sp.getString("email", null);
+
         if (imagePath != null) {
 
             uploadPhoto_BT.setEnabled(false);
@@ -457,7 +486,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-            Call<GeneralResponse> call = apiInterface.updateUserPhoto(idSP, theImage);
+            Call<GeneralResponse> call = apiInterface.updateUserPhoto(idSP, emailSP, theImage);
 
             call.enqueue(new Callback<GeneralResponse>() {
                 @Override
@@ -523,6 +552,36 @@ public class ProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void deleteAccount(View view) {
+
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
+        View mView = layoutInflaterAndroid.inflate(R.layout.dialog, null);
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
+        alertDialogBuilderUserInput.setView(mView);
+
+        final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.password);
+
+        alertDialogBuilderUserInput
+                .setCancelable(false)
+                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogBox, int id) {
+                        // ToDo get user input here
+                    }
+                })
+
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                dialogBox.cancel();
+                            }
+                        });
+
+        AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+        alertDialogAndroid.show();
+
+    }
+
+
     private class DownLoadImageTask extends AsyncTask<String, Void, Bitmap> {
 
         CircleImageView imageView;
@@ -549,6 +608,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
     }
+
 
 }
 

@@ -149,10 +149,10 @@
                             android:layout_height="25dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginTop="5dp"
-                            android:textAllCaps="false"
                             android:background="@drawable/rounded_all_yello"
                             android:onClick="cancelAnUpdate"
                             android:text="cancel"
+                            android:textAllCaps="false"
                             android:textSize="12sp"
                             android:visibility="invisible" />
 
@@ -236,8 +236,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="97dp"
-                    android:onClick="updatePassword"
                     android:background="@drawable/rounded_all"
+                    android:onClick="updatePassword"
                     android:text="Change"
                     android:textSize="12sp" />
 
@@ -283,6 +283,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="97dp"
+                    android:onClick="deleteAccount"
                     android:background="@drawable/rounded_all_red"
                     android:text="Delete"
                     android:textSize="12sp" />
@@ -290,5 +291,6 @@
             </LinearLayout>
 
         </LinearLayout>
+
     </ScrollView>
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.example.h.cloudcycle;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -193,6 +194,8 @@ public class SignupActivity extends Activity {
     }
 
     public void selectImage(View view) {
+
+        HelperClass.askPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE, 2);
 
         Intent intent = new Intent();
         intent.setType("image/*");

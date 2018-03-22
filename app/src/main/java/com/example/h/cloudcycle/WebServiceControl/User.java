@@ -1,5 +1,7 @@
 package com.example.h.cloudcycle.WebServiceControl;
 
+import android.support.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 
@@ -65,4 +67,5 @@ public class User {
     public String getImage() {
         return img;
     }
+
 }

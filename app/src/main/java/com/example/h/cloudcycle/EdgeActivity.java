@@ -85,19 +85,47 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
 
         SharedPreferences sp = this.getSharedPreferences("Login", MODE_PRIVATE);
 
+        String email = sp.getString("email", null);
+        String password = sp.getString("password", null);
+
+        Toast.makeText(this, "email: " + email, Toast.LENGTH_SHORT).show();
+
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<User> call = apiInterface.getUserInfo(sp.getString("email", null), sp.getString("password", null));
+        Call<User> call = apiInterface.getUserInfo(email, password);
 
         call.enqueue(new Callback<User>() {
 
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
 
+                SharedPreferences sp = null;
+
                 User user = response.body();
 
                 if (response.isSuccessful()) {
 
-                    SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
+                    sp = getSharedPreferences("Login", MODE_PRIVATE);
+                    String image = sp.getString("image", null);
+
+                    if (user.getImage() != null) {
+                        Toast.makeText(EdgeActivity.this, "i am in", Toast.LENGTH_SHORT).show();
+
+                        if (!user.getImage().equals(image)) {
+
+                            Toast.makeText(EdgeActivity.this, "i am in2", Toast.LENGTH_SHORT).show();
+                            String fullPath = IMAGES_PATH + user.getImage();
+
+                            Toast.makeText(EdgeActivity.this, "fullpath: " + fullPath, Toast.LENGTH_SHORT).show();
+
+                            new DownLoadImageTask(profileImage).execute(fullPath);
+
+                            Toast.makeText(EdgeActivity.this, user.getImage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    nav_user.setText(user.getEmail());
+                    name_user.setText(user.getName());
+
                     SharedPreferences.Editor Ed = sp.edit();
 
                     Ed.putString("id", String.valueOf(user.getId()));
@@ -106,16 +134,6 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
                     Ed.putString("image", user.getImage());
                     Ed.putString("type", user.getType());
                     Ed.putString("balance", user.getBalance());
-
-                    String fullPath = IMAGES_PATH + user.getImage();
-
-                    Toast.makeText(EdgeActivity.this, "fullpath: " + fullPath, Toast.LENGTH_SHORT).show();
-
-                    new DownLoadImageTask(profileImage).execute(fullPath);
-                    nav_user.setText(user.getEmail());
-                    name_user.setText(user.getName());
-
-                    Toast.makeText(EdgeActivity.this, user.getImage(), Toast.LENGTH_SHORT).show();
                     Ed.commit();
                 }
             }
@@ -126,41 +144,6 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
-        // still there strings here... like (id.. balance....)
-
-        /*if (sp != null) {
-
-            String emailSP = sp.getString("email", null);
-            String passwordSP = sp.getString("password", null);
-            String nameSP = sp.getString("name", null);
-            String idSP = sp.getString("id", null);
-
-            Toast.makeText(this, "USer ID:" + idSP, Toast.LENGTH_SHORT).show();
-            if (sp.contains("email")) {
-                if (!emailSP.equals("") && !passwordSP.equals("")) {
-
-                    NavigationView navigationView = findViewById(R.id.nav_view);
-                    View hView = navigationView.getHeaderView(0);
-
-                    TextView nav_user = hView.findViewById(R.id.userEmail);
-                    TextView name_user = hView.findViewById(R.id.userName);
-                    ImageView profileImage = hView.findViewById(R.id.profileImage);
-
-                    String imageName = sp.getString("image", null);
-
-                    String fullPath = IMAGES_PATH + imageName;
-
-                    Toast.makeText(this, "fullpath: " + fullPath, Toast.LENGTH_SHORT).show();
-
-                    new DownLoadImageTask(profileImage).execute(fullPath);
-                    nav_user.setText(emailSP);
-                    name_user.setText(nameSP);
-                }
-
-
-            }
-        }*/
     }
 
     public Bitmap getBitmapFromURL(String src) {

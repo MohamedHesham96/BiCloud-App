@@ -49,7 +49,7 @@ public interface ApiInterface {
 
     @Multipart
     @POST("user/update/photo")
-    Call<GeneralResponse> updateUserPhoto(@Query("id") String id, @Part MultipartBody.Part image);
+    Call<GeneralResponse> updateUserPhoto(@Query("id") String id, @Query("email") String email, @Part MultipartBody.Part image);
 
     @GET("bike/lockedbikes")
     Call<List<Bike>> getLockedBikes();
