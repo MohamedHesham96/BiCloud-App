@@ -51,6 +51,9 @@ public interface ApiInterface {
     @POST("user/delete/account")
     Call<GeneralResponse> deleteAccount(@Query("id") String id, @Query("password") String password);
 
+    // Update User Data
+    @POST("user/feedback/create")
+    Call<GeneralResponse> CreateFeedback(@Query("user_id") String id, @Query("content") String content);
 
     @Multipart
     @POST("user/update/photo")

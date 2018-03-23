@@ -138,7 +138,7 @@
                             android:layout_width="65dp"
                             android:layout_height="25dp"
                             android:layout_gravity="center_vertical"
-                            android:background="@drawable/rounded_all"
+                            android:background="@drawable/rounded_all_blue"
                             android:onClick="updateUserName"
                             android:text="Edit"
                             android:textSize="12sp" />
@@ -172,7 +172,7 @@
                             android:layout_width="65dp"
                             android:layout_height="25dp"
                             android:layout_gravity="center_vertical"
-                            android:background="@drawable/rounded_all"
+                            android:background="@drawable/rounded_all_blue"
                             android:onClick="updateUserEmail"
                             android:text="Edit"
                             android:textSize="12sp" />
@@ -236,7 +236,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="97dp"
-                    android:background="@drawable/rounded_all"
+                    android:background="@drawable/rounded_all_blue"
                     android:onClick="updatePassword"
                     android:text="Change"
                     android:textSize="12sp" />

@@ -50,7 +50,7 @@
         <activity android:name=".EnterNewPassword" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".UpdatePassword" />
-
+        <activity android:name=".FeedbackActivity"></activity>
     </application>
 
 </manifest>

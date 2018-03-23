@@ -199,6 +199,10 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
 
             startActivity(new Intent(this, ProfileActivity.class));
 
+        } else if (id == R.id.feedback) {
+
+            startActivity(new Intent(this, FeedbackActivity.class));
+
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
