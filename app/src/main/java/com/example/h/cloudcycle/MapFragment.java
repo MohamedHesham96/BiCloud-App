@@ -2,6 +2,7 @@ package com.example.h.cloudcycle;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -66,6 +67,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                              Bundle savedInstanceState) {
         // Inflate the layout for getContext( fragment
         return inflater.inflate(R.layout.fragment_blank, container, false);
+
     }
 
     @Override
@@ -74,7 +76,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map1);
         supportMapFragment.getMapAsync(this);
 
+
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -113,7 +117,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         } else {
 
-            // Supervostor method to call all bikes is here
+            call = apiInterface.getAllBikes();
         }
 
         call.enqueue(new Callback<List<Bike>>() {
@@ -130,6 +134,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.bike_icon_64));
                     currentLocationmMarker = mMap.addMarker(markerOptions);
                 }
+
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        Intent intent = new Intent(getActivity(), BicycleLocation.class);
+                        intent.putExtra("code", marker.getTitle());
+                        startActivity(intent);
+                        return false;
+                    }
+                });
 
             }
 
@@ -162,26 +177,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onLocationChanged(Location location) {
 
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-        lastlocation = location;
-        if (currentLocationmMarker != null) {
-            currentLocationmMarker.remove();
-        }
-
-        // Log.d("lat = ",""+latitude);
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("Current Location");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        currentLocationmMarker = mMap.addMarker(markerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(2));
-
-        if (client != null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
-        }
     }
 
     @Override

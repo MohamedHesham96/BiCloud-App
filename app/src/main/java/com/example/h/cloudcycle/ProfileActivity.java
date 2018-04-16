@@ -85,6 +85,8 @@ public class ProfileActivity extends AppCompatActivity {
     String idSP;
     String nameSP;
     String emailSP;
+    String passwordSP;
+
     String IMAGES_PATH = "https://mousaelenanyfciscu.000webhostapp.com/public/images/";
 
     String imagePath;
@@ -95,12 +97,6 @@ public class ProfileActivity extends AppCompatActivity {
     boolean updateNameClockedFlag = false;
     boolean updateEmailClockedFlag = false;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        checkSharedPreferences();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +108,8 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        checkSharedPreferences();
+
         setTitle("My Profile");
         sp = getSharedPreferences("Login", MODE_PRIVATE);
 
@@ -122,15 +120,10 @@ public class ProfileActivity extends AppCompatActivity {
             linearLayout.setVisibility(View.INVISIBLE);
         }
 
-
         setupOnTextChangeEvents();
-
 
         userEmail_ET.setEnabled(false);
         userName_ET.setEnabled(false);
-
-        userEmail_ET.clearFocus();
-        userName_ET.clearFocus();
 
         loadUserImage();
 
@@ -139,6 +132,7 @@ public class ProfileActivity extends AppCompatActivity {
         idSP = sp.getString("id", null);
         nameSP = sp.getString("name", null);
         emailSP = sp.getString("email", null);
+        passwordSP = sp.getString("password", null);
 
         userName_ET.setText(nameSP);
         userEmail_ET.setText(emailSP);
@@ -146,7 +140,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void loadUserImage() {
 
-        SharedPreferences sp = this.getSharedPreferences("Login", MODE_PRIVATE);
 
         String email = sp.getString("email", null);
         String password = sp.getString("password", null);
@@ -154,7 +147,7 @@ public class ProfileActivity extends AppCompatActivity {
         Toast.makeText(this, "email: " + email, Toast.LENGTH_SHORT).show();
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<User> call = apiInterface.getUserInfo(email, password);
+        Call<User> call = apiInterface.getUserInfo(emailSP, password);
 
         call.enqueue(new Callback<User>() {
 
@@ -172,13 +165,17 @@ public class ProfileActivity extends AppCompatActivity {
 
                     if (user.getImage() != null) {
 
-                        if (!user.getImage().equals(image)) {
+                        if (user.getImage().equals(image)) {
 
-                            String fullPath = IMAGES_PATH + user.getImage();
+                            final String fullPath = IMAGES_PATH + user.getImage();
 
                             Toast.makeText(ProfileActivity.this, "fullpath: " + fullPath, Toast.LENGTH_SHORT).show();
 
-                            new ProfileActivity.DownLoadImageTask(userPhoto_IV).execute(fullPath);
+                            new Thread(new Runnable() {
+                                public void run() {
+                                    new ProfileActivity.DownLoadImageTask(userPhoto_IV).execute(fullPath);
+                                }
+                            }).start();
 
                             Toast.makeText(ProfileActivity.this, user.getImage(), Toast.LENGTH_SHORT).show();
                         }

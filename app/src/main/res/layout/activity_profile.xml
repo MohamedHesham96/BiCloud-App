@@ -1,58 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView android:padding="5dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.h.cloudcycle.ProfileActivity">
 
+
     <LinearLayout
-        android:id="@+id/first_layout"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="175dp"
-        android:background="@drawable/proback"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/user_photo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/empty_user_photo" />
+        <LinearLayout
+            android:id="@+id/first_layout"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/proback"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/select_photo"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="-25dp"
-            android:onClick="selectImage"
-            android:src="@drawable/edit_profile_pic" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_photo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/empty_user_photo" />
 
-        <Button
-            android:id="@+id/upload_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/rounded_all_green"
-            android:onClick="uploadPhoto"
-            android:text="Change"
-            android:textColor="#ffffff"
-            android:visibility="invisible" />
+            <ImageView
+                android:id="@+id/select_photo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="-25dp"
+                android:onClick="selectImage"
+                android:src="@drawable/edit_profile_pic" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/upload_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/rounded_all_green"
+                android:onClick="uploadPhoto"
+                android:text="Change"
+                android:textColor="#ffffff"
+                android:visibility="invisible" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/first_layout"
-        android:layout_centerInParent="true"
-        android:padding="8dp">
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <LinearLayout
@@ -272,7 +273,7 @@
                         android:layout_height="wrap_content"
                         android:text="Delete This Account"
                         android:textColor="#000000"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
 
                 </LinearLayout>
@@ -293,5 +294,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
-</RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

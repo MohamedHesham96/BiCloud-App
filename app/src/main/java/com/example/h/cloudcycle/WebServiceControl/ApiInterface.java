@@ -62,6 +62,9 @@ public interface ApiInterface {
     @GET("bike/lockedbikes")
     Call<List<Bike>> getLockedBikes();
 
+    @GET("bike/bikes")
+    Call<List<Bike>> getAllBikes();
+
     // Password Management
     @POST("forget/password")
     Call<GeneralResponse> forgetPassword(@Query("email") String email);

@@ -96,7 +96,6 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
             hideItems();
         }
 
-        Toast.makeText(this, "email: " + email, Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "userType: " + userType, Toast.LENGTH_SHORT).show();
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
@@ -117,19 +116,17 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
                     String image = sp.getString("image", null);
 
                     if (user.getImage() != null) {
-                        Toast.makeText(EdgeActivity.this, "i am in", Toast.LENGTH_SHORT).show();
 
-                        if (!user.getImage().equals(image)) {
+                        if (user.getImage().equals(image)) {
 
-                            Toast.makeText(EdgeActivity.this, "i am in2", Toast.LENGTH_SHORT).show();
-                            String fullPath = IMAGES_PATH + user.getImage();
+                            final String fullPath = IMAGES_PATH + user.getImage();
 
-                            Toast.makeText(EdgeActivity.this, "fullpath: " + fullPath, Toast.LENGTH_SHORT).show();
-                            Toast.makeText(EdgeActivity.this, "User Type: " + sp.getString("type", null), Toast.LENGTH_SHORT).show();
+                            new Thread(new Runnable() {
+                                public void run() {
+                                    new DownLoadImageTask(profileImage).execute(fullPath);
+                                }
+                            }).start();
 
-                            new DownLoadImageTask(profileImage).execute(fullPath);
-
-                            Toast.makeText(EdgeActivity.this, user.getImage(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
