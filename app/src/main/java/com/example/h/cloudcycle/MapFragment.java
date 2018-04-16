@@ -1,6 +1,8 @@
 package com.example.h.cloudcycle;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -45,17 +47,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private ApiInterface apiInterface;
+    public static final int REQUEST_LOCATION_CODE = 99;
     List<Bike> bikes;
-
-
+    double latitude, longitude;
+    private ApiInterface apiInterface;
     private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastlocation;
     private Marker currentLocationmMarker;
-    public static final int REQUEST_LOCATION_CODE = 99;
-    double latitude, longitude;
 
     public MapFragment() {
         // Required empty public constructor
@@ -99,9 +99,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<Bike>> call = apiInterface.getLockedBikes();
+
+        SharedPreferences sp = this.getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+        String userType = sp.getString("type", null);
+
+        Call<List<Bike>> call = null;
+
+        if (userType.equals("user")) {
+
+            call = apiInterface.getLockedBikes();
+
+        } else {
+
+            // Supervostor method to call all bikes is here
+        }
 
         call.enqueue(new Callback<List<Bike>>() {
             @Override
@@ -154,8 +167,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         lastlocation = location;
         if (currentLocationmMarker != null) {
             currentLocationmMarker.remove();
-
         }
+
         // Log.d("lat = ",""+latitude);
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
@@ -164,7 +177,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         currentLocationmMarker = mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
+        mMap.animateCamera(CameraUpdateFactory.zoomBy(2));
 
         if (client != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);

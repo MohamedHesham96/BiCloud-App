@@ -53,7 +53,8 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        //    checkSharedPreferences();
+        checkSharedPreferences();
+
         LinearLayout linearLayout = findViewById(R.id.layout);
 
         linearLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -201,23 +202,13 @@ public class LoginActivity extends Activity {
         moveTaskToBack(true);
     }
 
-    public void setSharedPreferences() {
-
-        SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
-        SharedPreferences.Editor Ed = sp.edit();
-        Ed.putString("email", email);
-        Ed.putString("password", password);
-        Ed.putString("id", String.valueOf(user.getId()));
-        Ed.putString("name", user.getName());
-        Ed.commit();
-    }
 
     public void onLoginSuccess() {
 
         _loginButton.setEnabled(true);
         Intent intent = new Intent(getApplicationContext(), EdgeActivity.class);
-        finish();
         startActivityForResult(intent, REQUEST_SIGNUP);
+        finish();
 
     }
 

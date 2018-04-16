@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -112,9 +113,18 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         setTitle("My Profile");
+        sp = getSharedPreferences("Login", MODE_PRIVATE);
+
+
+        if (!sp.getString("type", null).equals("user")) {
+
+            LinearLayout linearLayout = findViewById(R.id.delete_Account_layout);
+            linearLayout.setVisibility(View.INVISIBLE);
+        }
+
+
         setupOnTextChangeEvents();
 
-        sp = getSharedPreferences("Login", MODE_PRIVATE);
 
         userEmail_ET.setEnabled(false);
         userName_ET.setEnabled(false);

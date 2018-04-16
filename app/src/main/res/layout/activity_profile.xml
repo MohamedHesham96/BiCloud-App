@@ -244,6 +244,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/delete_Account_layout"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"

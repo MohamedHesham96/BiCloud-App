@@ -39,6 +39,8 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
     String IMAGES_PATH = "https://mousaelenanyfciscu.000webhostapp.com/public/images/";
     private NavigationView navigationView;
 
+    String userType = "";
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -87,8 +89,15 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
 
         String email = sp.getString("email", null);
         String password = sp.getString("password", null);
+        String userType = sp.getString("type", null);
+
+        if (!userType.equals("user")) {
+
+            hideItems();
+        }
 
         Toast.makeText(this, "email: " + email, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "userType: " + userType, Toast.LENGTH_SHORT).show();
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<User> call = apiInterface.getUserInfo(email, password);
@@ -116,6 +125,7 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
                             String fullPath = IMAGES_PATH + user.getImage();
 
                             Toast.makeText(EdgeActivity.this, "fullpath: " + fullPath, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EdgeActivity.this, "User Type: " + sp.getString("type", null), Toast.LENGTH_SHORT).show();
 
                             new DownLoadImageTask(profileImage).execute(fullPath);
 
@@ -144,6 +154,14 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+    }
+
+
+    private void hideItems() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.history).setVisible(false);
+        nav_Menu.findItem(R.id.payment).setVisible(false);
     }
 
     public Bitmap getBitmapFromURL(String src) {

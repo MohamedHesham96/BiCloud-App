@@ -4,6 +4,10 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/profile"
+            android:icon="@drawable/username_icon"
+            android:title="Profile" />
 
         <item
             android:id="@+id/history"
@@ -15,20 +19,6 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Payment" />
 
-        <item
-            android:id="@+id/profile"
-            android:icon="@drawable/username_icon"
-            android:title="Profile" />
-
-    </group>
-
-    <group android:checkableBehavior="single">
-
-
-        <item
-            android:id="@+id/logout"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Log-Out" />
 
     </group>
 
@@ -42,6 +32,16 @@
 
     </group>
 
+
+    <group android:checkableBehavior="single">
+
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Log-Out" />
+
+    </group>
 
     <group />
 
