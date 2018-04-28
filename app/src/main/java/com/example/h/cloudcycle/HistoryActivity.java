@@ -34,7 +34,7 @@ public class HistoryActivity extends AppCompatActivity {
         getSharedPreferences();
 
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call call = apiInterface.getUserHistory(id);
+        Call call = apiInterface.getUserHistory(id, "mobileApp", "bicloud_App2018#@");
 
         call.enqueue(new Callback<List<History>>() {
             @Override

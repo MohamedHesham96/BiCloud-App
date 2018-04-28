@@ -98,7 +98,7 @@ public class EnterNewPassword extends AppCompatActivity {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
-        Call<GeneralResponse> call = apiInterface.resetPassword(email, passwordText.getText().toString().trim());
+        Call<GeneralResponse> call = apiInterface.resetPassword(email, passwordText.getText().toString().trim(), "mobileApp", "bicloud_App2018#@");
 
         call.enqueue(new Callback<GeneralResponse>() {
             @Override

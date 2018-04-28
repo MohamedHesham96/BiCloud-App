@@ -41,7 +41,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-        Call<GeneralResponse> call = apiInterface.forgetPassword(email_ET.getText().toString().trim());
+        Call<GeneralResponse> call = apiInterface.forgetPassword(email_ET.getText().toString().trim(), "mobileApp", "bicloud_App2018#@");
 
         call.enqueue(new Callback<GeneralResponse>() {
             @Override

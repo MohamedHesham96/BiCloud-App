@@ -77,7 +77,7 @@ public class UpdatePassword extends AppCompatActivity {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
         Toast.makeText(this, emailSP, Toast.LENGTH_SHORT).show();
-        Call<GeneralResponse> call = apiInterface.updateUserPassword(idSP, emailSP, oldPassword, newPassword);
+        Call<GeneralResponse> call = apiInterface.updateUserPassword(idSP, emailSP, oldPassword, newPassword, "mobileApp", "bicloud_App2018#@");
 
         call.enqueue(new Callback<GeneralResponse>() {
             @Override

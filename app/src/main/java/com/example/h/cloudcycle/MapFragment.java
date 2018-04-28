@@ -113,11 +113,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         if (userType.equals("user")) {
 
-            call = apiInterface.getLockedBikes();
+            call = apiInterface.getLockedBikes("mobileApp", "bicloud_App2018#@");
 
         } else {
 
-            call = apiInterface.getAllBikes();
+            call = apiInterface.getAllBikes("mobileApp", "bicloud_App2018#@");
         }
 
         call.enqueue(new Callback<List<Bike>>() {
@@ -210,7 +210,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     public List<Bike> getLockedBikes() {
 
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<Bike>> call = apiInterface.getLockedBikes();
+        Call<List<Bike>> call = apiInterface.getLockedBikes("mobileApp", "bicloud_App2018#@");
 
         call.enqueue(new Callback() {
             @Override

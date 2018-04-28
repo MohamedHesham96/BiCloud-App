@@ -37,9 +37,8 @@ import retrofit2.Response;
 public class EdgeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     String IMAGES_PATH = "https://mousaelenanyfciscu.000webhostapp.com/public/images/";
-    private NavigationView navigationView;
-
     String userType = "";
+    private NavigationView navigationView;
 
     @Override
     protected void onRestart() {
@@ -90,16 +89,16 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
         String email = sp.getString("email", null);
         String password = sp.getString("password", null);
         String userType = sp.getString("type", null);
-
-        if (!userType.equals("user")) {
+        Toast.makeText(this, sp.getString("type", null), Toast.LENGTH_SHORT).show();
+       /* if (!userType.equals("user")) {
 
             hideItems();
-        }
+        }*/
 
         Toast.makeText(this, "userType: " + userType, Toast.LENGTH_SHORT).show();
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<User> call = apiInterface.getUserInfo(email, password);
+        Call<User> call = apiInterface.getUserInfo(email, password, "mobileApp", "bicloud_App2018#@");
 
         call.enqueue(new Callback<User>() {
 

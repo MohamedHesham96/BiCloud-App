@@ -28,16 +28,25 @@ public class User {
     @SerializedName("img")
     String img;
 
+    @SerializedName("verified")
+    String verified;
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", balance=" + balance +
+                ", type='" + type + '\'' +
+                ", balance='" + balance + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", token='" + token + '\'' +
-                ", image='" + img + '\'' +
+                ", img='" + img + '\'' +
+                ", verified='" + verified + '\'' +
                 '}';
+    }
+
+    public String getVerified() {
+        return verified;
     }
 
     public String getType() {

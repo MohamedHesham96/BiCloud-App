@@ -16,7 +16,7 @@
             android:id="@+id/first_layout"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@drawable/proback"
+            android:background="#5555ff"
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -215,7 +215,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="password"
+                        android:text="Password"
                         android:textSize="15sp" />
 
                     <TextView
@@ -265,13 +265,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="delete"
+                        android:text="Delete"
                         android:textSize="15sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Delete This Account"
+                        android:text="Delete My Account"
                         android:textColor="#000000"
                         android:textSize="16sp" />
 

@@ -15,10 +15,10 @@
         android:id="@+id/email_ET"
         android:layout_gravity="center"
         android:layout_height="50dp"
+        android:hint="Your Email"
         android:layout_width="@dimen/width_login"
         android:background="@drawable/rounded"
-        android:inputType="textEmailAddress"
-        android:text="mrmedooo71@gmail.com" />
+        android:inputType="textEmailAddress" />
 
 
     <android.support.v7.widget.AppCompatButton

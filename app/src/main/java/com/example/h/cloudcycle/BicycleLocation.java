@@ -11,10 +11,10 @@ public class BicycleLocation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bicycle_location);
 
-        TextView code_tv = (TextView) findViewById(R.id.bicycle_code);
+        TextView code_tv = findViewById(R.id.bicycle_code);
         code_tv.setText(getIntent().getStringExtra("code"));
 
-        TextView location_tv = (TextView) findViewById(R.id.bicycle_location);
+        TextView location_tv = findViewById(R.id.bicycle_location);
         location_tv.setText(getIntent().getStringExtra("location"));
 
     }

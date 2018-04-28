@@ -147,7 +147,7 @@ public class ProfileActivity extends AppCompatActivity {
         Toast.makeText(this, "email: " + email, Toast.LENGTH_SHORT).show();
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<User> call = apiInterface.getUserInfo(emailSP, password);
+        Call<User> call = apiInterface.getUserInfo(emailSP, password, "mobileApp", "bicloud_App2018#@");
 
         call.enqueue(new Callback<User>() {
 
@@ -334,7 +334,7 @@ public class ProfileActivity extends AppCompatActivity {
     public void userNameUpdate(String userId, final String userName) {
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<GeneralResponse> call = apiInterface.updateUserName(userId, emailSP, userName);
+        Call<GeneralResponse> call = apiInterface.updateUserName(userId, emailSP, userName, "mobileApp", "bicloud_App2018#@");
 
         call.enqueue(new Callback<GeneralResponse>() {
 
@@ -381,7 +381,7 @@ public class ProfileActivity extends AppCompatActivity {
     public void userEmailUpdate(String userId, final String userEmail) {
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<GeneralResponse> call = apiInterface.updateUserEmail(userId, emailSP, userEmail);
+        Call<GeneralResponse> call = apiInterface.updateUserEmail(userId, emailSP, userEmail, "mobileApp", "bicloud_App2018#@");
 
         // Toast.makeText(this, "emailSP: " + emailSP, Toast.LENGTH_SHORT).show();
         // Toast.makeText(this, "UserEmail Input: " + userEmail, Toast.LENGTH_SHORT).show();
@@ -492,7 +492,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-            Call<GeneralResponse> call = apiInterface.updateUserPhoto(idSP, emailSP, theImage);
+            Call<GeneralResponse> call = apiInterface.updateUserPhoto(idSP, emailSP, theImage, "mobileApp", "bicloud_App2018#@");
 
             call.enqueue(new Callback<GeneralResponse>() {
                 @Override
@@ -594,7 +594,7 @@ public class ProfileActivity extends AppCompatActivity {
     public void deleteAccountProccess(String password) {
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<GeneralResponse> call = apiInterface.deleteAccount(idSP, password);
+        Call<GeneralResponse> call = apiInterface.deleteAccount(idSP, password, "mobileApp", "bicloud_App2018#@");
 
         call.enqueue(new Callback<GeneralResponse>() {
 

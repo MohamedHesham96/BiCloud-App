@@ -143,11 +143,11 @@ public class SignupActivity extends Activity {
 
             theImage = MultipartBody.Part.createFormData("img", file.getName(), imagePart);
 
-            call = apiInterface.createNewUser(name, email, password, theImage);
+            call = apiInterface.createNewUser(name, email, password, theImage, "mobileApp", "bicloud_App2018#@");
 
         } else {
 
-            call = apiInterface.createNewUser(name, email, password);
+            call = apiInterface.createNewUser(name, email, password, "mobileApp", "bicloud_App2018#@");
         }
 
         call.enqueue(new Callback<SignupResponse>() {

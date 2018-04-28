@@ -144,7 +144,7 @@ public class LoginActivity extends Activity {
         password = _passwordText.getText().toString().trim();
 
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<User> call = apiInterface.getUserInfo(email, password);
+        Call<User> call = apiInterface.getUserInfo(email, password, "mobileApp", "bicloud_App2018#@");
 
         call.enqueue(new Callback<User>() {
 
@@ -152,6 +152,7 @@ public class LoginActivity extends Activity {
             public void onResponse(Call<User> call, Response<User> response) {
 
                 user = response.body();
+
                 if (response.isSuccessful()) {
 
                     new android.os.Handler().postDelayed(
@@ -169,6 +170,7 @@ public class LoginActivity extends Activity {
                                     Ed.putString("password", password);
                                     Ed.putString("image", user.getImage());
                                     Ed.putString("type", user.getType());
+                                    Toast.makeText(LoginActivity.this, "Type: " + user.getType(), Toast.LENGTH_SHORT).show();
                                     Ed.putString("balance", user.getBalance());
 
                                     Ed.commit();

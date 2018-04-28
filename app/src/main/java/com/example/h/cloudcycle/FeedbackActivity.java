@@ -46,7 +46,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-        Call<GeneralResponse> call = apiInterface.CreateFeedback(idSP, content);
+        Call<GeneralResponse> call = apiInterface.CreateFeedback(idSP, content, "mobileApp", "bicloud_App2018#@");
 
         call.enqueue(new Callback<GeneralResponse>() {
             @Override
