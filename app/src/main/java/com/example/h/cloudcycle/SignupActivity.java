@@ -158,7 +158,7 @@ public class SignupActivity extends Activity {
 
                 signupResponse = response.body();
 
-                Toast.makeText(SignupActivity.this, signupResponse.getSuccess().toString(), Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(SignupActivity.this, signupResponse.getSuccess().toString(), Toast.LENGTH_SHORT).show();
 
                 if (response.isSuccessful()) {
 
@@ -177,9 +177,8 @@ public class SignupActivity extends Activity {
 
                                     progressDialog.dismiss();
                                 }
-                            }, 1000);
-
-                    Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+                            }, 0);
+                    //       Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
                 }
                 //   Log.d("Response Token: ", signupResponse.getToken());
 
@@ -226,9 +225,10 @@ public class SignupActivity extends Activity {
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
-        Intent intent = new Intent(getApplicationContext(), EdgeActivity.class);
-        finish();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
+        finish();
+
     }
 
     public void onSignupFailed() {

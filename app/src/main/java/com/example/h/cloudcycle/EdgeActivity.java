@@ -89,13 +89,13 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
         String email = sp.getString("email", null);
         String password = sp.getString("password", null);
         String userType = sp.getString("type", null);
-        Toast.makeText(this, sp.getString("type", null), Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(this, sp.getString("type", null), Toast.LENGTH_SHORT).show();
        /* if (!userType.equals("user")) {
 
             hideItems();
         }*/
 
-        Toast.makeText(this, "userType: " + userType, Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(this, "userType: " + userType, Toast.LENGTH_SHORT).show();
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<User> call = apiInterface.getUserInfo(email, password, "mobileApp", "bicloud_App2018#@");
@@ -203,7 +203,7 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
 
             startActivity(new Intent(this, LoginActivity.class));
             getSharedPreferences("Login", MODE_PRIVATE).edit().clear().commit();
-
+            finish();
 
         } else if (id == R.id.payment) {
 

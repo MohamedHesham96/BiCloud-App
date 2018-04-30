@@ -25,7 +25,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -109,7 +108,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         String userType = sp.getString("type", null);
 
-        Call<List<Bike>> call = null;
+        Call<List<Bike>> call;
 
         if (userType.equals("user")) {
 
@@ -129,7 +128,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                     LatLng latLng = new LatLng(b.getLatitude(), b.getLongitude());
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(latLng);
-                    Toast.makeText(getContext(), b.getName(), Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(getContext(), b.getName(), Toast.LENGTH_SHORT).show();
                     markerOptions.title("Id: " + b.getId() + " Name: " + b.getName());
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.bike_icon_64));
                     currentLocationmMarker = mMap.addMarker(markerOptions);
@@ -207,28 +206,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             return true;
     }
 
-    public List<Bike> getLockedBikes() {
-
-        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<Bike>> call = apiInterface.getLockedBikes("mobileApp", "bicloud_App2018#@");
-
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-
-                bikes = (List<Bike>) response.body();
-                Toast.makeText(getContext(), bikes.get(0).getId() + " " + bikes.get(0).getLatitude(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), bikes.get(0).getName() + " " + bikes.get(1).getLongitude(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        return bikes;
-    }
 
     @Override
     public void onConnectionSuspended(int i) {

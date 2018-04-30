@@ -28,6 +28,7 @@ public class EnterNewPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_new_password);
+        setTitle("New Password");
 
         submitNewPassword = findViewById(R.id.submit_new_password);
         passwordText = findViewById(R.id.password);

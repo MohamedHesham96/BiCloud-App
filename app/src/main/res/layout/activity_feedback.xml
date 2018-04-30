@@ -15,13 +15,14 @@
         android:padding="15dp">
 
         <TextView
+            android:layout_marginBottom="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="60dp"
             android:gravity="center_horizontal"
             android:padding="10dp"
             android:text="We really appreciate the time you took help us to improve our service. \nThanks for being awesome customer"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <EditText

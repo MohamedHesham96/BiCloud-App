@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -107,13 +108,13 @@ public class LoginActivity extends Activity {
         String emailSharedPreferences = sp1.getString("email", null);
         String passwordSharedPreferences = sp1.getString("password", null);
 
+        Log.d("User Info: ", emailSharedPreferences + " | " + passwordSharedPreferences);
+
         if (sp1 != null) {
 
-            if (sp1.contains("email")) {
-                if (!emailSharedPreferences.equals("") && !passwordSharedPreferences.equals("")) {
+            if (emailSharedPreferences != null && passwordSharedPreferences != null) {
 
-                    onLoginSuccess();
-                }
+                onLoginSuccess();
             }
         }
     }
@@ -137,6 +138,7 @@ public class LoginActivity extends Activity {
 
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
 
 
@@ -153,32 +155,39 @@ public class LoginActivity extends Activity {
 
                 user = response.body();
 
-                if (response.isSuccessful()) {
+                if (user.isSuccess()) {
 
-                    new android.os.Handler().postDelayed(
-                            new Runnable() {
-                                public void run() {
+                    if (user.isVerified()) {
 
-                                    onLoginSuccess();
+                        new android.os.Handler().postDelayed(
+                                new Runnable() {
+                                    public void run() {
 
-                                    SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
-                                    SharedPreferences.Editor Ed = sp.edit();
+                                        onLoginSuccess();
 
-                                    Ed.putString("id", String.valueOf(user.getId()));
-                                    Ed.putString("name", user.getName());
-                                    Ed.putString("email", email);
-                                    Ed.putString("password", password);
-                                    Ed.putString("image", user.getImage());
-                                    Ed.putString("type", user.getType());
-                                    Toast.makeText(LoginActivity.this, "Type: " + user.getType(), Toast.LENGTH_SHORT).show();
-                                    Ed.putString("balance", user.getBalance());
+                                        SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
+                                        SharedPreferences.Editor Ed = sp.edit();
 
-                                    Ed.commit();
+                                        Ed.putString("id", String.valueOf(user.getId()));
+                                        Ed.putString("name", user.getName());
+                                        Ed.putString("email", email);
+                                        Ed.putString("password", password);
+                                        Ed.putString("image", user.getImage());
+                                        Ed.putString("type", user.getType());
+                                        Toast.makeText(LoginActivity.this, "Type: " + user.getType(), Toast.LENGTH_SHORT).show();
+                                        Ed.putString("balance", user.getBalance());
 
-                                    progressDialog.dismiss();
-                                }
-                            }, 1000);
+                                        Ed.commit();
 
+                                        progressDialog.dismiss();
+                                    }
+                                }, 0);
+                    } else {
+                        _loginButton.setEnabled(true);
+                        progressDialog.dismiss();
+                        Toast.makeText(LoginActivity.this, String.valueOf(user.isVerified()), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Please Verify your Email..", Toast.LENGTH_LONG).show();
+                    }
                 } else {
 
                     progressDialog.dismiss();

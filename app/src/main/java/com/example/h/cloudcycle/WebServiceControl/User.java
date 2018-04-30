@@ -1,7 +1,5 @@
 package com.example.h.cloudcycle.WebServiceControl;
 
-import android.support.annotation.Nullable;
-
 import com.google.gson.annotations.SerializedName;
 
 
@@ -29,7 +27,10 @@ public class User {
     String img;
 
     @SerializedName("verified")
-    String verified;
+    boolean verified;
+
+    @SerializedName("success")
+    boolean success;
 
     @Override
     public String toString() {
@@ -45,7 +46,11 @@ public class User {
                 '}';
     }
 
-    public String getVerified() {
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public boolean isVerified() {
         return verified;
     }
 
