@@ -56,7 +56,7 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         setTitle("");
 
-        HelperClass.askPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, 2);
+        // HelperClass.askPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, 2);
 
         //Get User Data... Image, ID, Email, Username
         getSharedPreferences();
@@ -271,5 +271,8 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
         protected void onPostExecute(Bitmap result) {
             imageView.setImageBitmap(result);
         }
+
     }
+
+
 }

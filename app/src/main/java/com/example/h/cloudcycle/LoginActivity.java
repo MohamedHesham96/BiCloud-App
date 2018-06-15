@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,6 +36,7 @@ public class LoginActivity extends Activity {
     private static final int REQUEST_SIGNUP = 0;
     @BindView(R.id.input_email)
     EditText _emailText;
+
     @BindView(R.id.input_password)
     EditText _passwordText;
     @BindView(R.id.btn_login)
@@ -56,7 +58,7 @@ public class LoginActivity extends Activity {
         ButterKnife.bind(this);
         checkSharedPreferences();
 
-        LinearLayout linearLayout = findViewById(R.id.layout);
+        ConstraintLayout linearLayout = findViewById(R.id.layout);
 
         linearLayout.setOnTouchListener(new View.OnTouchListener() {
 
@@ -157,7 +159,7 @@ public class LoginActivity extends Activity {
 
                 if (user.isSuccess()) {
 
-                    if (user.isVerified()) {
+                    if (user.getVerified() == 1) {
 
                         new android.os.Handler().postDelayed(
                                 new Runnable() {
@@ -185,7 +187,7 @@ public class LoginActivity extends Activity {
                     } else {
                         _loginButton.setEnabled(true);
                         progressDialog.dismiss();
-                        Toast.makeText(LoginActivity.this, String.valueOf(user.isVerified()), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, String.valueOf(user.getVerified()), Toast.LENGTH_SHORT).show();
                         Toast.makeText(LoginActivity.this, "Please Verify your Email..", Toast.LENGTH_LONG).show();
                     }
                 } else {

@@ -4,11 +4,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
+import com.example.h.cloudcycle.WebServiceControl.GeneralResponse;
 import com.example.h.cloudcycle.WebServiceControl.History;
 
 import java.util.List;
@@ -22,7 +24,9 @@ public class HistoryActivity extends AppCompatActivity {
 
     private ApiInterface apiInterface;
     private List<History> historysList = null;
-    private int id;
+    private String id;
+    ListView listView;
+    CustomListAdapter customListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +46,9 @@ public class HistoryActivity extends AppCompatActivity {
 
                 historysList = (List<History>) response.body();
                 if (!historysList.isEmpty()) {
-
-                    ListView listView = findViewById(R.id.historyList);
-                    listView.setAdapter(new CustomListAdapter(getApplicationContext(), historysList));
+                    customListAdapter = new CustomListAdapter(getApplicationContext(), historysList);
+                    listView = findViewById(R.id.historyList);
+                    listView.setAdapter(customListAdapter);
 
                 } else {
 
@@ -74,7 +78,7 @@ public class HistoryActivity extends AppCompatActivity {
             if (sp.contains("id")) {
                 if (!idSP.equals("")) {
 
-                    id = Integer.parseInt(idSP);
+                    id = idSP;
 
                     Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
                 }
@@ -92,5 +96,39 @@ public class HistoryActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-}
 
+
+    public void deleteAllHistory(final View view) {
+
+
+        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call call = apiInterface.deleteAllHistory(id, "mobileApp", "bicloud_App2018#@");
+
+        call.enqueue(new Callback<GeneralResponse>() {
+
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+
+                GeneralResponse generalResponse = response.body();
+
+                if (generalResponse.isSuccess()) {
+                    customListAdapter.clearData();
+                    listView.setAdapter(customListAdapter);
+                    Toast.makeText(HistoryActivity.this, "Delete All History is Done", Toast.LENGTH_SHORT).show();
+                    view.setVisibility(View.INVISIBLE);
+
+                } else {
+
+                    Toast.makeText(HistoryActivity.this, "Delete All History is not Done", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+
+            }
+        });
+
+    }
+}

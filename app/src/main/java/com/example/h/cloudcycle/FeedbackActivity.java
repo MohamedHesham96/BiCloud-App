@@ -73,6 +73,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error !!", Toast.LENGTH_SHORT).show();
 
             }
         });

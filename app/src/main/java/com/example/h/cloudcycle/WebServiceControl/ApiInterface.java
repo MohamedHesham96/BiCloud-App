@@ -4,7 +4,6 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
-import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -33,7 +32,16 @@ public interface ApiInterface {
                                        @Query("password") String password, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
 
     @POST("user/history")
-    Call<List<History>> getUserHistory(@Query("id") int id, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
+    Call<List<History>> getUserHistory(@Query("id") String id, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
+
+
+    @POST("user/remove/history")
+    Call<GeneralResponse> deleteAllHistory(@Query("id") String id, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
+
+
+    @POST("user/remove/history/1")
+    Call<GeneralResponse> deleteOneHistory(@Query("history_id") String id, @Query("user_id") String userId, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
+
 
     // Update User Data
     @POST("user/update/name")
@@ -46,7 +54,8 @@ public interface ApiInterface {
     @POST("user/update/password")
     Call<GeneralResponse> updateUserPassword(@Query("id") String id, @Query("email") String email,
                                              @Query("password") String password,
-                                             @Query("repassword") String rePassword, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
+                                             @Query("repassword") String rePassword,
+                                             @Query("client_id") String clientId, @Query("client_pass") String clientPass);
 
     // Update User Data
     @PUT("user/delete/account")
@@ -58,7 +67,8 @@ public interface ApiInterface {
 
     @Multipart
     @PUT("user/update/photo")
-    Call<GeneralResponse> updateUserPhoto(@Query("id") String id, @Query("email") String email, @Part MultipartBody.Part image, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
+    Call<GeneralResponse> updateUserPhoto(@Query("id") String id, @Query("email") String email,
+                                          @Part MultipartBody.Part image, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
 
     @POST("bike/lockedbikes")
     Call<List<Bike>> getLockedBikes(@Query("client_id") String clientId, @Query("client_pass") String clientPass);
@@ -72,4 +82,5 @@ public interface ApiInterface {
 
     @PUT("reset/password")
     Call<GeneralResponse> resetPassword(@Query("email") String email, @Query("password") String password, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
+
 }

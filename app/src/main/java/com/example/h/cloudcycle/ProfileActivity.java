@@ -114,7 +114,7 @@ public class ProfileActivity extends AppCompatActivity {
         sp = getSharedPreferences("Login", MODE_PRIVATE);
 
 
-        if (!sp.getString("type", null).equals("user")) {
+        if (!sp.getString("type", null).equals("ss")) {
 
             LinearLayout linearLayout = findViewById(R.id.delete_Account_layout);
             linearLayout.setVisibility(View.INVISIBLE);
@@ -171,11 +171,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                             Toast.makeText(ProfileActivity.this, "fullpath: " + fullPath, Toast.LENGTH_SHORT).show();
 
-                            new Thread(new Runnable() {
-                                public void run() {
-                                    new ProfileActivity.DownLoadImageTask(userPhoto_IV).execute(fullPath);
-                                }
-                            }).start();
+                            new ProfileActivity.DownLoadImageTask(userPhoto_IV).execute(fullPath);
 
                             Toast.makeText(ProfileActivity.this, user.getImage(), Toast.LENGTH_SHORT).show();
                         }

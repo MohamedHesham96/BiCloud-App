@@ -8,6 +8,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class History {
 
+    @SerializedName("id")
+    String id;
+
     @SerializedName("bike_id")
     String bike_id;
 
@@ -36,10 +39,15 @@ public class History {
         return date;
     }
 
+    public String getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "History{" +
-                "bike_id='" + bike_id + '\'' +
+                "id='" + id + '\'' +
+                ", bike_id='" + bike_id + '\'' +
                 ", distance='" + distance + '\'' +
                 ", price='" + price + '\'' +
                 ", date='" + date + '\'' +

@@ -27,7 +27,7 @@ public class User {
     String img;
 
     @SerializedName("verified")
-    boolean verified;
+    int verified;
 
     @SerializedName("success")
     boolean success;
@@ -50,7 +50,7 @@ public class User {
         return success;
     }
 
-    public boolean isVerified() {
+    public int getVerified() {
         return verified;
     }
 
