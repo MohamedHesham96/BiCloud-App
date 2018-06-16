@@ -47,7 +47,9 @@ public class HistoryActivity extends AppCompatActivity {
                 historysList = (List<History>) response.body();
                 if (!historysList.isEmpty()) {
                     customListAdapter = new CustomListAdapter(getApplicationContext(), historysList);
+
                     listView = findViewById(R.id.historyList);
+
                     listView.setAdapter(customListAdapter);
 
                 } else {

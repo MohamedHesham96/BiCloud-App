@@ -1,6 +1,7 @@
 package com.example.h.cloudcycle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -40,5 +41,10 @@ public class BicycleLocation extends AppCompatActivity {
 
         userDetail_tv.setText(userId);
 
+    }
+
+    public void openComplainsMenu(View view) {
+
+        startActivity(new Intent(this, ComplainsActivity.class));
     }
 }

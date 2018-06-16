@@ -83,4 +83,8 @@ public interface ApiInterface {
     @PUT("reset/password")
     Call<GeneralResponse> resetPassword(@Query("email") String email, @Query("password") String password, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
 
+    @POST("complain/Complain/all")
+    Call<List<Complain>> getAllComplains(@Query("client_id") String clientId, @Query("client_pass") String clientPass);
+
+
 }

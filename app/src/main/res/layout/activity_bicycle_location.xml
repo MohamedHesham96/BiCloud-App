@@ -59,6 +59,7 @@
         android:id="@+id/complain_BT"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:onClick="openComplainsMenu"
         android:layout_marginTop="40dp"
         android:layout_gravity="center_horizontal|left"
         android:background="@drawable/complain" />

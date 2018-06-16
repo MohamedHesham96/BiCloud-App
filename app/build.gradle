@@ -55,5 +55,3 @@ dependencies {
 
     compile 'com.craftman.cardform:cardform:0.0.2'
 }
-
-

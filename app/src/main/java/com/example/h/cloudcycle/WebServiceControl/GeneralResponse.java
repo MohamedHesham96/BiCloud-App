@@ -13,6 +13,7 @@ public class GeneralResponse {
     @SerializedName("success")
     boolean success;
 
+    @SerializedName("success")
     public String getCode() {
         return code;
     }
@@ -20,4 +21,6 @@ public class GeneralResponse {
     public boolean isSuccess() {
         return success;
     }
+
+
 }
