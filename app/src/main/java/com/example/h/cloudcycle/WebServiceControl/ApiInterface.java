@@ -86,5 +86,11 @@ public interface ApiInterface {
     @POST("complain/Complain/all")
     Call<List<Complain>> getAllComplains(@Query("client_id") String clientId, @Query("client_pass") String clientPass);
 
+    @POST("complain/selectComplain/user")
+    Call<GeneralResponse> makeComplainForUser(@Query("complain_id") String complainId, @Query("user_id") String userId, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
+
+    @POST("complain/selectComplain/maintenance")
+    Call<GeneralResponse> makeComplainForSuperVisor(@Query("complain_id") String complainId, @Query("maintenance_id") String superVisorId, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
+
 
 }
