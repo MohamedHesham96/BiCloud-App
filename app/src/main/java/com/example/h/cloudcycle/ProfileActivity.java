@@ -114,7 +114,7 @@ public class ProfileActivity extends AppCompatActivity {
         sp = getSharedPreferences("Login", MODE_PRIVATE);
 
 
-        if (!sp.getString("type", null).equals("ss")) {
+        if (!sp.getString("type", null).equals("user")) {
 
             LinearLayout linearLayout = findViewById(R.id.delete_Account_layout);
             linearLayout.setVisibility(View.INVISIBLE);

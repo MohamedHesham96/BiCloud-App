@@ -34,6 +34,9 @@ public class ComplainsActivity extends AppCompatActivity {
         setTitle("Choose your complain...");
         final ListView complainsListView = findViewById(R.id.complians_list_LV);
 
+        final String bikeId = getIntent().getStringExtra("bikeId");
+
+        Toast.makeText(this, bikeId, Toast.LENGTH_SHORT).show();
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<List<Complain>> call = apiInterface.getAllComplains("mobileApp", "bicloud_App2018#@");
 
@@ -44,8 +47,6 @@ public class ComplainsActivity extends AppCompatActivity {
                 listComplains = (List<Complain>) response.body();
 
                 if (!listComplains.isEmpty()) {
-
-                    Toast.makeText(ComplainsActivity.this, listComplains.get(0).getContent(), Toast.LENGTH_SHORT).show();
 
                     ComplainsListAdapter complainsListAdapter = new ComplainsListAdapter(getApplicationContext(), listComplains);
 
@@ -83,13 +84,13 @@ public class ComplainsActivity extends AppCompatActivity {
                 ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
                 Call<GeneralResponse> call;
 
-                if (!userId.equals("user")) {
+                if (userType.equals("user")) {
 
-                    call = apiInterface.makeComplainForUser(complainId, userId, "mobileApp", "bicloud_App2018#@");
+                    call = apiInterface.makeComplainForUser(bikeId, complainId, userId, "mobileApp", "bicloud_App2018#@");
 
                 } else {
 
-                    call = apiInterface.makeComplainForSuperVisor(complainId, userId, "mobileApp", "bicloud_App2018#@");
+                    call = apiInterface.makeComplainForSuperVisor(bikeId, complainId, userId, "mobileApp", "bicloud_App2018#@");
                 }
 
                 call.enqueue(new Callback<GeneralResponse>() {
@@ -100,8 +101,8 @@ public class ComplainsActivity extends AppCompatActivity {
 
                         if (generalResponse.isSuccess()) {
 
-                            Toast.makeText(ComplainsActivity.this, "Complain done...", Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(ComplainsActivity.this, "Complain is sent", Toast.LENGTH_SHORT).show();
+                            finish();
                         } else {
 
                             Toast.makeText(ComplainsActivity.this, "Error !!", Toast.LENGTH_SHORT).show();

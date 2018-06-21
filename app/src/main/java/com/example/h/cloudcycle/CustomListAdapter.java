@@ -1,7 +1,9 @@
 package com.example.h.cloudcycle;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,36 +72,59 @@ public class CustomListAdapter extends ArrayAdapter<History> {
         bt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-                Call call = apiInterface.deleteOneHistory(historyId, idSP, "mobileApp", "bicloud_App2018#@");
+                AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
+                builder.setTitle(R.string.app_name);
+                builder.setMessage("Are you sure you want to delete this record ?");
 
-                call.enqueue(new Callback<GeneralResponse>() {
-                    @Override
-                    public void onResponse(Call call, Response response) {
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
-                        GeneralResponse generalResponse = (GeneralResponse) response.body();
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
 
-                        Toast.makeText(parent.getContext(), "Flag: " + String.valueOf(generalResponse.isSuccess()), Toast.LENGTH_SHORT).show();
 
-                        if (generalResponse.isSuccess()) {
-                            removeItem(position);
-                            notifyDataSetChanged();
-                            Toast.makeText(parent.getContext(), "Delete is Done", Toast.LENGTH_LONG).show();
+                        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+                        Call call = apiInterface.deleteOneHistory(historyId, idSP, "mobileApp", "bicloud_App2018#@");
 
-                        } else {
+                        call.enqueue(new Callback<GeneralResponse>() {
+                            @Override
+                            public void onResponse(Call call, Response response) {
 
-                            Toast.makeText(parent.getContext(), "Delete is Not Done", Toast.LENGTH_SHORT).show();
+                                GeneralResponse generalResponse = (GeneralResponse) response.body();
 
-                        }
+                                Toast.makeText(parent.getContext(), "Flag: " + String.valueOf(generalResponse.isSuccess()), Toast.LENGTH_SHORT).show();
 
-                    }
+                                if (generalResponse.isSuccess()) {
 
-                    @Override
-                    public void onFailure(Call call, Throwable t) {
-                        Toast.makeText(parent.getContext(), "Error !!", Toast.LENGTH_SHORT).show();
+                                    removeItem(position);
+                                    notifyDataSetChanged();
+                                    Toast.makeText(parent.getContext(), "Delete is Done", Toast.LENGTH_LONG).show();
+
+                                } else {
+
+                                    Toast.makeText(parent.getContext(), "Delete is Not Done", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call call, Throwable t) {
+                                Toast.makeText(parent.getContext(), "Error !!", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
 
                     }
                 });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
             }
 
         });
