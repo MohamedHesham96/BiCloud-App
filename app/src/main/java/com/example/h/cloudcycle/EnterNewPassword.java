@@ -57,12 +57,12 @@ public class EnterNewPassword extends AppCompatActivity {
     }
 
     public void onSignupSuccess() {
-        submitNewPassword.setEnabled(true);
+        submitNewPassword.setEnabled(false);
         sendPassword();
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Sign-Up Failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Submit Failed", Toast.LENGTH_LONG).show();
 
         submitNewPassword.setEnabled(true);
     }
@@ -121,6 +121,7 @@ public class EnterNewPassword extends AppCompatActivity {
             @Override
             public void onFailure(Call<GeneralResponse> call, Throwable t) {
 
+                Toast.makeText(EnterNewPassword.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -54,7 +54,7 @@ public class EdgeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_edge);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("");
+        setTitle("Map");
 
         // HelperClass.askPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, 2);
 

@@ -53,7 +53,6 @@ public class UpdatePassword extends AppCompatActivity {
         idSP = sp.getString("id", null);
         emailSP = sp.getString("email", null);
 
-        Toast.makeText(this, "Email: " + emailSP, Toast.LENGTH_SHORT).show();
     }
 
     public void submitPassword(View view) {
@@ -76,7 +75,6 @@ public class UpdatePassword extends AppCompatActivity {
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-        Toast.makeText(this, emailSP, Toast.LENGTH_SHORT).show();
         Call<GeneralResponse> call = apiInterface.updateUserPassword(idSP, emailSP, oldPassword, newPassword, "mobileApp", "bicloud_App2018#@");
 
         call.enqueue(new Callback<GeneralResponse>() {
@@ -89,9 +87,8 @@ public class UpdatePassword extends AppCompatActivity {
 
                     if (generalResponse.isSuccess()) {
 
-                        Toast.makeText(UpdatePassword.this, String.valueOf(generalResponse.isSuccess()), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(UpdatePassword.this, "Password updated Successfully", Toast.LENGTH_LONG).show();
                         finish();
+                        Toast.makeText(UpdatePassword.this, "Password updated Successfully", Toast.LENGTH_LONG).show();
 
                     } else {
 

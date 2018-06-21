@@ -105,12 +105,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+
+        setTitle("My Profile");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         checkSharedPreferences();
 
-        setTitle("My Profile");
         sp = getSharedPreferences("Login", MODE_PRIVATE);
 
 

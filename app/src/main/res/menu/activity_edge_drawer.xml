@@ -3,45 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/profile"
-            android:icon="@drawable/username_icon"
-            android:title="Profile" />
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/username_icon"
+        android:title="Profile" />
 
-        <item
-            android:id="@+id/history"
-            android:icon="@drawable/bicycle_64"
-            android:title="History" />
+    <item
+        android:id="@+id/history"
+        android:icon="@drawable/bicycle_64"
+        android:title="History" />
 
-        <item
-            android:id="@+id/payment"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Payment" />
-
-
-    </group>
-
-    <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/payment"
+        android:icon="@drawable/payment_icon"
+        android:title="Payment" />
 
 
-        <item
-            android:id="@+id/feedback"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Feedback" />
-
-    </group>
+    <item
+        android:id="@+id/feedback"
+        android:icon="@drawable/feedback_icon"
+        android:title="Feedback" />
 
 
-    <group android:checkableBehavior="single">
-
-
-        <item
-            android:id="@+id/logout"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Log-Out" />
-
-    </group>
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/logout_icon"
+        android:title="Log-Out" />
 
     <group />
 

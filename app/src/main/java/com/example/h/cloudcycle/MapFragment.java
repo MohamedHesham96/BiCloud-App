@@ -245,7 +245,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                     public boolean onMarkerClick(final Marker marker) {
                         Toast.makeText(getContext(), "Bike clickec", Toast.LENGTH_SHORT).show();
 
-                        final Intent intent = new Intent(getActivity(), BicycleLocation.class);
+                        final Intent intent = new Intent(getActivity(), BikeActivity.class);
                         intent.putExtra("bikeDetail", marker.getTitle());
 
                         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -371,7 +371,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
                         @Override
                         public boolean onMarkerClick(Marker marker) {
-                            Intent intent = new Intent(getActivity(), BicycleLocation.class);
+                            Intent intent = new Intent(getActivity(), BikeActivity.class);
                             intent.putExtra("code", marker.getTitle());
 
                             return false;

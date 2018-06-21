@@ -61,10 +61,13 @@ public interface ApiInterface {
     @PUT("user/delete/account")
     Call<GeneralResponse> deleteAccount(@Query("id") String id, @Query("password") String password, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
 
-    // Update User Data
-    @PUT("user/feedback/create")
-    Call<GeneralResponse> CreateFeedback(@Query("user_id") String id, @Query("content") String content, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
+    @POST("user/feedback/create")
+    Call<GeneralResponse> createFeedbackForUser(@Query("user_id") String id, @Query("content") String content, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
 
+    @POST("maintenance/feedback/create")
+    Call<GeneralResponse> createFeedbackForMaintenance(@Query("maintenance_id") String id, @Query("content") String content, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
+
+    // Update User Data
     @Multipart
     @PUT("user/update/photo")
     Call<GeneralResponse> updateUserPhoto(@Query("id") String id, @Query("email") String email,

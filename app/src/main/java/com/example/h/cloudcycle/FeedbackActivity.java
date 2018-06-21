@@ -3,6 +3,7 @@ package com.example.h.cloudcycle;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -28,26 +29,39 @@ public class FeedbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
+
         setTitle("Feedback");
 
-        ButterKnife.bind(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        ButterKnife.bind(this);
 
     }
 
     public void sendFeedback(View view) {
 
-        Toast.makeText(this, "sssssssssssssss", Toast.LENGTH_SHORT).show();
         sharedPreferences = getSharedPreferences("Login", MODE_PRIVATE);
 
         String content = content_Ed.getText().toString().trim();
 
         String idSP = sharedPreferences.getString("id", null);
-        String emailSP = sharedPreferences.getString("email", null);
+
+        String userType = sharedPreferences.getString("type", null);
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-        Call<GeneralResponse> call = apiInterface.CreateFeedback(idSP, content, "mobileApp", "bicloud_App2018#@");
+        Call<GeneralResponse> call = null;
+
+        if (userType.equals("user")) {
+
+            call = apiInterface.createFeedbackForUser(idSP, content, "mobileApp", "bicloud_App2018#@");
+
+        } else {
+
+            call = apiInterface.createFeedbackForMaintenance(idSP, content, "mobileApp", "bicloud_App2018#@");
+
+        }
 
         call.enqueue(new Callback<GeneralResponse>() {
             @Override
@@ -59,24 +73,35 @@ public class FeedbackActivity extends AppCompatActivity {
 
                     if (generalResponse.isSuccess()) {
 
-
-                        Toast.makeText(getApplicationContext(), "Thanks", Toast.LENGTH_SHORT).show();
                         finish();
+                        Toast.makeText(getApplicationContext(), "Thanks", Toast.LENGTH_LONG).show();
+
                     }
 
                 } else {
 
-                    Toast.makeText(getApplicationContext(), "Error !!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error !!", Toast.LENGTH_LONG).show();
 
                 }
             }
 
             @Override
             public void onFailure(Call<GeneralResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error !!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error !!", Toast.LENGTH_LONG).show();
 
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
