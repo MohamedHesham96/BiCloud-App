@@ -10,6 +10,15 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.h.cloudcycle.WebServiceControl.ApiClient;
+import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
+import com.example.h.cloudcycle.WebServiceControl.GeneralResponse;
+import com.example.h.cloudcycle.WebServiceControl.User;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class BikeActivity extends AppCompatActivity {
 
     private String bikeId;
@@ -28,7 +37,7 @@ public class BikeActivity extends AppCompatActivity {
         final String userType = sp.getString("type", null);
 
         TextView bikeDetail_tv = findViewById(R.id.bicycle_detail);
-        TextView userDetail_tv = findViewById(R.id.user_detail);
+        final TextView userDetail_tv = findViewById(R.id.user_detail);
 
         String bikeDetails = getIntent().getStringExtra("bikeDetail");
         String userId = null;
@@ -42,15 +51,48 @@ public class BikeActivity extends AppCompatActivity {
             int start = bikeDetails.lastIndexOf(":") + 2;
             userId = bikeDetails.substring(start, bikeDetails.length());
 
-            int start2 = bikeDetails.indexOf(" ");
-            Toast.makeText(this, String.valueOf(start2), Toast.LENGTH_SHORT).show();
-            bikeId = bikeDetails.substring(start2, bikeDetails.indexOf("N"));
-
         }
 
+        int start2 = bikeDetails.indexOf(" ");
+        Toast.makeText(this, String.valueOf(start2), Toast.LENGTH_SHORT).show();
+        bikeId = bikeDetails.substring(start2, bikeDetails.indexOf("N"));
+
+        //TO Do Work >> get user data to display
         bikeDetail_tv.setText(bikeDetails);
 
-        userDetail_tv.setText(userId);
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+
+        Call<User> call = apiInterface.getUserData(userId, "mobileApp", "bicloud_App2018#@");
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                User userData = response.body();
+
+
+                if (userData.isSuccess()) {
+
+                    Toast.makeText(getApplicationContext(), "Done Successfully", Toast.LENGTH_LONG).show();
+                    userDetail_tv.setText(userData.toString());
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "Error !!", Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(), "Error !!", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
+
 
     }
 

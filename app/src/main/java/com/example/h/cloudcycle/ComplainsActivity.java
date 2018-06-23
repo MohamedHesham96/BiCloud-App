@@ -36,7 +36,6 @@ public class ComplainsActivity extends AppCompatActivity {
 
         final String bikeId = getIntent().getStringExtra("bikeId");
 
-        Toast.makeText(this, bikeId, Toast.LENGTH_SHORT).show();
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<List<Complain>> call = apiInterface.getAllComplains("mobileApp", "bicloud_App2018#@");
 
@@ -61,7 +60,8 @@ public class ComplainsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(ComplainsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(ComplainsActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -72,6 +72,7 @@ public class ComplainsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 TextView complianId_TV = view.findViewById(R.id.complain_id_TV);
+
 
                 String complainId = complianId_TV.getText().toString();
 
@@ -103,6 +104,7 @@ public class ComplainsActivity extends AppCompatActivity {
 
                             Toast.makeText(ComplainsActivity.this, "Complain is sent", Toast.LENGTH_SHORT).show();
                             finish();
+
                         } else {
 
                             Toast.makeText(ComplainsActivity.this, "Error !!", Toast.LENGTH_SHORT).show();

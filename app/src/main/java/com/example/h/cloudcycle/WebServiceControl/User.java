@@ -32,20 +32,6 @@ public class User {
     @SerializedName("success")
     boolean success;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", balance='" + balance + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", token='" + token + '\'' +
-                ", img='" + img + '\'' +
-                ", verified='" + verified + '\'' +
-                '}';
-    }
-
     public boolean isSuccess() {
         return success;
     }
@@ -82,4 +68,10 @@ public class User {
         return img;
     }
 
+    @Override
+    public String toString() {
+        return
+                "name= '" + name + '\'' +
+                        ", email= '" + email + '\'';
+    }
 }
