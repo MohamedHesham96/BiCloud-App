@@ -2,68 +2,124 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:paddingRight="30dp"
-    android:paddingLeft="30dp"
-    android:paddingTop="30dp"
     android:layout_height="match_parent"
     android:background="#e1e1e1"
     android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="20dp"
     tools:context="com.example.h.cloudcycle.BikeActivity">
 
-
     <ImageView
-        android:padding="20dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/bike_icon_64" />
+
+
+    <LinearLayout
+        android:id="@+id/bicycle_detail_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="35dp">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/bike_icon_64" />
+
+        <TextView
+            android:id="@+id/bicycle_detail"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/profile_rounded"
+            android:padding="6dp"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/user_info_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/rounded_dialog"
-        android:src="@drawable/bicycle_64" />
+        android:orientation="vertical">
 
-    <TextView
-        android:padding="8dp"
-        android:id="@+id/bicycle_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
-        android:background="#a1a1a1"
-        android:text="Bike Details:"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
-    <TextView
-        android:id="@+id/user_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
-        android:background="#a1a1a1"
-        android:text="User Details:\nUser ID:\nName:\nEmail"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:src="@drawable/username_icon" />
+
+
+            <TextView
+                android:id="@+id/user_name_tv"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:background="@drawable/profile_rounded"
+                android:padding="6dp"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:src="@drawable/email_icon" />
+
+            <TextView
+                android:id="@+id/user_email_tv"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/profile_rounded"
+                android:padding="6dp"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <Button
-        android:padding="8dp"
-        android:id="@+id/button2"
-        android:layout_width="150dp"
+        android:id="@+id/unlock_bike_BT"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/rounded_all_blue"
         android:text="Unlock"
         android:textAllCaps="false"
-        android:textSize="25sp" />
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/complain_BT"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:onClick="openComplainsMenu"
-        android:layout_marginTop="40dp"
-        android:layout_gravity="center_horizontal|left"
-        android:background="@drawable/complain" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/complain"
+        android:onClick="openComplainsMenu" />
 
 </LinearLayout>
-

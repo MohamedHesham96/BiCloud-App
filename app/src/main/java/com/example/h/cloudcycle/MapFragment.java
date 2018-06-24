@@ -205,7 +205,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         Call<List<Bike>> call;
 
 
-        if (userType.equals("user")) {
+        if (!userType.equals("user")) {
 
             call = apiInterface.getLockedBikes("mobileApp", "bicloud_App2018#@");
 
@@ -226,7 +226,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                     MarkerOptions markerOption = new MarkerOptions();
                     markerOption.position(latLng);
 
-                    if (userType.equals("user"))
+                    if (!userType.equals("user"))
                         markerOption.title("Id: " + b.getId() + " Name: " + b.getName());
 
                     else {
@@ -243,7 +243,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
                     @Override
                     public boolean onMarkerClick(final Marker marker) {
-                        Toast.makeText(getContext(), "Bike clickec", Toast.LENGTH_SHORT).show();
 
                         final Intent intent = new Intent(getActivity(), BikeActivity.class);
                         intent.putExtra("bikeDetail", marker.getTitle());

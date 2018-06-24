@@ -32,6 +32,14 @@ public class User {
     @SerializedName("success")
     boolean success;
 
+
+    @SerializedName("created_at")
+    String created_at;
+
+
+    @SerializedName("updated_at")
+    String updated_at;
+
     public boolean isSuccess() {
         return success;
     }
@@ -70,8 +78,6 @@ public class User {
 
     @Override
     public String toString() {
-        return
-                "name= '" + name + '\'' +
-                        ", email= '" + email + '\'';
+        return "Name: " + name + "\nEmail: " + email;
     }
 }

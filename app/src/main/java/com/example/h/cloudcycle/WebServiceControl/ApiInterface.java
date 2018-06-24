@@ -96,7 +96,7 @@ public interface ApiInterface {
     Call<GeneralResponse> makeComplainForSuperVisor(@Query("bike_id") String bikeId, @Query("complain_id") String complainId, @Query("maintenance_id") String superVisorId, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
 
 
-    @POST("/app/webservice/show/user")
+    @POST("show/user")
     Call<User> getUserData(@Query("user_id") String userId, @Query("client_id") String clientId, @Query("client_pass") String clientPass);
 
 }

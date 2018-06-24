@@ -19,14 +19,15 @@ public class Bike {
 
     @SerializedName("lng")
     private double longitude;
+
     @SerializedName("user_id")
-    private double user_id;
+    private int user_id;
 
     public double getLatitude() {
         return latitude;
     }
 
-    public double getUser_id() {
+    public int getUser_id() {
         return user_id;
     }
 

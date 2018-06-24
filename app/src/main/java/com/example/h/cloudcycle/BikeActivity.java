@@ -7,13 +7,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.h.cloudcycle.WebServiceControl.ApiClient;
 import com.example.h.cloudcycle.WebServiceControl.ApiInterface;
-import com.example.h.cloudcycle.WebServiceControl.GeneralResponse;
 import com.example.h.cloudcycle.WebServiceControl.User;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,10 +27,33 @@ public class BikeActivity extends AppCompatActivity {
 
     private String bikeId;
 
+
+    @BindView(R.id.user_info_layout)
+    LinearLayout userInfoLayout;
+
+    @BindView(R.id.bicycle_detail)
+    TextView bikeDetail_tv;
+
+    @BindView(R.id.bicycle_detail_layout)
+    LinearLayout bikeDetailLayout_tv;
+
+    @BindView(R.id.user_email_tv)
+    TextView userEmail_tv;
+
+    @BindView(R.id.user_name_tv)
+    TextView userName_tv;
+
+
+    @BindView(R.id.unlock_bike_BT)
+    Button unlockBikeBT;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bicycle_location);
+
+        ButterKnife.bind(this);
 
         setTitle("Bike");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -36,15 +63,14 @@ public class BikeActivity extends AppCompatActivity {
 
         final String userType = sp.getString("type", null);
 
-        TextView bikeDetail_tv = findViewById(R.id.bicycle_detail);
-        final TextView userDetail_tv = findViewById(R.id.user_detail);
+        final String bikeDetails = getIntent().getStringExtra("bikeDetail");
 
-        String bikeDetails = getIntent().getStringExtra("bikeDetail");
         String userId = null;
 
         if (userType.equals("user")) {
 
-            userDetail_tv.setVisibility(View.INVISIBLE);
+            userInfoLayout.setVisibility(View.INVISIBLE);
+
 
         } else {
 
@@ -54,12 +80,9 @@ public class BikeActivity extends AppCompatActivity {
         }
 
         int start2 = bikeDetails.indexOf(" ");
-        Toast.makeText(this, String.valueOf(start2), Toast.LENGTH_SHORT).show();
         bikeId = bikeDetails.substring(start2, bikeDetails.indexOf("N"));
 
-        //TO Do Work >> get user data to display
-        bikeDetail_tv.setText(bikeDetails);
-
+        Toast.makeText(this, "bikeID: " + bikeId, Toast.LENGTH_SHORT).show();
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
         Call<User> call = apiInterface.getUserData(userId, "mobileApp", "bicloud_App2018#@");
@@ -70,11 +93,12 @@ public class BikeActivity extends AppCompatActivity {
 
                 User userData = response.body();
 
+                if (response.isSuccessful()) {
 
-                if (userData.isSuccess()) {
+                    bikeDetail_tv.setText(bikeDetails);
 
-                    Toast.makeText(getApplicationContext(), "Done Successfully", Toast.LENGTH_LONG).show();
-                    userDetail_tv.setText(userData.toString());
+                    userName_tv.setText(userData.getName());
+                    userEmail_tv.setText(userData.getEmail());
 
                 } else {
 
@@ -86,7 +110,7 @@ public class BikeActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
 
-                Toast.makeText(getApplicationContext(), "Error !!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });

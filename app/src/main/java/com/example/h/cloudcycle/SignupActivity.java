@@ -6,8 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -50,10 +48,11 @@ public class SignupActivity extends Activity {
     EditText _repeatedPasswordText;
     @BindView(R.id.btn_signup)
     Button _signupButton;
+
     @BindView(R.id.link_login)
     TextView _loginLink;
-    @BindView(R.id.userImage)
 
+    @BindView(R.id.userImage)
     ImageView userImage;
 
     int IMG_REQUEST = 555;

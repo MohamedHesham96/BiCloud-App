@@ -81,6 +81,9 @@ public class ComplainsActivity extends AppCompatActivity {
                 String userId = sp.getString("id", null);
                 String userType = sp.getString("type", null);
 
+                Toast.makeText(ComplainsActivity.this, "id: " + userId, Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(ComplainsActivity.this, "id: " + complainId, Toast.LENGTH_SHORT).show();
 
                 ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
                 Call<GeneralResponse> call;
